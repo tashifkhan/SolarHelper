@@ -4,6 +4,7 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from typing import Optional
 import time
+import os
 
 from scrapy import (
     return_awaited_md,
@@ -88,7 +89,7 @@ async def subsidy_enquiry(request: SubsidyQuery):
     """
     start_time = time.time()
     try:
-        with open("subsidy_info.md", "r") as ft:
+        with open(os.path.join(os.path.dirname(__file__), "subsidy_info.md"), "r") as ft:
             subsidy_context = ft.read()
             ft.close()
 
