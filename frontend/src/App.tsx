@@ -1,13 +1,4 @@
-import React from "react";
-import {
-	Sun,
-	Home,
-	Battery,
-	LineChart,
-	Users,
-	BookOpen,
-	ArrowRight,
-} from "lucide-react";
+import { Sun, Home, Battery, LineChart } from "lucide-react";
 import Header from "./componets/Header";
 import RecommendationEngine from "./componets/RecommendationEngine";
 import SavingsCalculator from "./componets/SavingsCalculator";
