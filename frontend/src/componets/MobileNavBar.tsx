@@ -19,7 +19,7 @@ const MobileNavBar = () => {
 			<div className="flex items-center justify-around bg-white border-t border-gray-200 py-2 px-6 shadow-lg">
 				<Link
 					to="/"
-					className={`flex flex-col items-center justify-center px-3 py-2 ${
+					className={`flex flex-col items-center justify-center px-3 py-2 no-ripple ${
 						isActive("/") ? "text-blue-600" : "text-gray-600"
 					}`}
 				>
@@ -29,7 +29,7 @@ const MobileNavBar = () => {
 
 				<Link
 					to="/calculator"
-					className={`flex flex-col items-center justify-center px-3 py-2 ${
+					className={`flex flex-col items-center justify-center px-3 py-2 no-ripple ${
 						isActive("/calculator") ? "text-blue-600" : "text-gray-600"
 					}`}
 				>
@@ -39,7 +39,7 @@ const MobileNavBar = () => {
 
 				<Link
 					to="/recommendations"
-					className={`flex flex-col items-center justify-center px-3 py-2 ${
+					className={`flex flex-col items-center justify-center px-3 py-2 no-ripple ${
 						isActive("/recommendations") ? "text-blue-600" : "text-gray-600"
 					}`}
 				>
@@ -49,7 +49,7 @@ const MobileNavBar = () => {
 
 				<Link
 					to="/community"
-					className={`flex flex-col items-center justify-center px-3 py-2 ${
+					className={`flex flex-col items-center justify-center px-3 py-2 no-ripple ${
 						isActive("/community") ? "text-blue-600" : "text-gray-600"
 					}`}
 				>
@@ -59,7 +59,7 @@ const MobileNavBar = () => {
 
 				<Link
 					to="/chat"
-					className={`flex flex-col items-center justify-center px-3 py-2 ${
+					className={`flex flex-col items-center justify-center px-3 py-2 no-ripple ${
 						isActive("/chat") ? "text-blue-600" : "text-gray-600"
 					}`}
 				>

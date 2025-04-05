@@ -20,6 +20,15 @@ button, a, .interactive {
   touch-action: manipulation;
 }
 
+/* No ripple effect for navigation items */
+.no-ripple {
+  overflow: visible !important;
+}
+
+.no-ripple .ripple {
+  display: none !important;
+}
+
 /* Touch ripple effect for app-like feel */
 .ripple {
   position: absolute;
