@@ -1,4 +1,3 @@
-import React from "react";
 import CommunitySection from "../componets/CommunitySection";
 import { MessageSquare, Users, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";

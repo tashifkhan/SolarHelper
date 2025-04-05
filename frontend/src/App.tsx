@@ -1,11 +1,4 @@
-import { Sun, Home, Battery, LineChart } from "lucide-react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Header from "./componets/Header";
-import RecommendationEngine from "./componets/RecommendationEngine";
-import SavingsCalculator from "./componets/SavingsCalculator";
-import ComparisonTool from "./componets/ComparisonTool";
-import CommunitySection from "./componets/CommunitySection";
-import ChatInterface from "./componets/ChatInterface";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import CalculatorPage from "./pages/CalculatorPage";
 import RecommendationsPage from "./pages/RecommendationsPage";
@@ -66,7 +59,7 @@ function App() {
 			window.addEventListener("load", () => {
 				navigator.serviceWorker
 					.register("/service-worker.js")
-					.then((registration) => {
+					.then((_registration) => {
 						console.log("ServiceWorker registration successful");
 					})
 					.catch((error) => {

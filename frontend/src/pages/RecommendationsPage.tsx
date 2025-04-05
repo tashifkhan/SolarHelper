@@ -1,4 +1,3 @@
-import React from "react";
 import RecommendationEngine from "../componets/RecommendationEngine";
 import { Link } from "react-router-dom";
 import { ArrowRight, Activity, MapPin, Database } from "lucide-react";

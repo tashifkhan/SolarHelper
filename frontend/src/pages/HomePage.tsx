@@ -1,9 +1,5 @@
-import React from "react";
 import Header from "../componets/Header";
 import SavingsCalculator from "../componets/SavingsCalculator";
-import RecommendationEngine from "../componets/RecommendationEngine";
-import ComparisonTool from "../componets/ComparisonTool";
-import CommunitySection from "../componets/CommunitySection";
 
 const HomePage = () => {
 	return (

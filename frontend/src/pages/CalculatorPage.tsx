@@ -1,4 +1,3 @@
-import React from "react";
 import SavingsCalculator from "../componets/SavingsCalculator";
 import { ArrowRight, Info } from "lucide-react";
 import { Link } from "react-router-dom";

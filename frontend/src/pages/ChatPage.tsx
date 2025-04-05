@@ -1,4 +1,3 @@
-import React from "react";
 import ChatInterface from "../componets/ChatInterface";
 
 const ChatPage = () => {

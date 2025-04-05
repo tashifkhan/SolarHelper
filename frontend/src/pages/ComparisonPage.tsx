@@ -1,4 +1,3 @@
-import React from "react";
 import ComparisonTool from "../componets/ComparisonTool";
 import { Link } from "react-router-dom";
 import { BarChart3, LineChart, ArrowRight } from "lucide-react";
