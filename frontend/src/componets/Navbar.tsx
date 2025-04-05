@@ -55,12 +55,25 @@ const Navbar = () => {
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16">
 					<div className="flex">
-						{/* Mobile: Show back button on non-home pages for app-like feel */}
+						{/* Mobile: Show hamburger menu on home page or back button on other pages */}
 						<div
 							className="sm:hidden flex items-center"
 							style={{ minWidth: "40px" }}
 						>
-							{!isHomePage && (
+							{isHomePage ? (
+								<button
+									onClick={() => setIsOpen(!isOpen)}
+									type="button"
+									className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+									aria-expanded="false"
+								>
+									{isOpen ? (
+										<X className="block h-6 w-6" aria-hidden="true" />
+									) : (
+										<Menu className="block h-6 w-6" aria-hidden="true" />
+									)}
+								</button>
+							) : (
 								<button
 									onClick={() => window.history.back()}
 									className="text-gray-500 hover:text-gray-700 focus:outline-none"
@@ -138,27 +151,9 @@ const Navbar = () => {
 						</div>
 					</div>
 
-					{/* Mobile menu button - only show on home page for app-like feel */}
-					{isHomePage && (
-						<div className="-mr-2 flex items-center sm:hidden">
-							<button
-								onClick={() => setIsOpen(!isOpen)}
-								type="button"
-								className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
-								aria-expanded="false"
-							>
-								{isOpen ? (
-									<X className="block h-6 w-6" aria-hidden="true" />
-								) : (
-									<Menu className="block h-6 w-6" aria-hidden="true" />
-								)}
-							</button>
-						</div>
-					)}
-
-					{/* On non-home mobile pages, show page title centered */}
+					{/* On non-home mobile pages, show page title right-aligned */}
 					{!isHomePage && (
-						<div className="sm:hidden flex items-center justify-center flex-1 text-center">
+						<div className="sm:hidden flex items-center justify-end flex-1 text-right pr-2">
 							<h1 className="text-lg font-semibold text-gray-900">
 								{pageTitle}
 							</h1>
