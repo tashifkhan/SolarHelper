@@ -8,6 +8,8 @@ import {
 	BarChart2,
 } from "lucide-react";
 
+import { useEffect } from "react";
+
 const RecommendationsPage = () => {
 	return (
 		<div className="bg-gradient-to-b from-blue-50 to-white min-h-screen py-16">
@@ -75,8 +77,29 @@ const RecommendationsPage = () => {
 						</div>
 					</div>
 				</div>
+				<div id="recommendation-engine-section" className="scroll-mt-6">
+					<RecommendationEngine />
+				</div>
 
-				<RecommendationEngine />
+				{/* Auto scroll to recommendation engine on page load for mobile devices */}
+				<div className="hidden">
+					{(() => {
+						useEffect(() => {
+							const isMobile = window.innerWidth < 768;
+
+							if (isMobile) {
+								setTimeout(() => {
+									document
+										.getElementById("recommendation-engine-section")
+										?.scrollIntoView({
+											behavior: "smooth",
+										});
+								}, 500);
+							}
+						}, []);
+						return null;
+					})()}
+				</div>
 
 				<div className="mt-16 max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
 					<div className="px-8 py-8">
