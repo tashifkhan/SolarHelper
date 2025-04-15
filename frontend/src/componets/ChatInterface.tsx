@@ -1,5 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, User, Bot, Paperclip, Smile } from "lucide-react";
+import {
+	Send,
+	User,
+	Bot,
+	Paperclip,
+	Smile,
+	ChevronDown,
+	Maximize2,
+	Minimize2,
+} from "lucide-react";
 
 interface Message {
 	text: string;
@@ -7,7 +16,15 @@ interface Message {
 	timestamp: Date;
 }
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+	selectedQuestion: string | null;
+	clearSelectedQuestion: () => void;
+}
+
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+	selectedQuestion,
+	clearSelectedQuestion,
+}) => {
 	const [messages, setMessages] = useState<Message[]>([
 		{
 			text: "Hello! I'm your Solar Subsidies Expert. How can I help you today with information about solar subsidies in India?",
@@ -17,8 +34,10 @@ const ChatInterface = () => {
 	]);
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const [isFullScreen, setIsFullScreen] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const chatContainerRef = useRef<HTMLDivElement>(null);
 
 	// Sample responses about solar subsidies in India
 	const subsidyResponses = {
@@ -42,14 +61,40 @@ const ChatInterface = () => {
 			"The process involves: 1) Application to DISCOM, 2) Technical feasibility approval, 3) Installation, 4) Inspection, 5) Subsidy disbursement to your bank account.",
 	};
 
-	// Function to scroll to bottom of messages
-	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	};
-
+	// Process selected question from parent component
 	useEffect(() => {
-		scrollToBottom();
-	}, [messages]);
+		if (selectedQuestion) {
+			setInputMessage(selectedQuestion);
+			// Auto-send the question after a brief delay
+			const timer = setTimeout(() => {
+				handleSendMessage(new Event("submit") as any);
+				clearSelectedQuestion();
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [selectedQuestion]);
+
+	// Handle full screen mode
+	useEffect(() => {
+		const handleEscKey = (event: KeyboardEvent) => {
+			if (event.key === "Escape" && isFullScreen) {
+				setIsFullScreen(false);
+			}
+		};
+
+		if (isFullScreen) {
+			// Only prevent scrolling on the body
+			document.body.style.overflow = "hidden";
+			window.addEventListener("keydown", handleEscKey);
+		} else {
+			document.body.style.overflow = "";
+		}
+
+		return () => {
+			document.body.style.overflow = "";
+			window.removeEventListener("keydown", handleEscKey);
+		};
+	}, [isFullScreen]);
 
 	// Simulate AI response
 	const generateResponse = (query: string): string => {
@@ -66,7 +111,8 @@ const ChatInterface = () => {
 		} else if (
 			queryLower.includes("apply") ||
 			queryLower.includes("application") ||
-			queryLower.includes("how to get")
+			queryLower.includes("how to get") ||
+			queryLower.includes("document")
 		) {
 			return subsidyResponses.application;
 		} else if (
@@ -84,19 +130,22 @@ const ChatInterface = () => {
 		} else if (
 			queryLower.includes("amount") ||
 			queryLower.includes("how much") ||
-			queryLower.includes("money")
+			queryLower.includes("money") ||
+			queryLower.includes("subsidy can i get")
 		) {
 			return subsidyResponses.amount;
 		} else if (
 			queryLower.includes("time") ||
 			queryLower.includes("when") ||
-			queryLower.includes("timeline")
+			queryLower.includes("timeline") ||
+			queryLower.includes("how long")
 		) {
 			return subsidyResponses.timeline;
 		} else if (
 			queryLower.includes("scheme") ||
 			queryLower.includes("program") ||
-			queryLower.includes("initiative")
+			queryLower.includes("initiative") ||
+			queryLower.includes("pm-kusum")
 		) {
 			return subsidyResponses.schemes;
 		} else if (
@@ -146,16 +195,53 @@ const ChatInterface = () => {
 		}, 1000);
 	};
 
+	const toggleFullScreen = () => {
+		setIsFullScreen(!isFullScreen);
+	};
+
 	return (
-		<div className="flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white">
-			<div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
-				<h2 className="text-xl font-semibold">Solar Subsidy Expert</h2>
-				<p className="text-sm opacity-90">
-					Ask me anything about solar subsidies in India
-				</p>
+		<div
+			className={`flex flex-col ${
+				isFullScreen
+					? "fixed inset-0 z-50 h-screen max-h-screen"
+					: "h-[600px] max-w-4xl mx-auto"
+			} 
+				rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white transition-all duration-300`}
+			style={{ isolation: "isolate" }} // Ensures stacking context for z-index
+		>
+			<div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white flex justify-between items-center">
+				<div>
+					<h2 className="text-xl font-semibold flex items-center">
+						<Bot className="h-6 w-6 mr-2" /> Solar Subsidy Expert
+					</h2>
+					<p className="text-sm opacity-90">
+						Ask me anything about solar subsidies in India
+					</p>
+				</div>
+				<button
+					onClick={toggleFullScreen}
+					className="p-2 rounded-full hover:bg-white/10 transition-colors"
+					aria-label={isFullScreen ? "Exit full screen" : "Enter full screen"}
+				>
+					{isFullScreen ? (
+						<Minimize2 className="h-5 w-5 text-white" />
+					) : (
+						<Maximize2 className="h-5 w-5 text-white" />
+					)}
+				</button>
 			</div>
 
-			<div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+			<div
+				ref={chatContainerRef}
+				className="flex-1 p-4 overflow-y-auto bg-gray-50 relative scroll-smooth"
+				style={{
+					backgroundImage:
+						'url(\'data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f0f0f0" fill-opacity="0.6" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E\')',
+					height: isFullScreen ? "calc(100vh - 130px)" : "calc(600px - 130px)",
+					overflowY: "auto",
+					overscrollBehavior: "contain", // Prevents scroll chaining
+				}}
+			>
 				{messages.map((message, index) => (
 					<div
 						key={index}
@@ -166,8 +252,8 @@ const ChatInterface = () => {
 						<div
 							className={`p-3.5 rounded-2xl max-w-xs md:max-w-md lg:max-w-lg ${
 								message.sender === "user"
-									? "bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-br-none shadow-sm"
-									: "bg-white border border-gray-100 rounded-bl-none shadow-sm"
+									? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-br-none shadow-md"
+									: "bg-white border border-gray-100 rounded-bl-none shadow-md"
 							}`}
 						>
 							<div className="flex items-center mb-1">
@@ -206,7 +292,7 @@ const ChatInterface = () => {
 				))}
 				{isLoading && (
 					<div className="flex justify-start mb-4">
-						<div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none shadow-sm">
+						<div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none shadow-md">
 							<div className="flex space-x-2">
 								<div
 									className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-bounce"
@@ -224,14 +310,15 @@ const ChatInterface = () => {
 						</div>
 					</div>
 				)}
+				{messages.length > 4}
 				<div ref={messagesEndRef} />
 			</div>
 
 			<form
 				onSubmit={handleSendMessage}
-				className="border-t border-gray-100 p-3 bg-white"
+				className="border-t border-gray-100 p-3 bg-white sticky bottom-0"
 			>
-				<div className="flex items-center space-x-2 bg-gray-50 rounded-full px-3 py-1 border border-gray-200">
+				<div className="flex items-center space-x-2 bg-gray-50 rounded-full px-3 py-1 border border-gray-200 hover:border-blue-300 focus-within:border-blue-400 transition-colors">
 					<button
 						type="button"
 						className="text-gray-400 hover:text-blue-500 transition-colors p-2"
@@ -255,7 +342,7 @@ const ChatInterface = () => {
 					<button
 						type="submit"
 						disabled={!inputMessage.trim() || isLoading}
-						className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50 transition-all hover:shadow-md"
+						className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50 transition-all hover:shadow-md"
 					>
 						<Send className="h-5 w-5" />
 					</button>
