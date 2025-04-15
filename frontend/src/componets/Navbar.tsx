@@ -110,42 +110,42 @@ const Navbar = () => {
 						<div className="hidden sm:ml-10 sm:flex sm:space-x-3 md:space-x-4 lg:space-x-6">
 							<NavLink
 								to="/"
-								icon={<Home className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<Home className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/"}
 							>
 								Home
 							</NavLink>
 							<NavLink
 								to="/calculator"
-								icon={<Calculator className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<Calculator className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/calculator"}
 							>
 								Savings
 							</NavLink>
 							<NavLink
 								to="/recommendations"
-								icon={<LineChart className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<LineChart className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/recommendations"}
 							>
 								Recommendations
 							</NavLink>
 							<NavLink
 								to="/compare"
-								icon={<Sun className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<Sun className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/compare"}
 							>
 								Compare
 							</NavLink>
 							<NavLink
 								to="/community"
-								icon={<Users className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<Users className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/community"}
 							>
 								Community
 							</NavLink>
 							<NavLink
 								to="/chat"
-								icon={<MessageCircle className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
+								icon={<MessageCircle className="sm:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/chat"}
 							>
 								Expert Chat
