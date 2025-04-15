@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Send, User, Bot } from "lucide-react";
+import { Send, User, Bot, Paperclip, Smile } from "lucide-react";
 
 interface Message {
 	text: string;
@@ -18,6 +18,7 @@ const ChatInterface = () => {
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	// Sample responses about solar subsidies in India
 	const subsidyResponses = {
@@ -137,12 +138,17 @@ const ChatInterface = () => {
 
 			setMessages((prevMessages) => [...prevMessages, assistantMessage]);
 			setIsLoading(false);
+
+			// Focus the input after receiving response
+			if (inputRef.current) {
+				inputRef.current.focus();
+			}
 		}, 1000);
 	};
 
 	return (
-		<div className="flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-			<div className="bg-blue-600 p-4 text-white">
+		<div className="flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white">
+			<div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 text-white">
 				<h2 className="text-xl font-semibold">Solar Subsidy Expert</h2>
 				<p className="text-sm opacity-90">
 					Ask me anything about solar subsidies in India
@@ -158,22 +164,26 @@ const ChatInterface = () => {
 						}`}
 					>
 						<div
-							className={`p-3 rounded-lg max-w-xs md:max-w-md lg:max-w-lg ${
+							className={`p-3.5 rounded-2xl max-w-xs md:max-w-md lg:max-w-lg ${
 								message.sender === "user"
-									? "bg-blue-600 text-white rounded-br-none"
-									: "bg-white border border-gray-200 rounded-bl-none"
+									? "bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-br-none shadow-sm"
+									: "bg-white border border-gray-100 rounded-bl-none shadow-sm"
 							}`}
 						>
 							<div className="flex items-center mb-1">
 								{message.sender === "assistant" ? (
-									<Bot className="h-4 w-4 mr-1 text-blue-600" />
+									<div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+										<Bot className="h-3.5 w-3.5 text-blue-600" />
+									</div>
 								) : (
-									<User className="h-4 w-4 mr-1 text-white" />
+									<div className="w-6 h-6 rounded-full bg-blue-200 flex items-center justify-center">
+										<User className="h-3.5 w-3.5 text-blue-700" />
+									</div>
 								)}
 								<span
-									className={`text-xs ${
+									className={`text-xs ml-1.5 ${
 										message.sender === "user"
-											? "text-gray-100"
+											? "text-blue-100"
 											: "text-gray-500"
 									}`}
 								>
@@ -185,7 +195,7 @@ const ChatInterface = () => {
 								</span>
 							</div>
 							<p
-								className={`text-sm ${
+								className={`text-sm whitespace-pre-wrap ${
 									message.sender === "user" ? "text-white" : "text-gray-800"
 								}`}
 							>
@@ -196,18 +206,18 @@ const ChatInterface = () => {
 				))}
 				{isLoading && (
 					<div className="flex justify-start mb-4">
-						<div className="bg-white border border-gray-200 p-3 rounded-lg rounded-bl-none">
+						<div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none shadow-sm">
 							<div className="flex space-x-2">
 								<div
-									className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+									className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-bounce"
 									style={{ animationDelay: "0ms" }}
 								></div>
 								<div
-									className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+									className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-bounce"
 									style={{ animationDelay: "300ms" }}
 								></div>
 								<div
-									className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+									className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-bounce"
 									style={{ animationDelay: "600ms" }}
 								></div>
 							</div>
@@ -219,20 +229,33 @@ const ChatInterface = () => {
 
 			<form
 				onSubmit={handleSendMessage}
-				className="border-t border-gray-200 p-4 bg-white"
+				className="border-t border-gray-100 p-3 bg-white"
 			>
-				<div className="flex space-x-2">
+				<div className="flex items-center space-x-2 bg-gray-50 rounded-full px-3 py-1 border border-gray-200">
+					<button
+						type="button"
+						className="text-gray-400 hover:text-blue-500 transition-colors p-2"
+					>
+						<Smile className="h-5 w-5" />
+					</button>
 					<input
+						ref={inputRef}
 						type="text"
 						value={inputMessage}
 						onChange={(e) => setInputMessage(e.target.value)}
 						placeholder="Ask about solar subsidies in your state..."
-						className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+						className="flex-1 py-2.5 bg-transparent border-none focus:outline-none text-gray-800"
 					/>
+					<button
+						type="button"
+						className="text-gray-400 hover:text-blue-500 transition-colors p-2"
+					>
+						<Paperclip className="h-5 w-5" />
+					</button>
 					<button
 						type="submit"
 						disabled={!inputMessage.trim() || isLoading}
-						className="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50"
+						className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50 transition-all hover:shadow-md"
 					>
 						<Send className="h-5 w-5" />
 					</button>

@@ -9,11 +9,13 @@ import {
 	Users,
 	MessageCircle,
 	ChevronLeft,
+	Home,
 } from "lucide-react";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [appMode, setAppMode] = useState(false);
+	const [scrolled, setScrolled] = useState(false);
 	const location = useLocation();
 
 	// Check if the app is running in standalone/installed PWA mode
@@ -24,6 +26,14 @@ const Navbar = () => {
 		) {
 			setAppMode(true);
 		}
+
+		// Add scroll listener for glass effect
+		const handleScroll = () => {
+			setScrolled(window.scrollY > 10);
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
 	// For mobile app-like feel, show back button instead of menu on internal pages
@@ -51,20 +61,23 @@ const Navbar = () => {
 	}
 
 	return (
-		<nav className="bg-white shadow-md">
+		<nav
+			className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+				scrolled
+					? "bg-white/80 backdrop-blur-md shadow-lg"
+					: "bg-white/60 backdrop-blur-sm"
+			}`}
+		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16">
-					<div className="flex">
+					<div className="flex items-center">
 						{/* Mobile: Show hamburger menu on home page or back button on other pages */}
-						<div
-							className="sm:hidden flex items-center"
-							style={{ minWidth: "40px" }}
-						>
+						<div className="sm:hidden flex items-center mr-2">
 							{isHomePage ? (
 								<button
 									onClick={() => setIsOpen(!isOpen)}
 									type="button"
-									className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none"
+									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 focus:outline-none transition-colors duration-200"
 									aria-expanded="false"
 								>
 									{isOpen ? (
@@ -76,163 +89,200 @@ const Navbar = () => {
 							) : (
 								<button
 									onClick={() => window.history.back()}
-									className="text-gray-500 hover:text-gray-700 focus:outline-none"
+									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 focus:outline-none transition-colors duration-200"
 								>
 									<ChevronLeft className="h-6 w-6" />
 								</button>
 							)}
 						</div>
 
-						{/* Logo - smaller on mobile for app-like feel */}
-						<Link to="/" className="flex-shrink-0 flex items-center">
-							<Sun className="h-6 w-6 sm:h-8 sm:w-8 text-yellow-500" />
-							<span className="ml-2 text-lg sm:text-xl font-bold text-gray-900">
+						{/* Logo with gradient and animation */}
+						<Link to="/" className="flex-shrink-0 flex items-center group">
+							<div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-2 rounded-full shadow-md group-hover:shadow-blue-300/50 transition-all duration-300">
+								<Sun className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+							</div>
+							<span className="ml-2 text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
 								{appMode && !isHomePage ? pageTitle : "SolarHelper"}
 							</span>
 						</Link>
 
 						{/* Desktop navigation links */}
-						<div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-							<Link
+						<div className="hidden sm:ml-10 sm:flex sm:space-x-6">
+							<NavLink
+								to="/"
+								icon={<Home className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/"}
+							>
+								Home
+							</NavLink>
+							<NavLink
 								to="/calculator"
-								className={`border-transparent hover:text-blue-600 hover:border-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-									location.pathname === "/calculator"
-										? "text-blue-600 border-blue-600"
-										: "text-gray-600"
-								}`}
+								icon={<Calculator className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/calculator"}
 							>
-								<Calculator className="mr-1 h-4 w-4" />
-								Savings Calculator
-							</Link>
-							<Link
+								Savings
+							</NavLink>
+							<NavLink
 								to="/recommendations"
-								className={`border-transparent hover:text-blue-600 hover:border-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-									location.pathname === "/recommendations"
-										? "text-blue-600 border-blue-600"
-										: "text-gray-600"
-								}`}
+								icon={<LineChart className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/recommendations"}
 							>
-								<LineChart className="mr-1 h-4 w-4" />
 								Recommendations
-							</Link>
-							<Link
+							</NavLink>
+							<NavLink
 								to="/compare"
-								className={`border-transparent hover:text-blue-600 hover:border-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-									location.pathname === "/compare"
-										? "text-blue-600 border-blue-600"
-										: "text-gray-600"
-								}`}
+								icon={<Sun className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/compare"}
 							>
-								<Sun className="mr-1 h-4 w-4" />
-								Compare Solutions
-							</Link>
-							<Link
+								Compare
+							</NavLink>
+							<NavLink
 								to="/community"
-								className={`border-transparent hover:text-blue-600 hover:border-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-									location.pathname === "/community"
-										? "text-blue-600 border-blue-600"
-										: "text-gray-600"
-								}`}
+								icon={<Users className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/community"}
 							>
-								<Users className="mr-1 h-4 w-4" />
 								Community
-							</Link>
-							<Link
+							</NavLink>
+							<NavLink
 								to="/chat"
-								className={`border-transparent hover:text-blue-600 hover:border-blue-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-									location.pathname === "/chat"
-										? "text-blue-600 border-blue-600"
-										: "text-gray-600"
-								}`}
+								icon={<MessageCircle className="mr-1.5 h-4 w-4" />}
+								current={location.pathname === "/chat"}
 							>
-								<MessageCircle className="mr-1 h-4 w-4" />
-								Chat with Expert
-							</Link>
+								Expert Chat
+							</NavLink>
 						</div>
 					</div>
-
-					{/* On non-home mobile pages, show page title right-aligned */}
-					{!isHomePage && (
-						<div className="sm:hidden flex items-center justify-end flex-1 text-right pr-2">
-							<h1 className="text-lg font-semibold text-gray-900">
-								{pageTitle}
-							</h1>
-						</div>
-					)}
 
 					{/* Empty div to balance the flex layout */}
 					<div className="sm:hidden" style={{ minWidth: "40px" }}></div>
 				</div>
 			</div>
 
-			{/* Mobile menu panel */}
-			{isHomePage && isOpen && (
-				<div className="sm:hidden">
-					<div className="pt-2 pb-3 space-y-1">
-						<Link
-							to="/calculator"
-							className={`${
-								location.pathname === "/calculator"
-									? "bg-blue-50 border-blue-500 text-blue-700"
-									: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-							} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-							onClick={() => setIsOpen(false)}
-						>
-							<Calculator className="inline-block mr-1 h-4 w-4" />
-							Savings Calculator
-						</Link>
-						<Link
-							to="/recommendations"
-							className={`${
-								location.pathname === "/recommendations"
-									? "bg-blue-50 border-blue-500 text-blue-700"
-									: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-							} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-							onClick={() => setIsOpen(false)}
-						>
-							<LineChart className="inline-block mr-1 h-4 w-4" />
-							Recommendations
-						</Link>
-						<Link
-							to="/compare"
-							className={`${
-								location.pathname === "/compare"
-									? "bg-blue-50 border-blue-500 text-blue-700"
-									: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-							} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-							onClick={() => setIsOpen(false)}
-						>
-							<Sun className="inline-block mr-1 h-4 w-4" />
-							Compare Solutions
-						</Link>
-						<Link
-							to="/community"
-							className={`${
-								location.pathname === "/community"
-									? "bg-blue-50 border-blue-500 text-blue-700"
-									: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-							} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-							onClick={() => setIsOpen(false)}
-						>
-							<Users className="inline-block mr-1 h-4 w-4" />
-							Community
-						</Link>
-						<Link
-							to="/chat"
-							className={`${
-								location.pathname === "/chat"
-									? "bg-blue-50 border-blue-500 text-blue-700"
-									: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
-							} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
-							onClick={() => setIsOpen(false)}
-						>
-							<MessageCircle className="inline-block mr-1 h-4 w-4" />
-							Chat with Expert
-						</Link>
-					</div>
+			{/* Mobile menu panel with animation */}
+			<div
+				className={`sm:hidden absolute w-full bg-white/95 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
+					isHomePage && isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+				}`}
+			>
+				<div className="pt-2 pb-3 space-y-1 px-3">
+					<MobileNavLink
+						to="/"
+						icon={<Home className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/"}
+						onClick={() => setIsOpen(false)}
+					>
+						Home
+					</MobileNavLink>
+					<MobileNavLink
+						to="/calculator"
+						icon={<Calculator className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/calculator"}
+						onClick={() => setIsOpen(false)}
+					>
+						Solar Savings
+					</MobileNavLink>
+					<MobileNavLink
+						to="/recommendations"
+						icon={<LineChart className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/recommendations"}
+						onClick={() => setIsOpen(false)}
+					>
+						Recommendations
+					</MobileNavLink>
+					<MobileNavLink
+						to="/compare"
+						icon={<Sun className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/compare"}
+						onClick={() => setIsOpen(false)}
+					>
+						Compare Solutions
+					</MobileNavLink>
+					<MobileNavLink
+						to="/community"
+						icon={<Users className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/community"}
+						onClick={() => setIsOpen(false)}
+					>
+						Community
+					</MobileNavLink>
+					<MobileNavLink
+						to="/chat"
+						icon={<MessageCircle className="h-5 w-5 mr-3" />}
+						current={location.pathname === "/chat"}
+						onClick={() => setIsOpen(false)}
+					>
+						Chat with Expert
+					</MobileNavLink>
+				</div>
+			</div>
+
+			{/* Page title bar that appears below the navbar on mobile */}
+			{!isHomePage && (
+				<div className="sm:hidden pb-2 pt-1 bg-gradient-to-r from-blue-50 to-cyan-50 shadow-inner">
+					<h1 className="text-center text-lg font-medium text-gray-800">
+						{pageTitle}
+					</h1>
 				</div>
 			)}
 		</nav>
+	);
+};
+
+// Helper component for desktop navigation links
+const NavLink = ({
+	to,
+	children,
+	icon,
+	current,
+}: {
+	to: string;
+	children: React.ReactNode;
+	icon: React.ReactNode;
+	current: boolean;
+}) => {
+	return (
+		<Link
+			to={to}
+			className={`group relative flex items-center px-1 py-1 font-medium text-sm transition-colors duration-200 ${
+				current ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+			}`}
+		>
+			{icon}
+			{children}
+			<span
+				className={`absolute left-0 bottom-0 h-0.5 bg-blue-500 rounded-full transition-all duration-300 ${
+					current ? "w-full" : "w-0 group-hover:w-full"
+				}`}
+			/>
+		</Link>
+	);
+};
+
+// Helper component for mobile navigation links
+const MobileNavLink = ({
+	to,
+	children,
+	icon,
+	current,
+	onClick,
+}: {
+	to: string;
+	children: React.ReactNode;
+	icon: React.ReactNode;
+	current: boolean;
+	onClick: () => void;
+}) => {
+	return (
+		<Link
+			to={to}
+			className={`no-ripple flex items-center rounded-lg px-4 py-3 text-base font-medium transition-colors duration-200 ${
+				current ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-50"
+			}`}
+			onClick={onClick}
+		>
+			{icon}
+			{children}
+		</Link>
 	);
 };
 

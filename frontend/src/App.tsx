@@ -12,47 +12,6 @@ import InstallPrompt from "./componets/InstallPrompt";
 import { useEffect } from "react";
 
 function App() {
-	// Add touch ripple effect for mobile app-like feel
-	useEffect(() => {
-		const addRippleEffect = (event: MouseEvent) => {
-			const target = event.currentTarget as HTMLElement;
-			const ripple = document.createElement("span");
-			const rect = target.getBoundingClientRect();
-
-			const size = Math.max(rect.width, rect.height);
-			const x = event.clientX - rect.left - size / 2;
-			const y = event.clientY - rect.top - size / 2;
-
-			ripple.style.width = ripple.style.height = `${size}px`;
-			ripple.style.left = `${x}px`;
-			ripple.style.top = `${y}px`;
-			ripple.classList.add("ripple");
-
-			const existingRipple = target.querySelector(".ripple");
-			if (existingRipple) {
-				existingRipple.remove();
-			}
-
-			target.appendChild(ripple);
-
-			setTimeout(() => {
-				ripple.remove();
-			}, 600);
-		};
-
-		// Add event listeners to buttons
-		const buttons = document.querySelectorAll("button, a");
-		buttons.forEach((button) => {
-			button.addEventListener("click", addRippleEffect as EventListener);
-		});
-
-		return () => {
-			buttons.forEach((button) => {
-				button.removeEventListener("click", addRippleEffect as EventListener);
-			});
-		};
-	}, []);
-
 	// Register service worker for PWA
 	useEffect(() => {
 		if ("serviceWorker" in navigator) {
@@ -77,16 +36,20 @@ function App() {
 
 				{/* Main content with mobile padding adjustments */}
 				<div className="pb-16 sm:pb-0">
-					{" "}
-					{/* Add padding at bottom for mobile nav */}
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/calculator" element={<CalculatorPage />} />
-						<Route path="/recommendations" element={<RecommendationsPage />} />
-						<Route path="/compare" element={<ComparisonPage />} />
-						<Route path="/community" element={<CommunityPage />} />
-						<Route path="/chat" element={<ChatPage />} />
-					</Routes>
+					{/* Add padding at top for navbar and bottom for mobile nav */}
+					<div className="pt-16 sm:pt-20">
+						<Routes>
+							<Route path="/" element={<HomePage />} />
+							<Route path="/calculator" element={<CalculatorPage />} />
+							<Route
+								path="/recommendations"
+								element={<RecommendationsPage />}
+							/>
+							<Route path="/compare" element={<ComparisonPage />} />
+							<Route path="/community" element={<CommunityPage />} />
+							<Route path="/chat" element={<ChatPage />} />
+						</Routes>
+					</div>
 				</div>
 
 				{/* PWA Install Prompt */}

@@ -46,6 +46,72 @@ button, a, .interactive {
   }
 }
 
+/* Common animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
 /* PWA specific styles */
 @media (display-mode: standalone) {
   /* Styles applied only when app is installed as PWA */
@@ -62,6 +128,15 @@ button, a, .interactive {
   .browser-only {
     display: none;
   }
+  
+  /* Add safe area insets for iOS */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 1rem);
+  }
 }
 
 /* Mobile specific styles */
@@ -69,6 +144,21 @@ button, a, .interactive {
   /* Improve touch targets for better mobile UX */
   button, input, select, a {
     min-height: 44px; /* Apple's recommended minimum touch target size */
+  }
+  
+  /* Soften box shadows on mobile for a more modern look */
+  .shadow-lg {
+    box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Mobile card hover state */
+  .mobile-card-hover {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  
+  .mobile-card-hover:active {
+    transform: scale(0.98);
+    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, 0.1);
   }
   
   /* Create native app like page transitions */
