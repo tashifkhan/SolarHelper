@@ -1,7 +1,6 @@
 import RecommendationEngine from "../componets/RecommendationEngine";
 import { Link } from "react-router-dom";
 import {
-	ArrowRight,
 	Activity,
 	MapPin,
 	Database,
