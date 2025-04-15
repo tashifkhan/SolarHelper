@@ -202,7 +202,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 		<div
 			className={`flex flex-col ${
 				isFullScreen
-					? "fixed inset-0 z-50 h-screen max-h-screen"
+					? "fixed inset-0 z-50 h-screen max-h-screen pb-16 sm:pb-0"
 					: "h-[600px] max-w-4xl mx-auto"
 			} 
 				rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white transition-all duration-300`}
@@ -236,7 +236,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 				style={{
 					backgroundImage:
 						'url(\'data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f0f0f0" fill-opacity="0.6" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E\')',
-					height: isFullScreen ? "calc(100vh - 130px)" : "calc(600px - 130px)",
+					height: isFullScreen
+						? "calc(100vh - 130px - 4rem)"
+						: "calc(600px - 130px)",
 					overflowY: "auto",
 					overscrollBehavior: "contain", // Prevents scroll chaining
 				}}
