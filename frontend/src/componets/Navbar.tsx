@@ -107,45 +107,45 @@ const Navbar = () => {
 						</Link>
 
 						{/* Desktop navigation links */}
-						<div className="hidden sm:ml-10 sm:flex sm:space-x-6">
+						<div className="hidden sm:ml-10 sm:flex sm:space-x-3 md:space-x-4 lg:space-x-6">
 							<NavLink
 								to="/"
-								icon={<Home className="mr-1.5 h-4 w-4" />}
+								icon={<Home className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/"}
 							>
 								Home
 							</NavLink>
 							<NavLink
 								to="/calculator"
-								icon={<Calculator className="mr-1.5 h-4 w-4" />}
+								icon={<Calculator className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/calculator"}
 							>
 								Savings
 							</NavLink>
 							<NavLink
 								to="/recommendations"
-								icon={<LineChart className="mr-1.5 h-4 w-4" />}
+								icon={<LineChart className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/recommendations"}
 							>
 								Recommendations
 							</NavLink>
 							<NavLink
 								to="/compare"
-								icon={<Sun className="mr-1.5 h-4 w-4" />}
+								icon={<Sun className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/compare"}
 							>
 								Compare
 							</NavLink>
 							<NavLink
 								to="/community"
-								icon={<Users className="mr-1.5 h-4 w-4" />}
+								icon={<Users className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/community"}
 							>
 								Community
 							</NavLink>
 							<NavLink
 								to="/chat"
-								icon={<MessageCircle className="mr-1.5 h-4 w-4" />}
+								icon={<MessageCircle className="md:mr-0 lg:mr-1.5 h-4 w-4" />}
 								current={location.pathname === "/chat"}
 							>
 								Expert Chat
@@ -247,8 +247,12 @@ const NavLink = ({
 				current ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
 			}`}
 		>
-			{icon}
-			{children}
+			<span className="flex items-center">
+				{icon}
+				<span className={`${current ? "md:inline" : "md:hidden"} lg:inline`}>
+					{children}
+				</span>
+			</span>
 			<span
 				className={`absolute left-0 bottom-0 h-0.5 bg-blue-500 rounded-full transition-all duration-300 ${
 					current ? "w-full" : "w-0 group-hover:w-full"
