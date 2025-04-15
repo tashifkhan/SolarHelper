@@ -57,10 +57,34 @@
 	],
 	"shortcuts": [
 		{
+			"name": "Home",
+			"short_name": "Home",
+			"description": "Return to homepage",
+			"url": "/"
+		},
+		{
 			"name": "Calculator",
 			"short_name": "Calculator",
 			"description": "Calculate solar savings",
 			"url": "/calculator"
+		},
+		{
+			"name": "Recommendations",
+			"short_name": "Recommend",
+			"description": "Get solar recommendations",
+			"url": "/recommendations"
+		},
+		{
+			"name": "Compare",
+			"short_name": "Compare",
+			"description": "Compare solar solutions",
+			"url": "/compare"
+		},
+		{
+			"name": "Community",
+			"short_name": "Community",
+			"description": "Join the solar community",
+			"url": "/community"
 		},
 		{
 			"name": "Chat with Expert",

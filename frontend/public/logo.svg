@@ -1,0 +1,35 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2AD5FD; stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0052D4; stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle with Gradient -->
+  <circle cx="50" cy="50" r="50" fill="url(#backgroundGradient)" />
+
+  <!-- Sun Icon Group -->
+  <g stroke="black" stroke-width="4" stroke-linecap="round" fill="none">
+    <!-- Sun Center Circle -->
+    <circle cx="50" cy="50" r="15" />
+
+    <!-- Sun Rays (Lines) -->
+    <!-- Top -->
+    <line x1="50" y1="30" x2="50" y2="20" />
+    <!-- Top-Right -->
+    <line x1="64.1" y1="35.9" x2="71.2" y2="28.8" />
+    <!-- Right -->
+    <line x1="70" y1="50" x2="80" y2="50" />
+    <!-- Bottom-Right -->
+    <line x1="64.1" y1="64.1" x2="71.2" y2="71.2" />
+    <!-- Bottom -->
+    <line x1="50" y1="70" x2="50" y2="80" />
+    <!-- Bottom-Left -->
+    <line x1="35.9" y1="64.1" x2="28.8" y2="71.2" />
+    <!-- Left -->
+    <line x1="30" y1="50" x2="20" y2="50" />
+    <!-- Top-Left -->
+    <line x1="35.9" y1="35.9" x2="28.8" y2="28.8" />
+  </g>
+</svg>
