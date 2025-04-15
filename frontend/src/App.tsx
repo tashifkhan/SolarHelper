@@ -5,6 +5,7 @@ import RecommendationsPage from "./pages/RecommendationsPage";
 import ComparisonPage from "./pages/ComparisonPage";
 import CommunityPage from "./pages/CommunityPage";
 import ChatPage from "./pages/ChatPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./componets/Navbar";
 import Footer from "./componets/Footer";
 import MobileNavBar from "./componets/MobileNavBar";
@@ -58,6 +59,8 @@ function App() {
 							<Route path="/compare" element={<ComparisonPage />} />
 							<Route path="/community" element={<CommunityPage />} />
 							<Route path="/chat" element={<ChatPage />} />
+							{/* Add the 404 catch-all route */}
+							<Route path="*" element={<NotFoundPage />} />
 						</Routes>
 					</div>
 				</div>
