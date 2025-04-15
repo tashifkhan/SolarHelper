@@ -5,7 +5,6 @@ import {
 	Bot,
 	Paperclip,
 	Smile,
-	ChevronDown,
 	Maximize2,
 	Minimize2,
 } from "lucide-react";
