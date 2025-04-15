@@ -13,55 +13,77 @@ const InstallPrompt = () => {
 	const [isIOS, setIsIOS] = useState(false);
 
 	useEffect(() => {
+		// Check if prompt was recently dismissed
+		const dismissedUntil = localStorage.getItem("installPromptDismissed");
+		if (dismissedUntil && parseInt(dismissedUntil) > Date.now()) {
+			return; // Don't show if user dismissed it recently
+		}
+
 		// Check if it's iOS device
 		const isIOSDevice =
 			/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
 		setIsIOS(isIOSDevice);
 
+		// Check if already installed as PWA
+		if (
+			window.matchMedia("(display-mode: standalone)").matches ||
+			(window.navigator as any).standalone === true
+		) {
+			return; // Already installed, don't show prompt
+		}
+
 		// For non-iOS devices, use the beforeinstallprompt event
 		if (!isIOSDevice) {
 			const handler = (e: Event) => {
 				e.preventDefault();
+				console.log("BeforeInstallPrompt event captured");
 				setInstallPrompt(e as BeforeInstallPromptEvent);
-				setShowPrompt(true);
+
+				// Set a delay to show the prompt after the event is captured
+				setTimeout(() => {
+					setShowPrompt(true);
+				}, 3000);
 			};
 
+			// Listen for the beforeinstallprompt event
 			window.addEventListener("beforeinstallprompt", handler);
 
-			// Check if already installed as PWA
-			if (
-				window.matchMedia("(display-mode: standalone)").matches ||
-				(window.navigator as any).standalone === true
-			) {
-				setShowPrompt(false);
-			} else {
-				// Show prompt after 30 seconds of browsing
-				const timer = setTimeout(() => {
-					if (installPrompt) {
-						setShowPrompt(true);
-					}
-				}, 30000);
-
-				return () => clearTimeout(timer);
-			}
-
-			return () => window.removeEventListener("beforeinstallprompt", handler);
-		} else {
-			// For iOS, show iOS-specific installation instructions
-			// Check if already in standalone mode (installed)
-			if ((window.navigator as any).standalone !== true) {
-				// Show iOS prompt after 15 seconds
-				const timer = setTimeout(() => {
+			// Show a delayed prompt even if no install event was captured
+			const timer = setTimeout(() => {
+				console.log("Checking for installPrompt availability", installPrompt);
+				// This will only trigger if no beforeinstallprompt event was fired before the timeout
+				if (!showPrompt && installPrompt) {
 					setShowPrompt(true);
-				}, 15000);
+				}
+			}, 10000);
 
-				return () => clearTimeout(timer);
-			}
+			return () => {
+				window.removeEventListener("beforeinstallprompt", handler);
+				clearTimeout(timer);
+			};
+		} else {
+			// For iOS, show iOS-specific installation instructions after delay
+			const timer = setTimeout(() => {
+				setShowPrompt(true);
+				console.log("Showing iOS install prompt");
+			}, 5000); // Reduced time for testing
+
+			return () => clearTimeout(timer);
 		}
-	}, [installPrompt]);
+	}, []); // Empty dependency array as this should only run once
+
+	// Debug - log state changes
+	useEffect(() => {
+		console.log("Install prompt state:", {
+			installPrompt: !!installPrompt,
+			showPrompt,
+			isIOS,
+		});
+	}, [installPrompt, showPrompt, isIOS]);
 
 	const handleInstall = async () => {
 		if (!isIOS && installPrompt) {
+			console.log("Triggering install prompt");
 			await installPrompt.prompt();
 			const choiceResult = await installPrompt.userChoice;
 
@@ -77,6 +99,7 @@ const InstallPrompt = () => {
 	};
 
 	const handleDismiss = () => {
+		console.log("Dismissing prompt");
 		setShowPrompt(false);
 		// Don't show again for 7 days
 		localStorage.setItem(

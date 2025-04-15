@@ -18,13 +18,23 @@ function App() {
 			window.addEventListener("load", () => {
 				navigator.serviceWorker
 					.register("/service-worker.js")
-					.then((_registration) => {
-						console.log("ServiceWorker registration successful");
+					.then((registration) => {
+						console.log(
+							"ServiceWorker registration successful with scope:",
+							registration.scope
+						);
 					})
 					.catch((error) => {
 						console.log("ServiceWorker registration failed:", error);
 					});
 			});
+		} else {
+			console.log("Service workers are not supported");
+		}
+
+		// For debugging PWA installation status
+		if (window.matchMedia("(display-mode: standalone)").matches) {
+			console.log("App is running in standalone mode (installed as PWA)");
 		}
 	}, []);
 
