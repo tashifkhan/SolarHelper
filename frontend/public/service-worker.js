@@ -6,6 +6,7 @@ const urlsToCache = [
   '/manifest.json',
   '/assets/index.css',
   '/assets/index.js',
+  '/logo.png',
 ];
 
 // Install event - cache the essential files
