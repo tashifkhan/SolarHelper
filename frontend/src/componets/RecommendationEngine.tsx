@@ -10,6 +10,7 @@ import {
 	ChevronRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import getPincodeLocation from "../ultils/evaluate-pincode";
 
 const RecommendationEngine = () => {
 	const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ const RecommendationEngine = () => {
 	const [showRecommendation, setShowRecommendation] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
+	const [pincodeLocation, setPincodeLocation] = useState<string | null>(null);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -35,10 +37,20 @@ const RecommendationEngine = () => {
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 		setFormData({
 			...formData,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		});
+
+		// If pincode field is changed and has 6 digits, evaluate the location
+		if (name === "pincode" && value.length === 6) {
+			const location = getPincodeLocation(value);
+			setPincodeLocation(location);
+		} else if (name === "pincode" && value.length !== 6) {
+			// Clear the location if the pincode is not 6 digits
+			setPincodeLocation(null);
+		}
 	};
 
 	const formSteps = [
@@ -140,7 +152,9 @@ const RecommendationEngine = () => {
 											className="relative"
 										>
 											<div className="absolute bottom-4 left-4 flex items-center pointer-events-none">
-												<MapPin className="h-6 w-6 text-blue-500" />
+												{!pincodeLocation && (
+													<MapPin className="h-6 w-6 text-blue-500" />
+												)}
 											</div>
 											<label
 												htmlFor="pincode"
@@ -156,7 +170,40 @@ const RecommendationEngine = () => {
 												onChange={handleChange}
 												className="pl-14 py-4 mt-1 block w-full rounded-2xl border-gray-300 shadow-md text-lg focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
 												placeholder="Enter your pincode"
+												maxLength={6}
 											/>
+											{pincodeLocation && (
+												<motion.div
+													initial={{ opacity: 0, y: 10, scale: 0.9 }}
+													animate={{ opacity: 1, y: 0, scale: 1 }}
+													transition={{
+														type: "spring",
+														stiffness: 500,
+														damping: 25,
+													}}
+													className="mt-4 inline-flex items-center px-4 py-2.5 rounded-full bg-gradient-to-r from-green-50 to-emerald-100 border border-green-200 shadow-sm"
+												>
+													<div className="mr-2 flex-shrink-0">
+														<MapPin className="h-5 w-5 text-emerald-600" />
+													</div>
+													<div className="flex flex-col">
+														<span className="text-sm font-semibold text-gray-700">
+															Location Detected
+														</span>
+														<span className="text-base font-medium text-emerald-700">
+															{pincodeLocation}
+														</span>
+													</div>
+													<motion.div
+														initial={{ opacity: 0, scale: 0 }}
+														animate={{ opacity: 1, scale: 1 }}
+														transition={{ delay: 0.3 }}
+														className="ml-3 bg-green-100 p-1 rounded-full"
+													>
+														<Check className="h-4 w-4 text-green-600" />
+													</motion.div>
+												</motion.div>
+											)}
 										</motion.div>
 									</div>
 								)}
@@ -260,8 +307,21 @@ const RecommendationEngine = () => {
 									<div className={currentStep > 1 ? "ml-auto" : ""}>
 										<button
 											onClick={nextStep}
-											disabled={loading}
-											className="relative inline-flex items-center px-10 py-4 border border-transparent text-lg font-medium rounded-full shadow-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+											disabled={
+												loading ||
+												(currentStep === 1 &&
+													(!formData.pincode ||
+														formData.pincode.length !== 6 ||
+														!pincodeLocation))
+											}
+											className={`relative inline-flex items-center px-10 py-4 border border-transparent text-lg font-medium rounded-full shadow-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 ${
+												currentStep === 1 &&
+												(!formData.pincode ||
+													formData.pincode.length !== 6 ||
+													!pincodeLocation)
+													? "opacity-70 cursor-not-allowed"
+													: ""
+											}`}
 										>
 											{loading ? (
 												<>
