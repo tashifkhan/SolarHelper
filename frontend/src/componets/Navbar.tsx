@@ -10,13 +10,16 @@ import {
 	MessageCircle,
 	ChevronLeft,
 	Home,
+	Moon,
 } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [appMode, setAppMode] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 	const location = useLocation();
+	const { theme, toggleTheme } = useTheme();
 
 	// Check if the app is running in standalone/installed PWA mode
 	useEffect(() => {
@@ -64,8 +67,8 @@ const Navbar = () => {
 		<nav
 			className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
 				scrolled
-					? "bg-white/80 backdrop-blur-md shadow-lg"
-					: "bg-white/60 backdrop-blur-sm"
+					? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg"
+					: "bg-white/60 dark:bg-gray-950/60 backdrop-blur-sm"
 			}`}
 		>
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +80,7 @@ const Navbar = () => {
 								<button
 									onClick={() => setIsOpen(!isOpen)}
 									type="button"
-									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 focus:outline-none transition-colors duration-200"
+									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 focus:outline-none transition-colors duration-200"
 									aria-expanded="false"
 								>
 									{isOpen ? (
@@ -89,7 +92,7 @@ const Navbar = () => {
 							) : (
 								<button
 									onClick={() => window.history.back()}
-									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 hover:text-blue-600 hover:bg-blue-50 focus:outline-none transition-colors duration-200"
+									className="no-ripple inline-flex items-center justify-center p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-800 focus:outline-none transition-colors duration-200"
 								>
 									<ChevronLeft className="h-6 w-6" />
 								</button>
@@ -98,10 +101,10 @@ const Navbar = () => {
 
 						{/* Logo with gradient and animation */}
 						<Link to="/" className="flex-shrink-0 flex items-center group">
-							<div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-2 rounded-full shadow-md group-hover:shadow-blue-300/50 transition-all duration-300">
+							<div className="bg-gradient-to-br from-blue-500 to-cyan-400 p-2 rounded-full shadow-md group-hover:shadow-blue-300/50 dark:group-hover:shadow-cyan-700/50 transition-all duration-300">
 								<Sun className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
 							</div>
-							<span className="ml-2 text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
+							<span className="ml-2 text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
 								{appMode && !isHomePage ? pageTitle : "SolarHelper"}
 							</span>
 						</Link>
@@ -153,14 +156,45 @@ const Navbar = () => {
 						</div>
 					</div>
 
-					{/* Empty div to balance the flex layout */}
-					<div className="sm:hidden" style={{ minWidth: "40px" }}></div>
+					{/* Theme Toggle Button (Desktop) */}
+					<div className="hidden sm:flex items-center">
+						<button
+							onClick={toggleTheme}
+							className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors duration-200"
+							aria-label="Toggle theme"
+						>
+							{theme === "light" ? (
+								<Moon className="h-5 w-5" />
+							) : (
+								<Sun className="h-5 w-5" />
+							)}
+						</button>
+					</div>
+
+					{/* Empty div to balance the flex layout on mobile */}
+					<div
+						className="sm:hidden flex items-center"
+						style={{ minWidth: "40px" }}
+					>
+						{/* Theme Toggle Button (Mobile) */}
+						<button
+							onClick={toggleTheme}
+							className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none transition-colors duration-200"
+							aria-label="Toggle theme"
+						>
+							{theme === "light" ? (
+								<Moon className="h-5 w-5" />
+							) : (
+								<Sun className="h-5 w-5" />
+							)}
+						</button>
+					</div>
 				</div>
 			</div>
 
 			{/* Mobile menu panel with animation */}
 			<div
-				className={`sm:hidden absolute w-full bg-white/95 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
+				className={`sm:hidden absolute w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
 					isHomePage && isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
 				}`}
 			>
@@ -218,8 +252,8 @@ const Navbar = () => {
 
 			{/* Page title bar that appears below the navbar on mobile */}
 			{!isHomePage && (
-				<div className="sm:hidden pb-2 pt-1 bg-gradient-to-r from-blue-50 to-cyan-50 shadow-inner">
-					<h1 className="text-center text-lg font-medium text-gray-800">
+				<div className="sm:hidden pb-2 pt-1 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-900 shadow-inner">
+					<h1 className="text-center text-lg font-medium text-gray-800 dark:text-gray-200">
 						{pageTitle}
 					</h1>
 				</div>
@@ -244,7 +278,9 @@ const NavLink = ({
 		<Link
 			to={to}
 			className={`group relative flex items-center px-1 py-1 font-medium text-sm transition-colors duration-200 ${
-				current ? "text-blue-600" : "text-gray-600 hover:text-blue-600"
+				current
+					? "text-blue-600 dark:text-blue-400"
+					: "text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
 			}`}
 		>
 			<span className="flex items-center">
@@ -254,7 +290,7 @@ const NavLink = ({
 				</span>
 			</span>
 			<span
-				className={`absolute left-0 bottom-0 h-0.5 bg-blue-500 rounded-full transition-all duration-300 ${
+				className={`absolute left-0 bottom-0 h-0.5 bg-blue-500 dark:bg-blue-400 rounded-full transition-all duration-300 ${
 					current ? "w-full" : "w-0 group-hover:w-full"
 				}`}
 			/>
@@ -280,7 +316,9 @@ const MobileNavLink = ({
 		<Link
 			to={to}
 			className={`no-ripple flex items-center rounded-lg px-4 py-3 text-base font-medium transition-colors duration-200 ${
-				current ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-50"
+				current
+					? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300"
+					: "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
 			}`}
 			onClick={onClick}
 		>

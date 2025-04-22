@@ -45,7 +45,7 @@ const SavingsCalculator = () => {
 
 	return (
 		<div
-			className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-3xl shadow-sm"
+			className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 rounded-3xl shadow-sm"
 			id="calculator"
 		>
 			<div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
@@ -55,13 +55,13 @@ const SavingsCalculator = () => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
 				>
-					<span className="inline-block bg-blue-100 text-blue-800 text-base font-medium px-4 py-1.5 rounded-full mb-4">
+					<span className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-base font-medium px-4 py-1.5 rounded-full mb-4">
 						Calculate
 					</span>
-					<h2 className="text-5xl font-bold text-gray-900 tracking-tight">
+					<h2 className="text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
 						Solar Savings Calculator
 					</h2>
-					<p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
+					<p className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
 						Calculate your potential savings with solar power
 					</p>
 				</motion.div>
@@ -69,7 +69,7 @@ const SavingsCalculator = () => {
 				<div className="mt-16 max-w-4xl mx-auto">
 					<motion.form
 						onSubmit={handleCalculate}
-						className="space-y-8 bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
+						className="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700"
 						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.2 }}
@@ -77,13 +77,13 @@ const SavingsCalculator = () => {
 						<div>
 							<label
 								htmlFor="monthlyBill"
-								className="block text-lg font-medium text-gray-700 mb-2 ml-1"
+								className="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2 ml-1"
 							>
 								Monthly Electricity Bill (₹)
 							</label>
 							<div className="mt-1 relative rounded-xl shadow-sm">
 								<div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-									<Zap className="h-6 w-6 text-blue-500" />
+									<Zap className="h-6 w-6 text-blue-500 dark:text-blue-400" />
 								</div>
 								<input
 									type="number"
@@ -91,7 +91,7 @@ const SavingsCalculator = () => {
 									id="monthlyBill"
 									value={monthlyBill}
 									onChange={(e) => setMonthlyBill(e.target.value)}
-									className="pl-14 py-4 block w-full rounded-2xl text-lg border-gray-300 shadow-md focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+									className="pl-14 py-4 block w-full rounded-2xl text-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 shadow-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-all duration-200"
 									placeholder="Enter your average monthly bill"
 								/>
 							</div>
@@ -101,7 +101,7 @@ const SavingsCalculator = () => {
 							type="submit"
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
-							className="w-full flex justify-center py-4 px-6 border border-transparent rounded-full shadow-md text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+							className="w-full flex justify-center py-4 px-6 border border-transparent rounded-full shadow-md text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all duration-200"
 						>
 							Calculate Savings
 							<Calculator className="ml-3 h-6 w-6" />
@@ -110,13 +110,13 @@ const SavingsCalculator = () => {
 
 					{showResults && (
 						<motion.div
-							className="mt-16 bg-white rounded-2xl p-8 shadow-lg border border-gray-100"
+							className="mt-16 bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5 }}
 						>
-							<h3 className="text-2xl font-semibold text-gray-900 mb-8 flex items-center">
-								<Save className="h-6 w-6 mr-3 text-green-500" />
+							<h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8 flex items-center">
+								<Save className="h-6 w-6 mr-3 text-green-500 dark:text-green-400" />
 								Your Potential Savings
 							</h3>
 
@@ -129,8 +129,9 @@ const SavingsCalculator = () => {
 												? calculatedValues.monthly.toLocaleString()
 												: "0"
 										}`,
-										gradient: "from-green-50 to-green-100",
-										textColor: "text-green-700",
+										gradient:
+											"from-green-50 to-green-100 dark:from-green-900 dark:to-green-800",
+										textColor: "text-green-700 dark:text-green-200",
 									},
 									{
 										title: "Annual Savings",
@@ -139,8 +140,9 @@ const SavingsCalculator = () => {
 												? calculatedValues.annual.toLocaleString()
 												: "0"
 										}`,
-										gradient: "from-blue-50 to-blue-100",
-										textColor: "text-blue-700",
+										gradient:
+											"from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800",
+										textColor: "text-blue-700 dark:text-blue-200",
 									},
 									{
 										title: "25-Year Savings",
@@ -149,8 +151,9 @@ const SavingsCalculator = () => {
 												? calculatedValues.lifetime.toLocaleString()
 												: "0"
 										}`,
-										gradient: "from-purple-50 to-purple-100",
-										textColor: "text-purple-700",
+										gradient:
+											"from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800",
+										textColor: "text-purple-700 dark:text-purple-200",
 									},
 									{
 										title: "Carbon Offset (Annual)",
@@ -159,8 +162,9 @@ const SavingsCalculator = () => {
 												? calculatedValues.carbon.toLocaleString()
 												: "0"
 										} kg CO₂`,
-										gradient: "from-amber-50 to-amber-100",
-										textColor: "text-amber-700",
+										gradient:
+											"from-amber-50 to-amber-100 dark:from-amber-900 dark:to-amber-800",
+										textColor: "text-amber-700 dark:text-amber-200",
 									},
 								].map((item, idx) => (
 									<motion.div
@@ -189,34 +193,34 @@ const SavingsCalculator = () => {
 							</div>
 
 							<motion.div
-								className="mt-8 pt-6 border-t border-gray-200"
+								className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600"
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								transition={{ duration: 0.5, delay: 0.5 }}
 							>
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 									<div className="flex items-center">
-										<div className="bg-blue-100 p-3 rounded-xl">
-											<TrendingUp className="h-6 w-6 text-blue-600" />
+										<div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-xl">
+											<TrendingUp className="h-6 w-6 text-blue-600 dark:text-blue-400" />
 										</div>
 										<div className="ml-4">
-											<span className="text-base text-gray-500">
+											<span className="text-base text-gray-500 dark:text-gray-400">
 												Estimated payback period
 											</span>
-											<p className="text-2xl font-medium text-gray-800">
+											<p className="text-2xl font-medium text-gray-800 dark:text-gray-200">
 												{animateNumbers ? calculatedValues.payback : "0"} years
 											</p>
 										</div>
 									</div>
 									<div className="flex items-center">
-										<div className="bg-green-100 p-3 rounded-xl">
-											<Leaf className="h-6 w-6 text-green-600" />
+										<div className="bg-green-100 dark:bg-green-900 p-3 rounded-xl">
+											<Leaf className="h-6 w-6 text-green-600 dark:text-green-400" />
 										</div>
 										<div className="ml-4">
-											<span className="text-base text-gray-500">
+											<span className="text-base text-gray-500 dark:text-gray-400">
 												Environmental impact
 											</span>
-											<p className="text-lg text-gray-800">
+											<p className="text-lg text-gray-800 dark:text-gray-200">
 												Equivalent to planting{" "}
 												{Math.round(calculatedValues.carbon / 20)} trees
 												annually
@@ -231,7 +235,7 @@ const SavingsCalculator = () => {
 											setShowResults(false);
 											setMonthlyBill("");
 										}}
-										className="px-8 py-4 rounded-xl text-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
+										className="px-8 py-4 rounded-xl text-lg bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-200"
 										whileHover={{ scale: 1.02 }}
 										whileTap={{ scale: 0.98 }}
 									>

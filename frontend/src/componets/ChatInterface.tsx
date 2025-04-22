@@ -288,7 +288,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 		setIsFullScreen(!isFullScreen);
 	};
 
-	// Determine styles based on expertType
+	// Determine styles based on expertType and theme
 	const isSubsidyExpert = expertType === "subsidy";
 	const headerGradient = isSubsidyExpert
 		? "from-blue-600 to-indigo-600"
@@ -307,11 +307,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 	const inputPlaceholder = isSubsidyExpert
 		? "Ask about solar subsidies in your state..."
 		: "Ask about how solar panels work, benefits, etc...";
-	const assistantIconBg = isSubsidyExpert ? "bg-blue-100" : "bg-amber-100"; // Amber background
+	const assistantIconBg = isSubsidyExpert
+		? "bg-blue-100 dark:bg-blue-900"
+		: "bg-amber-100 dark:bg-amber-900"; // Amber background
 	const assistantIconColor = isSubsidyExpert
-		? "text-blue-600"
-		: "text-amber-600"; // Amber icon color
-	const loadingColor = isSubsidyExpert ? "bg-blue-400" : "bg-amber-400"; // Amber loading dots
+		? "text-blue-600 dark:text-blue-300"
+		: "text-amber-600 dark:text-amber-300"; // Amber icon color
+	const loadingColor = isSubsidyExpert
+		? "bg-blue-400 dark:bg-blue-500"
+		: "bg-amber-400 dark:bg-amber-500"; // Amber loading dots
 	const sendButtonGradient = isSubsidyExpert
 		? "from-blue-600 to-indigo-600"
 		: "from-amber-600 to-yellow-600"; // Amber/Yellow send button
@@ -324,7 +328,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 					  "fixed inset-0 z-50 h-screen max-h-screen pb-24 sm:pb-0"
 					: "h-[500px] sm:h-[600px] max-w-4xl mx-auto"
 			} 
-				rounded-lg sm:rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white transition-all duration-300`}
+				rounded-lg sm:rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300`}
 			style={{ isolation: "isolate" }}
 		>
 			<div
@@ -357,11 +361,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 			<div
 				ref={chatContainerRef}
 				// Adjusted padding for mobile
-				className="flex-1 p-3 sm:p-4 overflow-y-auto bg-gray-50 relative scroll-smooth"
+				className="flex-1 p-3 sm:p-4 overflow-y-auto bg-gray-50 dark:bg-gray-900 relative scroll-smooth"
 				style={{
 					// ...existing background style...
 					backgroundImage:
-						'url(\'data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23f0f0f0" fill-opacity="0.6" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E\')',
+						'url(\'data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e5e7eb" fill-opacity="0.1" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E\')',
 					// Adjusted height calculation based on new default height
 					height: isFullScreen
 						? "calc(100vh - 110px - 4rem)" // Adjusted based on header/footer padding
@@ -383,7 +387,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 							className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg ${
 								message.sender === "user"
 									? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-br-none shadow-md"
-									: "bg-white border border-gray-100 rounded-bl-none shadow-md"
+									: "bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-bl-none shadow-md"
 							}`}
 						>
 							<div className="flex items-center mb-1">
@@ -405,9 +409,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 									</div>
 								) : (
 									// Adjusted icon size container for mobile
-									<div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-200 flex items-center justify-center mr-1 sm:mr-0">
+									<div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-200 dark:bg-blue-800 flex items-center justify-center mr-1 sm:mr-0">
 										{/* Adjusted icon size */}
-										<User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-700" />
+										<User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-700 dark:text-blue-300" />
 									</div>
 								)}
 								{/* Adjusted text size and margin */}
@@ -415,7 +419,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 									className={`text-[11px] sm:text-xs ml-1 sm:ml-1.5 ${
 										message.sender === "user"
 											? "text-blue-100"
-											: "text-gray-500"
+											: "text-gray-500 dark:text-gray-400"
 									}`}
 								>
 									{message.sender === "user" ? "You" : expertTitle} •{" "}
@@ -428,7 +432,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 							{/* Adjusted text size */}
 							<p
 								className={`text-xs sm:text-sm whitespace-pre-wrap ${
-									message.sender === "user" ? "text-white" : "text-gray-800"
+									message.sender === "user"
+										? "text-white"
+										: "text-gray-800 dark:text-gray-100"
 								}`}
 							>
 								{message.text}
@@ -439,7 +445,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 				{isLoading && (
 					// ... loading indicator (adjust padding if needed) ...
 					<div className="flex justify-start mb-3 sm:mb-4">
-						<div className="bg-white border border-gray-100 p-3 sm:p-4 rounded-xl sm:rounded-2xl rounded-bl-none shadow-md">
+						<div className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 p-3 sm:p-4 rounded-xl sm:rounded-2xl rounded-bl-none shadow-md">
 							<div className="flex space-x-1.5 sm:space-x-2">
 								<div
 									className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${loadingColor} animate-bounce`}
@@ -464,27 +470,24 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 						onClick={() =>
 							messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
 						}
-						className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-md"
+						className="absolute bottom-4 right-4 bg-white dark:bg-gray-700 p-2 rounded-full shadow-md"
 						aria-label="Scroll to bottom"
 					>
-						<ChevronDown className="h-5 w-5 text-gray-600" />
+						<ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
 					</button>
 				)}
 			</div>
 
 			<form
 				onSubmit={handleSendMessage}
-				// Adjusted padding for mobile
-				className="border-t border-gray-100 p-2 sm:p-3 bg-white sticky bottom-0"
+				className="border-t border-gray-100 dark:border-gray-700 p-2 sm:p-3 bg-white dark:bg-gray-800 sticky bottom-0"
 			>
 				{/* Adjusted padding/spacing for mobile */}
-				<div className="flex items-center space-x-1.5 sm:space-x-2 bg-gray-50 rounded-full px-2 sm:px-3 py-1 border border-gray-200 hover:border-blue-300 focus-within:border-blue-400 transition-colors">
+				<div className="flex items-center space-x-1.5 sm:space-x-2 bg-gray-50 dark:bg-gray-700 rounded-full px-2 sm:px-3 py-1 border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 focus-within:border-blue-400 dark:focus-within:border-blue-500 transition-colors">
 					<button
 						type="button"
-						// Adjusted padding for mobile
-						className="text-gray-400 hover:text-blue-500 transition-colors p-1.5 sm:p-2"
+						className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors p-1.5 sm:p-2"
 					>
-						{/* Adjusted icon size */}
 						<Smile className="h-4 w-4 sm:h-5 sm:w-5" />
 					</button>
 					<input
@@ -493,24 +496,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 						value={inputMessage}
 						onChange={(e) => setInputMessage(e.target.value)}
 						placeholder={inputPlaceholder}
-						// Adjusted padding and text size for mobile
-						className="flex-1 py-2 sm:py-2.5 bg-transparent border-none focus:outline-none text-sm sm:text-base text-gray-800 placeholder:text-sm"
+						className="flex-1 py-2 sm:py-2.5 bg-transparent border-none focus:outline-none text-sm sm:text-base text-gray-800 dark:text-gray-100 placeholder:text-sm placeholder-gray-500 dark:placeholder-gray-400"
 					/>
 					<button
 						type="button"
-						// Adjusted padding for mobile
-						className="text-gray-400 hover:text-blue-500 transition-colors p-1.5 sm:p-2"
+						className="text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors p-1.5 sm:p-2"
 					>
-						{/* Adjusted icon size */}
 						<Paperclip className="h-4 w-4 sm:h-5 sm:w-5" />
 					</button>
 					<button
 						type="submit"
 						disabled={!inputMessage.trim() || isLoading}
-						// Adjusted size for mobile
 						className={`bg-gradient-to-r ${sendButtonGradient} text-white rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center disabled:opacity-50 transition-all hover:shadow-md flex-shrink-0`}
 					>
-						{/* Adjusted icon size */}
 						<Send className="h-4 w-4 sm:h-5 sm:w-5" />
 					</button>
 				</div>

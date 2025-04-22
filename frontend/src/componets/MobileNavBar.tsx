@@ -20,27 +20,27 @@ const MobileNavBar = () => {
 						: "opacity-0 scale-0 pointer-events-none"
 				}`}
 			>
-				<div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-xl p-3 mx-auto grid grid-cols-3 gap-4 mb-2 border border-gray-100">
+				<div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-3xl shadow-xl p-3 mx-auto grid grid-cols-3 gap-4 mb-2 border border-gray-100 dark:border-gray-700">
 					<FabAction
 						icon={<LineChart className="h-5 w-5" />}
 						label="Savings"
 						to="/calculator"
 						onClick={() => setIsFabOpen(false)}
-						color="bg-gradient-to-tr from-blue-600 to-blue-500"
+						color="bg-gradient-to-tr from-blue-600 to-blue-500 dark:from-blue-500 dark:to-blue-400"
 					/>
 					<FabAction
 						icon={<Sun className="h-5 w-5" />}
 						label="Compare"
 						to="/compare"
 						onClick={() => setIsFabOpen(false)}
-						color="bg-gradient-to-tr from-cyan-600 to-cyan-500"
+						color="bg-gradient-to-tr from-cyan-600 to-cyan-500 dark:from-cyan-500 dark:to-cyan-400"
 					/>
 					<FabAction
 						icon={<MessageCircle className="h-5 w-5" />}
 						label="Expert"
 						to="/chat"
 						onClick={() => setIsFabOpen(false)}
-						color="bg-gradient-to-tr from-green-600 to-green-500"
+						color="bg-gradient-to-tr from-green-600 to-green-500 dark:from-green-500 dark:to-green-400"
 					/>
 				</div>
 			</div>
@@ -48,20 +48,22 @@ const MobileNavBar = () => {
 			{/* Backdrop for FAB menu */}
 			{isFabOpen && (
 				<div
-					className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity duration-300"
+					className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300"
 					onClick={() => setIsFabOpen(false)}
 				/>
 			)}
 
 			{/* Main bottom navigation */}
-			<div className="flex items-center justify-around bg-white/90 backdrop-blur-md border-t border-gray-200 pb-6 pt-2 px-4 shadow-lg">
+			<div className="flex items-center justify-around bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 pb-6 pt-2 px-4 shadow-lg">
 				<TabButton
 					to="/"
 					label="Home"
 					icon={
 						<Home
 							className={`h-6 w-6 transition-colors duration-200 ${
-								isActive("/") ? "text-blue-600" : "text-gray-500"
+								isActive("/")
+									? "text-blue-600 dark:text-blue-400"
+									: "text-gray-500 dark:text-gray-400"
 							}`}
 						/>
 					}
@@ -74,7 +76,9 @@ const MobileNavBar = () => {
 					icon={
 						<LineChart
 							className={`h-6 w-6 transition-colors duration-200 ${
-								isActive("/recommendations") ? "text-blue-600" : "text-gray-500"
+								isActive("/recommendations")
+									? "text-blue-600 dark:text-blue-400"
+									: "text-gray-500 dark:text-gray-400"
 							}`}
 						/>
 					}
@@ -85,7 +89,7 @@ const MobileNavBar = () => {
 				<div className="relative flex flex-col items-center -mt-7">
 					<button
 						onClick={() => setIsFabOpen(!isFabOpen)}
-						className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg border-4 border-white focus:outline-none transform transition-transform duration-300 active:scale-95"
+						className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 dark:from-blue-500 dark:to-cyan-400 flex items-center justify-center shadow-lg border-4 border-white dark:border-gray-800 focus:outline-none transform transition-transform duration-300 active:scale-95"
 						aria-label="Open actions menu"
 					>
 						<Plus
@@ -94,7 +98,7 @@ const MobileNavBar = () => {
 							}`}
 						/>
 					</button>
-					<span className="text-xs font-medium text-gray-600 mt-1">
+					<span className="text-xs font-medium text-gray-600 dark:text-gray-400 mt-1">
 						Actions
 					</span>
 				</div>
@@ -105,7 +109,9 @@ const MobileNavBar = () => {
 					icon={
 						<Users
 							className={`h-6 w-6 transition-colors duration-200 ${
-								isActive("/community") ? "text-blue-600" : "text-gray-500"
+								isActive("/community")
+									? "text-blue-600 dark:text-blue-400"
+									: "text-gray-500 dark:text-gray-400"
 							}`}
 						/>
 					}
@@ -118,7 +124,9 @@ const MobileNavBar = () => {
 					icon={
 						<MessageCircle
 							className={`h-6 w-6 transition-colors duration-200 ${
-								isActive("/chat") ? "text-blue-600" : "text-gray-500"
+								isActive("/chat")
+									? "text-blue-600 dark:text-blue-400"
+									: "text-gray-500 dark:text-gray-400"
 							}`}
 						/>
 					}
@@ -150,14 +158,16 @@ const TabButton = ({
 			<div className="flex flex-col items-center">
 				<span
 					className={`text-xs mt-1 font-medium transition-colors duration-200 ${
-						active ? "text-blue-600" : "text-gray-600"
+						active
+							? "text-blue-600 dark:text-blue-400"
+							: "text-gray-600 dark:text-gray-400"
 					}`}
 				>
 					{label}
 				</span>
 				<span
 					className={`h-1 w-6 rounded-full mt-1 transition-all duration-300 ${
-						active ? "bg-blue-500" : "bg-transparent"
+						active ? "bg-blue-500 dark:bg-blue-400" : "bg-transparent"
 					}`}
 				></span>
 			</div>
@@ -190,7 +200,9 @@ const FabAction = ({
 			>
 				<div className="text-white">{icon}</div>
 			</div>
-			<span className="text-xs font-medium text-gray-700">{label}</span>
+			<span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+				{label}
+			</span>
 		</Link>
 	);
 };

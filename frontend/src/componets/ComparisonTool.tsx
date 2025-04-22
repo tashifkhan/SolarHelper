@@ -1,212 +1,196 @@
-import { Check, Info } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { CheckCircle, XCircle, Zap, ShieldCheck, Wrench } from "lucide-react"; // Example icons
 
-const ComparisonTool = () => {
-	const [showSubsidyInfo, setShowSubsidyInfo] = useState(false);
+// Placeholder data
+const products = [
+	{
+		id: 1,
+		name: "SolarPanel Alpha",
+		brand: "Brand A",
+		efficiency: 21.5,
+		warranty: 25,
+		price: 25000,
+		features: ["High Efficiency", "Durable", "Good Low Light Performance"],
+	},
+	{
+		id: 2,
+		name: "SolarPanel Beta",
+		brand: "Brand B",
+		efficiency: 20.0,
+		warranty: 20,
+		price: 22000,
+		features: ["Cost-Effective", "Reliable"],
+	},
+	{
+		id: 3,
+		name: "SolarPanel Gamma",
+		brand: "Brand C",
+		efficiency: 22.0,
+		warranty: 30,
+		price: 28000,
+		features: ["Top Tier Efficiency", "Longest Warranty", "Premium Build"],
+	},
+];
 
-	const products = [
-		{
-			name: "Tata Power Solar",
-			type: "Monocrystalline",
-			efficiency: "21.5%",
-			warranty: "25 years",
-			price: "₹45,000",
-			subsidyEligible: true,
-			subsidyAmount: "₹14,588",
-			netPrice: "₹30,412",
-			features: [
-				"High efficiency",
-				"Weather resistant",
-				"Anti-reflective coating",
-				"PID resistant",
-				"Salt mist resistant",
-			],
-		},
-		{
-			name: "Andi Solar",
-			type: "Polycrystalline",
-			efficiency: "19.8%",
-			warranty: "25 years",
-			price: "₹40,000",
-			subsidyEligible: true,
-			subsidyAmount: "₹14,588",
-			netPrice: "₹25,412",
-			features: [
-				"Cost-effective",
-				"Weather resistant",
-				"Anti-reflective coating",
-				"PID resistant",
-			],
-		},
-		{
-			name: "Vikram Solar",
-			type: "Monocrystalline PERC",
-			efficiency: "20.8%",
-			warranty: "25 years",
-			price: "₹42,500",
-			subsidyEligible: true,
-			subsidyAmount: "₹14,588",
-			netPrice: "₹27,912",
-			features: [
-				"High efficiency",
-				"Weather resistant",
-				"Anti-reflective coating",
-				"PID resistant",
-				"Enhanced low-light performance",
-			],
-		},
-	];
+const ComparisonTool: React.FC = () => {
+	const [selectedProducts, setSelectedProducts] = useState<number[]>([1, 3]); // Default selected
+
+	const toggleProductSelection = (productId: number) => {
+		setSelectedProducts(
+			(prev) =>
+				prev.includes(productId)
+					? prev.filter((id) => id !== productId)
+					: [...prev, productId].slice(-3) // Limit to 3 selections
+		);
+	};
+
+	const displayedProducts = products.filter((p) =>
+		selectedProducts.includes(p.id)
+	);
 
 	return (
-		<div className="py-16 bg-gradient-to-br from-blue-50 to-white" id="compare">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="text-center">
-					<h2 className="text-3xl font-bold text-gray-900">
-						Compare Solar Products
-					</h2>
-					<p className="mt-4 text-lg text-gray-600">
-						Find the perfect solar solution for your needs
-					</p>
-				</div>
-
-				{/* Subsidy Information Banner */}
-				<div className="mt-8 bg-blue-50 rounded-lg p-4 border border-blue-200">
-					<div className="flex items-start">
-						<div className="flex-shrink-0">
-							<Info className="h-6 w-6 text-blue-600" />
-						</div>
-						<div className="ml-3">
-							<h3 className="text-lg font-medium text-blue-800">
-								Solar Subsidy Information
-							</h3>
-							<div className="mt-2 text-blue-700">
-								<p>
-									Government subsidies can significantly reduce your solar
-									installation costs. Currently, residential systems up to 3kW
-									are eligible for a subsidy of ₹14,588 per kW.
-								</p>
-								<button
-									className="mt-2 text-blue-800 underline font-medium"
-									onClick={() => setShowSubsidyInfo(!showSubsidyInfo)}
-								>
-									{showSubsidyInfo ? "Hide details" : "Show more details"}
-								</button>
-
-								{showSubsidyInfo && (
-									<div className="mt-3 text-sm bg-white p-4 rounded-md border border-blue-100">
-										<h4 className="font-semibold mb-2">
-											Subsidy Details by System Size:
-										</h4>
-										<ul className="space-y-1">
-											<li>
-												• Up to 3 kW: ₹14,588 per kW (40% of benchmark cost)
-											</li>
-											<li>
-												• Above 3 kW to 10 kW: ₹7,294 per kW (20% of benchmark
-												cost)
-											</li>
-											<li>• Above 10 kW: No central financial assistance</li>
-										</ul>
-
-										<h4 className="font-semibold mt-3 mb-2">
-											Eligibility Criteria:
-										</h4>
-										<ul className="space-y-1">
-											<li>• Valid residential electricity connection</li>
-											<li>• Installation by MNRE empanelled vendors</li>
-											<li>
-												• Grid-connected system with net metering facility
-											</li>
-										</ul>
-
-										<h4 className="font-semibold mt-3 mb-2">How to Apply:</h4>
-										<p>
-											Contact your local DISCOM or visit the National Portal for
-											Rooftop Solar to apply online.
-										</p>
-									</div>
-								)}
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
-					{products.map((product, index) => (
-						<div
-							key={index}
-							className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl"
+		<motion.div
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ delay: 0.2 }}
+			// Adjusted background and border
+			className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 border border-gray-100 dark:border-gray-700"
+		>
+			{/* Product Selection */}
+			<div className="mb-8">
+				{/* Adjusted text color */}
+				<h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-3">
+					Select products to compare (up to 3):
+				</h3>
+				<div className="flex flex-wrap gap-3">
+					{products.map((product) => (
+						<button
+							key={product.id}
+							onClick={() => toggleProductSelection(product.id)}
+							// Adjusted button styles for selected/unselected
+							className={`px-4 py-2 rounded-full border text-sm transition-colors duration-150 ${
+								selectedProducts.includes(product.id)
+									? "bg-blue-100 dark:bg-blue-900 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300"
+									: "bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600"
+							}`}
 						>
-							<div className="px-6 py-8">
-								<h3 className="text-2xl font-bold text-gray-900 text-center">
-									{product.name}
-								</h3>
-
-								{/* Price Information */}
-								<div className="mt-4 text-center">
-									<p className="text-lg text-gray-600 line-through">
-										{product.price}/kW
-									</p>
-									<div className="flex justify-center items-center space-x-2">
-										<p className="text-5xl font-extrabold text-gray-900">
-											{product.netPrice}
-										</p>
-										<span className="text-xl font-medium text-gray-500">
-											/kW
-										</span>
-									</div>
-									<p className="mt-1 text-sm text-green-600 font-medium">
-										After subsidy of {product.subsidyAmount}/kW
-									</p>
-								</div>
-
-								{/* Specifications */}
-								<div className="mt-4 space-y-2 bg-gray-50 p-3 rounded-md">
-									<p className="text-center text-gray-700">
-										<span className="font-medium">Type:</span> {product.type}
-									</p>
-									<p className="text-center text-gray-700">
-										<span className="font-medium">Efficiency:</span>{" "}
-										{product.efficiency}
-									</p>
-									<p className="text-center text-gray-700">
-										<span className="font-medium">Warranty:</span>{" "}
-										{product.warranty}
-									</p>
-								</div>
-
-								<ul className="mt-8 space-y-4">
-									{product.features.map((feature, featureIndex) => (
-										<li key={featureIndex} className="flex items-center">
-											<Check className="h-5 w-5 text-green-500" />
-											<span className="ml-3 text-gray-700">{feature}</span>
-										</li>
-									))}
-								</ul>
-
-								<button className="mt-8 w-full bg-blue-600 text-white rounded-md py-3 hover:bg-blue-700 transition-colors font-medium">
-									Get Quote
-								</button>
-							</div>
-						</div>
+							{product.name}
+						</button>
 					))}
 				</div>
-
-				{/* Call to Action */}
-				<div className="mt-16 text-center">
-					<p className="text-lg text-gray-700 mb-6">
-						Not sure which solution fits your needs? Let our experts help you
-						decide.
-					</p>
-					<a
-						href="/recommendations"
-						className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
-					>
-						Get Personalized Recommendations
-					</a>
-				</div>
 			</div>
-		</div>
+
+			{/* Comparison Table */}
+			{displayedProducts.length > 0 ? (
+				<div className="overflow-x-auto">
+					<table className="w-full min-w-[600px] border-collapse">
+						<thead>
+							{/* Adjusted header background and border */}
+							<tr className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+								{/* Adjusted header text color */}
+								<th className="p-4 text-left text-sm font-semibold text-gray-600 dark:text-gray-300 w-1/4">
+									Feature
+								</th>
+								{displayedProducts.map((product) => (
+									<th
+										key={product.id}
+										className="p-4 text-center text-sm font-semibold text-gray-600 dark:text-gray-300 w-1/4"
+									>
+										{product.name}
+										<span className="block text-xs font-normal text-gray-400 dark:text-gray-500">
+											{product.brand}
+										</span>
+									</th>
+								))}
+							</tr>
+						</thead>
+						<tbody>
+							{/* Efficiency Row */}
+							{/* Adjusted border color */}
+							<tr className="border-b border-gray-100 dark:border-gray-700">
+								{/* Adjusted feature text color */}
+								<td className="p-4 text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center">
+									<Zap className="h-4 w-4 mr-2 text-yellow-500 dark:text-yellow-400" />{" "}
+									Efficiency
+								</td>
+								{displayedProducts.map((product) => (
+									// Adjusted value text color
+									<td
+										key={product.id}
+										className="p-4 text-center text-sm text-gray-700 dark:text-gray-300"
+									>
+										{product.efficiency}%
+									</td>
+								))}
+							</tr>
+							{/* Warranty Row */}
+							{/* Adjusted border color */}
+							<tr className="border-b border-gray-100 dark:border-gray-700">
+								{/* Adjusted feature text color */}
+								<td className="p-4 text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center">
+									<ShieldCheck className="h-4 w-4 mr-2 text-green-500 dark:text-green-400" />{" "}
+									Warranty
+								</td>
+								{displayedProducts.map((product) => (
+									// Adjusted value text color
+									<td
+										key={product.id}
+										className="p-4 text-center text-sm text-gray-700 dark:text-gray-300"
+									>
+										{product.warranty} years
+									</td>
+								))}
+							</tr>
+							{/* Price Row */}
+							{/* Adjusted border color */}
+							<tr className="border-b border-gray-100 dark:border-gray-700">
+								{/* Adjusted feature text color */}
+								<td className="p-4 text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center">
+									₹ Price (Est.)
+								</td>
+								{displayedProducts.map((product) => (
+									// Adjusted value text color
+									<td
+										key={product.id}
+										className="p-4 text-center text-sm text-gray-700 dark:text-gray-300"
+									>
+										₹{product.price.toLocaleString()}
+									</td>
+								))}
+							</tr>
+							{/* Features Row */}
+							{/* Adjusted border color */}
+							<tr className="border-b border-gray-100 dark:border-gray-700">
+								{/* Adjusted feature text color */}
+								<td className="p-4 text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center">
+									<Wrench className="h-4 w-4 mr-2 text-blue-500 dark:text-blue-400" />{" "}
+									Key Features
+								</td>
+								{displayedProducts.map((product) => (
+									<td
+										key={product.id}
+										className="p-4 text-center text-sm text-gray-700 dark:text-gray-300"
+									>
+										<ul className="list-disc list-inside text-left inline-block">
+											{product.features.map((feature, idx) => (
+												<li key={idx}>{feature}</li>
+											))}
+										</ul>
+									</td>
+								))}
+							</tr>
+							{/* Add more rows as needed */}
+						</tbody>
+					</table>
+				</div>
+			) : (
+				// Adjusted placeholder text color
+				<p className="text-center text-gray-500 dark:text-gray-400 py-8">
+					Select at least one product to start comparing.
+				</p>
+			)}
+		</motion.div>
 	);
 };
 

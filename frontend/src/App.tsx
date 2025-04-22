@@ -43,7 +43,8 @@ function App() {
 	return (
 		<BrowserRouter>
 			<ScrollToTop />
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 overflow-x-hidden">
+			{/* Apply dark mode background */}
+			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 dark:from-gray-900 dark:to-black overflow-x-hidden">
 				{/* Desktop Navbar */}
 				<Navbar />
 
