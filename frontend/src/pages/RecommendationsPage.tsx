@@ -9,7 +9,6 @@ import {
 	CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
 const RecommendationsPage = () => {
 	return (

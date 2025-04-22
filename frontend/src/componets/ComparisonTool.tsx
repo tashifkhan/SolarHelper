@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle, XCircle, Zap, ShieldCheck, Wrench } from "lucide-react"; // Example icons
+import { Zap, ShieldCheck, Wrench } from "lucide-react"; // Example icons
 
 // Placeholder data
 const products = [
