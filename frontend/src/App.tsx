@@ -10,6 +10,7 @@ import Navbar from "./componets/Navbar";
 import Footer from "./componets/Footer";
 import MobileNavBar from "./componets/MobileNavBar";
 import InstallPrompt from "./componets/InstallPrompt";
+import ScrollToTop from "./componets/ScrollToTop";
 import { useEffect } from "react";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
 
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 overflow-x-hidden">
 				{/* Desktop Navbar */}
 				<Navbar />
