@@ -8,6 +8,7 @@ import {
 	Maximize2,
 	Minimize2,
 	Sun, // Import Sun icon for general expert
+	ChevronDown, // Import ChevronDown icon for scroll button
 } from "lucide-react";
 import { ExpertType } from "../pages/ChatPage"; // Import the type
 
@@ -38,6 +39,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 	const [inputMessage, setInputMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFullScreen, setIsFullScreen] = useState(false);
+	const [showScrollButton, setShowScrollButton] = useState(false); // State for scroll button visibility
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -129,6 +131,25 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 			window.removeEventListener("keydown", handleEscKey);
 		};
 	}, [isFullScreen]);
+
+	// Auto-scroll when in fullscreen
+	useEffect(() => {
+		if (isFullScreen) {
+			messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messages, isFullScreen]);
+
+	// Track scroll position to toggle button
+	useEffect(() => {
+		const el = chatContainerRef.current;
+		if (!el) return;
+		const onScroll = () => {
+			const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 20;
+			setShowScrollButton(!atBottom);
+		};
+		el.addEventListener("scroll", onScroll);
+		return () => el.removeEventListener("scroll", onScroll);
+	}, []);
 
 	// Simulate AI response based on expert type
 	const generateResponse = (query: string, type: ExpertType): string => {
@@ -299,8 +320,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 		<div
 			className={`flex flex-col ${
 				isFullScreen
-					? "fixed inset-0 z-50 h-screen max-h-screen pb-16 sm:pb-0" // Keep existing fullscreen logic
-					: "h-[500px] sm:h-[600px] max-w-4xl mx-auto" // Adjusted height for mobile
+					? // removed pt-16, increased bottom padding
+					  "fixed inset-0 z-50 h-screen max-h-screen pb-24 sm:pb-0"
+					: "h-[500px] sm:h-[600px] max-w-4xl mx-auto"
 			} 
 				rounded-lg sm:rounded-xl shadow-lg overflow-hidden border border-gray-100 bg-white transition-all duration-300`}
 			style={{ isolation: "isolate" }}
@@ -436,6 +458,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 					</div>
 				)}
 				<div ref={messagesEndRef} />
+				{/* Scroll to bottom button */}
+				{!isFullScreen && showScrollButton && (
+					<button
+						onClick={() =>
+							messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+						}
+						className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-md"
+						aria-label="Scroll to bottom"
+					>
+						<ChevronDown className="h-5 w-5 text-gray-600" />
+					</button>
+				)}
 			</div>
 
 			<form

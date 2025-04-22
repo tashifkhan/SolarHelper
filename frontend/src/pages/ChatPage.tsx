@@ -46,7 +46,7 @@ const ChatPage = () => {
 	};
 
 	return (
-		<div className="bg-gradient-to-b from-blue-50 to-white min-h-screen py-8 sm:py-12">
+		<div className="bg-gradient-to-b from-blue-50 to-white min-h-screen pt-16 pb-8 sm:py-12">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center mb-6 sm:mb-8">
 					<h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
