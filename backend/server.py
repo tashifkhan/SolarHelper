@@ -139,6 +139,70 @@ Agent:"""
         # Let's raise HTTPException for now, which FastAPI handles well.
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@app.post("/general-solar-enquiry", response_model=ChatResponse)
+async def general_solar_enquiry(request: SubsidyQuery):
+    """
+    Process a general solar energy enquiry chat request.
+
+    This endpoint handles chat interactions regarding general solar energy topics,
+    using information from both subsidy and general context files, and maintaining
+    conversation history.
+
+    - **prompt**: User's current question/message about solar energy
+    - **timeout**: Maximum time to wait for processing in seconds (default: 300)
+    - **response**: List of previous conversation exchanges [{"prompt": "user_msg", "answer": "ai_msg"}, ...]
+    """
+    start_time = time.time()
+    try:
+        base_path = os.path.dirname(__file__)
+        # 1. Read static context from both files
+        with open(os.path.join(base_path, "subsidy_info.md"), "r") as f_subsidy:
+            subsidy_context = f_subsidy.read()
+
+        with open(os.path.join(base_path, "general_solar_context.md"), "r") as f_general:
+            general_context = f_general.read()
+
+        combined_context = f"""
+## Subsidy Information
+{subsidy_context}
+
+## General Solar Information
+{general_context}
+        """
+
+        # 2. Build conversation history string
+        conversation_history = "Previous conversation:\n"
+        if request.response:
+            for exchange in request.response:
+                if exchange.prompt:
+                    conversation_history += f"User: {exchange.prompt}\n"
+                if exchange.answer:
+                    conversation_history += f"Agent: {exchange.answer}\n"
+
+        # 3. Construct the full prompt for the LLM
+        system_prompt = f"""
+You are a helpful assistant specializing in solar energy in India, covering both general topics and specific subsidy information based on the following context:
+{combined_context}
+
+Answer the user's questions clearly and concisely, using the provided information and the conversation history.
+{conversation_history}
+User: {request.prompt}
+Agent:"""
+
+        # 4. Generate the AI response (using the existing llm_prompt_response)
+        ai_answer = llm_prompt_response(system_prompt)
+        execution_time = time.time() - start_time
+
+        # 5. Update conversation history
+        updated_history = request.response + [ChatHistoryItem(prompt=request.prompt, answer=ai_answer)]
+
+        return ChatResponse(answer=ai_answer, prev_responses=updated_history, execution_time=execution_time)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/")
 async def root():
     """Redirect root to documentation page"""
