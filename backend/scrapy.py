@@ -51,7 +51,7 @@ def split_dom_content(dom_content, max_length=6000):
 def llm_prompt_response(prompt):
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
-        model="gemini-2.0-flash", contents=prompt
+        model="gemini-2.5-pro-exp-03-25", contents=prompt
     )
     return response.text
 
