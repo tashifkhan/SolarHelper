@@ -26,7 +26,7 @@ def parse_currency(value_str: str) -> Optional[float]:
 
 def generate_recommendation(request: RecommendationRequest) -> SolarRecommendation:
     start_time = time.time()
-    max_retries = 3
+    max_retries = 9
     recommendation: Optional[SolarRecommendation] = None
     last_error = None
     llm_output = ""
