@@ -1,0 +1,2314 @@
+[
+	{
+		"state": "Andhra Pradesh",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "₹45,000/kW (before subsidy)",
+				"subsidizedPrice": "₹30,412",
+				"priceUnit": "/kW",
+				"subsidyText": "After subsidy of ₹14,588/kW",
+				"specifications": {
+					"type": "Monocrystalline",
+					"efficiency": "21.5%",
+					"warranty": "25 years"
+				},
+				"features": [
+					"High efficiency",
+					"Weather resistant",
+					"Anti-reflective coating",
+					"PID resistant",
+					"Salt mist resistant",
+					"Residential rooftop solutions",
+					"Commercial installations",
+					"Utility-scale projects",
+					"Monocrystalline solar panels with high efficiency (up to 21.5%) and durability."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Siddhi Solar Technologies",
+				"originalPrice": "₹52,000 - ₹58,000/kW (for PM Surya Ghar Yojna systems)",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "/kW",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer, Integrator",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solar solutions",
+					"Commercial solar systems",
+					"Industrial installations",
+					"Institutional sector solutions",
+					"Design and integration specialist",
+					"Offers solar PV system solutions for residential, commercial, industrial, and institutional sectors. Specializes in design and integration."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://siddhisolartechnologies.com/contact/"
+			},
+			{
+				"productName": "Indosol Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar module manufacturing",
+					"Advanced TOPCON technology",
+					"Vertically integrated operations"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Andi Solar",
+				"originalPrice": "₹40,000/kW (before subsidy)",
+				"subsidizedPrice": "₹25,412",
+				"priceUnit": "/kW",
+				"subsidyText": "After subsidy of ₹14,588/kW",
+				"specifications": {
+					"type": "Polycrystalline",
+					"efficiency": "19.8%",
+					"warranty": "25 years"
+				},
+				"features": [
+					"Cost-effective",
+					"Weather resistant",
+					"Anti-reflective coating",
+					"PID resistant",
+					"Polycrystalline solar panels, likely associated with Adani Green Energy, known for PID resistance."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanigreenenergy.com/contact-us"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "₹42,500/kW (before subsidy)",
+				"subsidizedPrice": "₹27,912",
+				"priceUnit": "/kW",
+				"subsidyText": "After subsidy of ₹14,588/kW",
+				"specifications": {
+					"type": "Monocrystalline PERC",
+					"efficiency": "20.8%",
+					"warranty": "25 years"
+				},
+				"features": [
+					"High efficiency",
+					"Weather resistant",
+					"Anti-reflective coating",
+					"PID resistant",
+					"Enhanced low-light performance",
+					"Monocrystalline PERC solar panels with enhanced low-light performance and PID resistance. Offers residential solutions."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Freyr Energy",
+				"originalPrice": "₹60 - ₹70/W (commercial, before subsidy)",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "/W",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential and commercial rooftop solutions",
+					"Zero-cost EMI options",
+					"24x7 support"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://freyrenergy.com/contact-us/"
+			},
+			{
+				"productName": "Truzon Solar (Suntek Energy Systems Pvt Ltd)",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential and commercial rooftop solutions",
+					"Over 15 years of industry experience",
+					"Manufacturer and trader of solar technology products"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.truzonsolar.com/request-quote.php"
+			},
+			{
+				"productName": "Birkan Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality residential and commercial solar panels",
+					"Customized solutions",
+					"Expert installation"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "infosolar@birkanengg.com"
+			},
+			{
+				"productName": "Sycom Power Protection Pvt. Ltd.",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Supplier",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Supplier of efficient and high-quality solar panels",
+					"Home and commercial enterprises"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://sycompower.com/contact-us.html"
+			},
+			{
+				"productName": "Punarvi Projects Pvt Ltd",
+				"originalPrice": "₹47,000/kW",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "/kW",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Deals in rooftop solar systems",
+					"Residential, commercial, and industrial applications"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Vijayawada/Rooftop-Solar-System-Dealers/nct-11522247"
+			}
+		]
+	},
+	{
+		"state": "Arunachal Pradesh",
+		"operators": [
+			{
+				"productName": "Birkan Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Commercial and industrial solar panels",
+					"High-quality panels",
+					"Customized solutions",
+					"Expert installation"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "infosolar@birkanengg.com"
+			},
+			{
+				"productName": "Solar Power Solutions Pvt Ltd",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Comprehensive solar energy solutions",
+					"Installation",
+					"Manufacturing",
+					"Wide range of solar products"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "info@solarpspl.com"
+			},
+			{
+				"productName": "Nyirmin Renewable Energy Pvt Ltd",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Energy Production/Distribution",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Energy production",
+					"Energy distribution",
+					"Engaged in the production, collection, and distribution of electricity, potentially including solar energy."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "balthakur07@gmail.com"
+			},
+			{
+				"productName": "Maloo Electronics",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Wide solar options",
+					"Deals in solar products for homes and businesses in the Silchar region, near Arunachal Pradesh."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Silchar/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Genus Inverter Battery Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar Inverters",
+					"Solar Batteries",
+					"Offers inverters and batteries for solar power systems in the Silchar region."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Silchar/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Aarohm Energy - A Solar EPC Company",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar EPC services",
+					"Engineering, Procurement, and Construction"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.aarohmenergy.com/contact-us/"
+			},
+			{
+				"productName": "SmartHomeAutomation360.com",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Consultant",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel consultation",
+					"Location study",
+					"System sizing"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Das Energie Private Limited",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Platform",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Free quotations",
+					"Installer network",
+					"Subsidy assistance"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "APN Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Pan-India presence",
+					"Residential installations",
+					"Commercial installations"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			}
+		]
+	},
+	{
+		"state": "Assam",
+		"operators": [
+			{
+				"productName": "Engadged Enterprises",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel dealer in Guwahati",
+					"Wide range of solar products"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Shakti Sales Corporation",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": ["Deals with solar energy systems in Guwahati."],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Omnis Trades",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Experienced staff",
+					"Knowledgeable about products",
+					"Offers solar energy system solutions in Guwahati with knowledgeable staff."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Solar Prabha",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Wholesaler, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Wide range of solar products",
+					"Promotes government schemes",
+					"Professional installation",
+					"Wholesaler and EPC provider for residential and commercial solar solutions in Guwahati and Northeast India."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://solarprabha.com/contact-us/"
+			},
+			{
+				"productName": "Better Power Services Pvt. Ltd.",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Vendor, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Installer network",
+					"PM Surya Ghar Yojana vendor",
+					"Empanelled vendor under PM Surya Ghar Yojana for rooftop solar installations in Assam."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "sc@betterpower.co.in"
+			},
+			{
+				"productName": "Renergy Solutions Pvt. Ltd.",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Vendor, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Installation services",
+					"PM Surya Ghar Yojana vendor",
+					"Empanelled vendor under PM Surya Ghar Yojana for rooftop solar installations in Assam."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "deori.bhargav@gmail.com"
+			},
+			{
+				"productName": "Kristi Sikha Electrical Enterprise",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Vendor, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential projects",
+					"Electrical solutions",
+					"PM Surya Ghar Yojana vendor",
+					"Empanelled vendor under PM Surya Ghar Yojana for rooftop solar installations in Assam."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "krishtisikha08@gmail.com"
+			},
+			{
+				"productName": "Third Eye Systems & Projects",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"After-sales service",
+					"Provides solar energy system solutions in Guwahati with good after-sales service."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "NANDINI ENERGY",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Good quality solar products",
+					"Timely delivery",
+					"Offers good quality solar products with timely delivery in Guwahati."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			},
+			{
+				"productName": "Green Tech Energy",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Home solar systems",
+					"Efficient service",
+					"Installs home solar systems in Guwahati, known for efficient service and helpful owner."
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.justdial.com/Guwahati/Solar-Panel-Dealers/nct-10444071"
+			}
+		]
+	},
+	{
+		"state": "Bihar",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Chhattisgarh",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Goa",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Gujarat",
+		"operators": [
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Manufacturing facility in Mundra",
+					"Residential solutions",
+					"Channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Project in Dholera",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Project in Charanka",
+					"High-quality modules",
+					"State distribution network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			}
+		]
+	},
+	{
+		"state": "Haryana",
+		"operators": [
+			{
+				"productName": "Loom Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Retailer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Manufacturing unit in Faridabad",
+					"Residential focus",
+					"Extensive reseller network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.loomsolar.com/pages/contact-us"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Rooftop project experience",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Himachal Pradesh",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Jharkhand",
+		"operators": [
+			{
+				"productName": "Tata Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Power Generation",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Power plants in Jharkhand",
+					"Large scale energy provider",
+					"Part of Tata Group"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapower.com/contact/customer-care.aspx"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Karnataka",
+		"operators": [
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"20 MW project experience",
+					"High-quality modules",
+					"State distribution network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"400 MW plant in Pavagada",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Kerala",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Rooftop and utility projects",
+					"Kasaragod Solar Park presence",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Cochin Airport solarisation",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Madhya Pradesh",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Large scale PV plants",
+					"Floating solar projects",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Planned fulfillment centers",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Maharashtra",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Rooftop installations (CCI Stadium)",
+					"Solar plant in Mulshi",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Planned fulfillment centers",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Manipur",
+		"operators": [
+			{
+				"productName": "Jyoty Solar Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Consultant",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy consultancy",
+					"Services in Imphal",
+					"North-East focus"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "http://www.jyotysolarpower.com/"
+			},
+			{
+				"productName": "Shyama Enterprises",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel dealer",
+					"Located in Imphal",
+					"Residential & Commercial"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Ratan Electrical Goods Manufacturing Industry",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer, Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel dealer",
+					"Manufacturing capabilities",
+					"Located in Imphal"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			}
+		]
+	},
+	{
+		"state": "Meghalaya",
+		"operators": [
+			{
+				"productName": "Jyoty Solar Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Consultant",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy consultancy",
+					"Services in Shillong",
+					"North-East focus"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "http://www.jyotysolarpower.com/"
+			},
+			{
+				"productName": "Exide Care Power Station",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy system dealer",
+					"Located in Shillong",
+					"Power solutions"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Sandeep Enterprise",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy system dealer",
+					"Located in Shillong",
+					"Local provider"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			}
+		]
+	},
+	{
+		"state": "Mizoram",
+		"operators": [
+			{
+				"productName": "Jyoty Solar Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Consultant",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy consultancy",
+					"Services in Aizawl",
+					"North-East focus"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "http://www.jyotysolarpower.com/"
+			},
+			{
+				"productName": "Agni Power & Electronics Pvt Ltd",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel dealer",
+					"Located in Aizawl",
+					"Power electronics"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.agnipower.com/contact-us/"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			}
+		]
+	},
+	{
+		"state": "Nagaland",
+		"operators": [
+			{
+				"productName": "Jyoty Solar Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Consultant",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar energy consultancy",
+					"Services in Kohima",
+					"North-East focus"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "http://www.jyotysolarpower.com/"
+			},
+			{
+				"productName": "Universal Solar Shop",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Dealer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Solar panel dealer",
+					"Located in Dimapur",
+					"Residential & Commercial"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			}
+		]
+	},
+	{
+		"state": "Odisha",
+		"operators": [
+			{
+				"productName": "Tata Power",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Distribution",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Electricity distribution license",
+					"Large scale energy provider",
+					"Part of Tata Group"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapower.com/contact/customer-care.aspx"
+			},
+			{
+				"productName": "Jupiter International",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Planned solar cell/module plant",
+					"MoU with Odisha government",
+					"Manufacturing focus"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "#"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"State presence",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			}
+		]
+	},
+	{
+		"state": "Punjab",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Large scale projects (nearby states)",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"State presence",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			}
+		]
+	},
+	{
+		"state": "Rajasthan",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"450 MWp project in Bikaner",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"130 MW project experience",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Sikkim",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Tamil Nadu",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"4.3 GW manufacturing facility",
+					"MoUs with state government",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Manufacturing facility in Chennai",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Telangana",
+		"operators": [
+			{
+				"productName": "Indosol Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer (Corp Office)",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Corporate office in Hyderabad",
+					"Advanced TOPCON technology",
+					"Vertically integrated operations"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://indosolsolar.com/contact-us/"
+			},
+			{
+				"productName": "Suntek Energy Systems (Truzon Solar)",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Expanding dealer network",
+					"Residential, Commercial, Industrial",
+					"Rooftop solutions"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.truzonsolar.com/request-quote.php"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Distribution via 3S Solutions",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			}
+		]
+	},
+	{
+		"state": "Tripura",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Uttarakhand",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Uttar Pradesh",
+		"operators": [
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"225 MW plant for NTPC",
+					"High-quality modules",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Project in Chitrakoot",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			}
+		]
+	},
+	{
+		"state": "West Bengal",
+		"operators": [
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Manufacturing in Falta SEZ, Kolkata",
+					"Bifacial solar project experience",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			},
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			}
+		]
+	},
+	{
+		"state": "Delhi",
+		"operators": [
+			{
+				"productName": "Tata Power Delhi Distribution Limited",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Distribution",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Electricity distribution",
+					"Active in Delhi region",
+					"Part of Tata Power"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapower-ddl.com/customer/contact-us"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"State channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			}
+		]
+	},
+	{
+		"state": "Jammu & Kashmir",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	},
+	{
+		"state": "Ladakh",
+		"operators": [
+			{
+				"productName": "Tata Power Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, Installer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Integrated solar solutions",
+					"Residential to utility scale",
+					"National dealer network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.tatapowersolar.com/contact-us/find-a-dealer/"
+			},
+			{
+				"productName": "Vikram Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer, EPC",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"High-quality modules",
+					"EPC expertise",
+					"National distribution"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.vikramsolar.com/contact-us/"
+			},
+			{
+				"productName": "Adani Solar",
+				"originalPrice": "N/A",
+				"subsidizedPrice": "N/A",
+				"priceUnit": "",
+				"subsidyText": "",
+				"specifications": {
+					"type": "Manufacturer",
+					"efficiency": "N/A",
+					"warranty": "N/A"
+				},
+				"features": [
+					"Residential solutions",
+					"Commercial projects",
+					"National channel partner network"
+				],
+				"buttonText": "Get Quote",
+				"buttonAction": "https://www.adanisolar.com/contact-us"
+			}
+		]
+	}
+]

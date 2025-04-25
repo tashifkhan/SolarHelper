@@ -1,6 +1,6 @@
 import ComparisonTool from "../componets/ComparisonTool";
 import { Link } from "react-router-dom";
-import { BarChart3, LineChart, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
 const ComparisonPage = () => {
@@ -22,49 +22,7 @@ const ComparisonPage = () => {
 					</p>
 				</motion.div>
 
-				<div className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-					<motion.div
-						whileHover={{ scale: 1.03 }}
-						transition={{ type: "spring", stiffness: 300 }}
-						className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
-					>
-						<div className="flex items-center">
-							<div className="flex-shrink-0 bg-blue-100 p-3 rounded-xl">
-								<BarChart3 className="h-8 w-8 text-blue-600" />
-							</div>
-							<div className="ml-5">
-								<h2 className="text-lg font-semibold text-gray-900">
-									Compare Features
-								</h2>
-								<p className="mt-2 text-gray-600">
-									Evaluate different solar panels based on efficiency, warranty,
-									and features
-								</p>
-							</div>
-						</div>
-					</motion.div>
-
-					<motion.div
-						whileHover={{ scale: 1.03 }}
-						transition={{ type: "spring", stiffness: 300 }}
-						className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
-					>
-						<div className="flex items-center">
-							<div className="flex-shrink-0 bg-green-100 p-3 rounded-xl">
-								<LineChart className="h-8 w-8 text-green-600" />
-							</div>
-							<div className="ml-5">
-								<h2 className="text-lg font-semibold text-gray-900">
-									Subsidy-Adjusted Pricing
-								</h2>
-								<p className="mt-2 text-gray-600">
-									See the actual costs after accounting for available government
-									subsidies
-								</p>
-							</div>
-						</div>
-					</motion.div>
-				</div>
+				{/* Removed the static feature comparison cards section */}
 
 				<ComparisonTool />
 
