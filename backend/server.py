@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 import time
 import os
 
@@ -31,14 +31,24 @@ class ScraperRequest(BaseModel):
     prompt: str
     timeout: Optional[int] = 300
 
+class ChatHistoryItem(BaseModel):
+    prompt: Optional[str] = None
+    answer: Optional[str] = None
+
 class SubsidyQuery(BaseModel):
-    query: str
+    prompt: str  # User's current question/message
     timeout: Optional[int] = 300
+    response: List[ChatHistoryItem] = []
 
 class ScraperResponse(BaseModel):
     success: bool
     data: Optional[str] = None
     error: Optional[str] = None
+    execution_time: float
+
+class ChatResponse(BaseModel):
+    answer: str
+    prev_responses: List[ChatHistoryItem]
     execution_time: float
 
 @app.post("/scrape", response_model=ScraperResponse)
@@ -76,40 +86,58 @@ async def scrape_website(request: ScraperRequest):
         )
 
 
-@app.post("/subsidy-enquiry", response_model=ScraperResponse)
+@app.post("/subsidy-enquiry", response_model=ChatResponse)
 async def subsidy_enquiry(request: SubsidyQuery):
     """
-    Process a subsidy enquiry request.
+    Process a subsidy enquiry chat request.
 
-    This endpoint accepts a query string, reads subsidy information from a markdown file,
-    generates a prompt using the query and subsidy context, and returns a response from an LLM.
+    This endpoint handles chat interactions regarding solar subsidies,
+    maintaining conversation history and using static subsidy information as context.
 
-    - **query**: Question about solar subsidies
+    - **prompt**: User's current question/message about solar subsidies
     - **timeout**: Maximum time to wait for processing in seconds (default: 300)
+    - **response**: List of previous conversation exchanges [{"prompt": "user_msg", "answer": "ai_msg"}, ...]
     """
     start_time = time.time()
     try:
+        # 1. Read static subsidy context
         with open(os.path.join(os.path.dirname(__file__), "subsidy_info.md"), "r") as ft:
             subsidy_context = ft.read()
             ft.close()
 
-        prompt = prompt_generator(subsidy_context, request.query)
-        response = llm_prompt_response(prompt)
+        # 2. Build conversation history string
+        conversation_history = "Previous conversation:\n"
+        if request.response:
+            for exchange in request.response:
+                if exchange.prompt:
+                    conversation_history += f"User: {exchange.prompt}\n"
+                if exchange.answer:
+                    conversation_history += f"Agent: {exchange.answer}\n"
+
+        # 3. Construct the full prompt for the LLM
+        system_prompt = f"""
+You are a helpful assistant specializing in solar panel subsidies based on the following information:
+{subsidy_context}
+
+Answer the user's questions clearly and concisely, using the provided information and the conversation history.
+{conversation_history}
+User: {request.prompt}
+Agent:"""
+
+        # 4. Generate the AI response (using the existing llm_prompt_response)
+        ai_answer = llm_prompt_response(system_prompt)
         execution_time = time.time() - start_time
 
-        return ScraperResponse(
-                success=True,
-                data=response,
-                execution_time=execution_time
-        )
+        # 5. Update conversation history
+        updated_history = request.response + [ChatHistoryItem(prompt=request.prompt, answer=ai_answer)]
+
+        return ChatResponse(answer=ai_answer, prev_responses=updated_history, execution_time=execution_time)
+
     except Exception as e:
-        execution_time = time.time() - start_time
-
-        return ScraperResponse(
-            success=False,
-            error=str(e),
-            execution_time=execution_time
-        )
+        # Consider how to handle errors in a chat context. Maybe return an error message within the ChatResponse?
+        # For now, re-raising or returning a standard error response might be okay, but FastAPI expects ChatResponse.
+        # Let's raise HTTPException for now, which FastAPI handles well.
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
 async def root():
