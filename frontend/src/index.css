@@ -4,9 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base styles for light/dark mode */
 @layer base {
+  html {
+    @apply bg-white text-gray-900;
+  }
+  html.dark {
+    @apply bg-gray-900 text-gray-100;
+  }
   body {
-    @apply text-gray-900 dark:text-gray-100; /* Base text color for light/dark */
-    @apply transition-colors duration-300; /* Smooth transition for text color */
+    @apply min-h-screen;
   }
 }

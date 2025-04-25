@@ -1,62 +1,35 @@
-import React, {
-	createContext,
-	useState,
-	useEffect,
-	useContext,
-	ReactNode,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
-
-interface ThemeContextProps {
+interface ThemeContextValue {
 	theme: Theme;
 	toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextValue>({
+	theme: "light",
+	toggleTheme: () => {},
+});
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
+	// initialize from localStorage or system preference
 	const [theme, setTheme] = useState<Theme>(() => {
-		const storedTheme = localStorage.getItem("theme") as Theme | null;
-		if (storedTheme) {
-			return storedTheme;
-		}
-		// Check system preference
-		if (
-			window.matchMedia &&
-			window.matchMedia("(prefers-color-scheme: dark)").matches
-		) {
-			return "dark";
-		}
-		return "light"; // Default to light
+		const stored = localStorage.getItem("theme");
+		if (stored === "light" || stored === "dark") return stored;
+		return window.matchMedia("(prefers-color-scheme: dark)").matches
+			? "dark"
+			: "light";
 	});
 
+	// apply class and persist
 	useEffect(() => {
-		const root = window.document.documentElement;
-		root.classList.remove(theme === "light" ? "dark" : "light");
-		root.classList.add(theme);
 		localStorage.setItem("theme", theme);
+		document.documentElement.classList.toggle("dark", theme === "dark");
 	}, [theme]);
 
-	// Listen for system preference changes
-	useEffect(() => {
-		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-		const handleChange = (e: MediaQueryListEvent) => {
-			// Only change if no theme is explicitly set in localStorage
-			if (!localStorage.getItem("theme")) {
-				setTheme(e.matches ? "dark" : "light");
-			}
-		};
-
-		mediaQuery.addEventListener("change", handleChange);
-		return () => mediaQuery.removeEventListener("change", handleChange);
-	}, []);
-
-	const toggleTheme = () => {
-		setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-	};
+	const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
 	return (
 		<ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -65,10 +38,4 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 	);
 };
 
-export const useTheme = (): ThemeContextProps => {
-	const context = useContext(ThemeContext);
-	if (!context) {
-		throw new Error("useTheme must be used within a ThemeProvider");
-	}
-	return context;
-};
+export const useTheme = () => useContext(ThemeContext);
