@@ -8,9 +8,38 @@ import {
 	CreditCard,
 	Check,
 	ChevronRight,
+	AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import getPincodeLocation from "../ultils/evaluate-pincode";
+
+interface SolarPanelSetup {
+	recommended_capacity: string;
+	panel_type: string;
+	number_of_panels: number;
+	estimated_cost: string;
+}
+
+interface BatterySolution {
+	battery_type: string;
+	capacity: string;
+	backup_duration: string;
+	estimated_cost: string;
+}
+
+interface InstallationDetails {
+	installation_time: string;
+	warranty: string;
+	annual_maintenance: string;
+	subsidy_available: string;
+	subsidy_breakdown?: string;
+}
+
+interface SolarRecommendation {
+	solar_panel_setup: SolarPanelSetup;
+	battery_solution: BatterySolution;
+	installation_details: InstallationDetails;
+}
 
 const RecommendationEngine = () => {
 	const [formData, setFormData] = useState({
@@ -24,16 +53,58 @@ const RecommendationEngine = () => {
 	const [loading, setLoading] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [pincodeLocation, setPincodeLocation] = useState<string | null>(null);
+	const [recommendationData, setRecommendationData] =
+		useState<SolarRecommendation | null>(null);
+	const [apiError, setApiError] = useState<string | null>(null);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setLoading(true);
+		setApiError(null);
+		setRecommendationData(null);
 
-		// Simulate API call
-		setTimeout(() => {
-			setShowRecommendation(true);
+		if (!pincodeLocation) {
+			setApiError("Pincode location is not determined.");
 			setLoading(false);
-		}, 1500);
+			return;
+		}
+
+		const requestBody = {
+			pin: formData.pincode,
+			district_state: pincodeLocation,
+			roof_size: parseFloat(formData.roofSize) || 0,
+			monthly_bill: parseFloat(formData.monthlyBill) || 0,
+			budget: parseFloat(formData.budget) || 0,
+		};
+
+		try {
+			const response = await fetch("http://localhost:8000/recommendation", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestBody),
+			});
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				throw new Error(
+					result.detail || `HTTP error! status: ${response.status}`
+				);
+			}
+
+			setRecommendationData(result as SolarRecommendation);
+			setShowRecommendation(true);
+		} catch (error: any) {
+			console.error("API Error:", error);
+			setApiError(
+				error.message || "Failed to fetch recommendation. Please try again."
+			);
+			setShowRecommendation(false);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,13 +113,12 @@ const RecommendationEngine = () => {
 			...formData,
 			[name]: value,
 		});
+		setApiError(null);
 
-		// If pincode field is changed and has 6 digits, evaluate the location
 		if (name === "pincode" && value.length === 6) {
 			const location = getPincodeLocation(value);
 			setPincodeLocation(location);
 		} else if (name === "pincode" && value.length !== 6) {
-			// Clear the location if the pincode is not 6 digits
 			setPincodeLocation(null);
 		}
 	};
@@ -61,6 +131,7 @@ const RecommendationEngine = () => {
 	];
 
 	const nextStep = () => {
+		setApiError(null);
 		if (currentStep < formSteps.length) {
 			setCurrentStep(currentStep + 1);
 		} else {
@@ -69,9 +140,20 @@ const RecommendationEngine = () => {
 	};
 
 	const prevStep = () => {
+		setApiError(null);
 		if (currentStep > 1) {
 			setCurrentStep(currentStep - 1);
 		}
+	};
+
+	const resetForm = () => {
+		setShowRecommendation(false);
+		setCurrentStep(1);
+		setFormData({ pincode: "", monthlyBill: "", roofSize: "", budget: "" });
+		setPincodeLocation(null);
+		setRecommendationData(null);
+		setApiError(null);
+		setLoading(false);
 	};
 
 	return (
@@ -95,6 +177,18 @@ const RecommendationEngine = () => {
 				</motion.div>
 
 				<div className="mt-20">
+					{apiError && (
+						<motion.div
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							className="mb-8 max-w-5xl mx-auto p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-center shadow-md"
+							role="alert"
+						>
+							<AlertCircle className="h-5 w-5 mr-3 flex-shrink-0" />
+							<span className="font-medium">Error:</span>&nbsp;{apiError}
+						</motion.div>
+					)}
+
 					{!showRecommendation && (
 						<>
 							<div className="max-w-5xl mx-auto mb-16">
@@ -312,16 +406,12 @@ const RecommendationEngine = () => {
 												(currentStep === 1 &&
 													(!formData.pincode ||
 														formData.pincode.length !== 6 ||
-														!pincodeLocation))
+														!pincodeLocation)) ||
+												(currentStep === 2 && !formData.monthlyBill) ||
+												(currentStep === 3 && !formData.roofSize) ||
+												(currentStep === 4 && !formData.budget)
 											}
-											className={`relative inline-flex items-center px-10 py-4 border border-transparent text-lg font-medium rounded-full shadow-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 ${
-												currentStep === 1 &&
-												(!formData.pincode ||
-													formData.pincode.length !== 6 ||
-													!pincodeLocation)
-													? "opacity-70 cursor-not-allowed"
-													: ""
-											}`}
+											className={`relative inline-flex items-center px-10 py-4 border border-transparent text-lg font-medium rounded-full shadow-md text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed`}
 										>
 											{loading ? (
 												<>
@@ -368,7 +458,7 @@ const RecommendationEngine = () => {
 						</>
 					)}
 
-					{showRecommendation && (
+					{showRecommendation && recommendationData && (
 						<motion.div
 							className="mt-12 max-w-6xl mx-auto px-4"
 							initial={{ opacity: 0, y: 20 }}
@@ -379,96 +469,227 @@ const RecommendationEngine = () => {
 								Your Personalized Recommendation
 							</h3>
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-								{[
-									{
-										title: "Solar Panel Setup",
-										icon: <Sun className="h-8 w-8 text-yellow-600" />,
-										iconBg: "bg-yellow-100",
-										items: [
-											{ label: "Recommended Capacity", value: "5kW" },
-											{ label: "Panel Type", value: "Monocrystalline" },
-											{ label: "Number of Panels", value: "15" },
-											{ label: "Estimated Cost", value: "₹3,50,000" },
-										],
-									},
-									{
-										title: "Battery Solution",
-										icon: <Battery className="h-8 w-8 text-green-600" />,
-										iconBg: "bg-green-100",
-										items: [
-											{ label: "Battery Type", value: "Lithium-ion" },
-											{ label: "Capacity", value: "10kWh" },
-											{ label: "Backup Duration", value: "8-10 hours" },
-											{ label: "Estimated Cost", value: "₹2,50,000" },
-										],
-									},
-									{
-										title: "Installation Details",
-										icon: <Home className="h-8 w-8 text-blue-600" />,
-										iconBg: "bg-blue-100",
-										items: [
-											{ label: "Installation Time", value: "3-4 days" },
-											{ label: "Warranty", value: "25 years" },
-											{ label: "Annual Maintenance", value: "₹5,000" },
+								<motion.div
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.5, delay: 0.1 }}
+									whileHover={{ y: -8 }}
+									className="bg-white backdrop-blur-sm bg-opacity-80 border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+								>
+									<div className="flex items-center mb-6">
+										<div className={`bg-yellow-100 p-4 rounded-xl`}>
+											<Sun className="h-8 w-8 text-yellow-600" />
+										</div>
+										<h4 className="ml-4 text-xl font-medium">
+											Solar Panel Setup
+										</h4>
+									</div>
+									<ul className="space-y-5 text-gray-600">
+										{[
+											{
+												label: "Recommended Capacity",
+												value:
+													recommendationData.solar_panel_setup
+														.recommended_capacity,
+											},
+											{
+												label: "Panel Type",
+												value: recommendationData.solar_panel_setup.panel_type,
+											},
+											{
+												label: "Number of Panels",
+												value:
+													recommendationData.solar_panel_setup.number_of_panels,
+											},
+											{
+												label: "Estimated Cost",
+												value:
+													recommendationData.solar_panel_setup.estimated_cost,
+											},
+										].map((item, itemIdx) => (
+											<motion.li
+												key={itemIdx}
+												initial={{ opacity: 0, x: -10 }}
+												animate={{ opacity: 1, x: 0 }}
+												transition={{ delay: 0.2 + itemIdx * 0.1 }}
+												className="flex items-start"
+											>
+												<div className="flex-shrink-0 h-6 w-6 text-green-500 mt-0.5">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fillRule="evenodd"
+															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+															clipRule="evenodd"
+														/>
+													</svg>
+												</div>
+												<span className="ml-3 text-lg">
+													{item.label}:{" "}
+													<span className={`font-semibold`}>{item.value}</span>
+												</span>
+											</motion.li>
+										))}
+									</ul>
+								</motion.div>
+
+								<motion.div
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.5, delay: 0.2 }}
+									whileHover={{ y: -8 }}
+									className="bg-white backdrop-blur-sm bg-opacity-80 border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+								>
+									<div className="flex items-center mb-6">
+										<div className={`bg-green-100 p-4 rounded-xl`}>
+											<Battery className="h-8 w-8 text-green-600" />
+										</div>
+										<h4 className="ml-4 text-xl font-medium">
+											Battery Solution
+										</h4>
+									</div>
+									<ul className="space-y-5 text-gray-600">
+										{[
+											{
+												label: "Battery Type",
+												value: recommendationData.battery_solution.battery_type,
+											},
+											{
+												label: "Capacity",
+												value: recommendationData.battery_solution.capacity,
+											},
+											{
+												label: "Backup Duration",
+												value:
+													recommendationData.battery_solution.backup_duration,
+											},
+											{
+												label: "Estimated Cost",
+												value:
+													recommendationData.battery_solution.estimated_cost,
+											},
+										].map((item, itemIdx) => (
+											<motion.li
+												key={itemIdx}
+												initial={{ opacity: 0, x: -10 }}
+												animate={{ opacity: 1, x: 0 }}
+												transition={{ delay: 0.2 + itemIdx * 0.1 }}
+												className="flex items-start"
+											>
+												<div className="flex-shrink-0 h-6 w-6 text-green-500 mt-0.5">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fillRule="evenodd"
+															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+															clipRule="evenodd"
+														/>
+													</svg>
+												</div>
+												<span className="ml-3 text-lg">
+													{item.label}:{" "}
+													<span className={`font-semibold`}>{item.value}</span>
+												</span>
+											</motion.li>
+										))}
+									</ul>
+								</motion.div>
+
+								<motion.div
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.5, delay: 0.3 }}
+									whileHover={{ y: -8 }}
+									className="bg-white backdrop-blur-sm bg-opacity-80 border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+								>
+									<div className="flex items-center mb-6">
+										<div className={`bg-blue-100 p-4 rounded-xl`}>
+											<Home className="h-8 w-8 text-blue-600" />
+										</div>
+										<h4 className="ml-4 text-xl font-medium">
+											Installation Details
+										</h4>
+									</div>
+									<ul className="space-y-5 text-gray-600">
+										{[
+											{
+												label: "Installation Time",
+												value:
+													recommendationData.installation_details
+														.installation_time,
+											},
+											{
+												label: "Warranty",
+												value: recommendationData.installation_details.warranty,
+											},
+											{
+												label: "Annual Maintenance",
+												value:
+													recommendationData.installation_details
+														.annual_maintenance,
+											},
 											{
 												label: "Subsidy Available",
-												value: "₹94,500",
+												value:
+													recommendationData.installation_details
+														.subsidy_available,
 												highlight: true,
 											},
-										],
-									},
-								].map((card, idx) => (
-									<motion.div
-										key={idx}
-										initial={{ opacity: 0, y: 20 }}
-										animate={{ opacity: 1, y: 0 }}
-										transition={{ duration: 0.5, delay: 0.1 * idx }}
-										whileHover={{ y: -8 }}
-										className="bg-white backdrop-blur-sm bg-opacity-80 border border-gray-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-									>
-										<div className="flex items-center mb-6">
-											<div className={`${card.iconBg} p-4 rounded-xl`}>
-												{card.icon}
-											</div>
-											<h4 className="ml-4 text-xl font-medium">{card.title}</h4>
-										</div>
-										<ul className="space-y-5 text-gray-600">
-											{card.items.map((item, itemIdx) => (
-												<motion.li
-													key={itemIdx}
-													initial={{ opacity: 0, x: -10 }}
-													animate={{ opacity: 1, x: 0 }}
-													transition={{ delay: 0.2 + itemIdx * 0.1 }}
-													className="flex items-start"
-												>
-													<div className="flex-shrink-0 h-6 w-6 text-green-500 mt-0.5">
-														<svg
-															xmlns="http://www.w3.org/2000/svg"
-															viewBox="0 0 20 20"
-															fill="currentColor"
-														>
-															<path
-																fillRule="evenodd"
-																d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-																clipRule="evenodd"
-															/>
-														</svg>
-													</div>
-													<span className="ml-3 text-lg">
-														{item.label}:{" "}
-														<span
-															className={`font-semibold ${
-																item.highlight ? "text-green-600" : ""
-															}`}
-														>
-															{item.value}
-														</span>
+											...(recommendationData.installation_details
+												.subsidy_breakdown
+												? [
+														{
+															label: "Subsidy Breakdown",
+															value:
+																recommendationData.installation_details
+																	.subsidy_breakdown,
+															isBreakdown: true,
+														},
+												  ]
+												: []),
+										].map((item, itemIdx) => (
+											<motion.li
+												key={itemIdx}
+												initial={{ opacity: 0, x: -10 }}
+												animate={{ opacity: 1, x: 0 }}
+												transition={{ delay: 0.2 + itemIdx * 0.1 }}
+												className="flex items-start"
+											>
+												<div className="flex-shrink-0 h-6 w-6 text-green-500 mt-0.5">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fillRule="evenodd"
+															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+															clipRule="evenodd"
+														/>
+													</svg>
+												</div>
+												<span className="ml-3 text-lg">
+													{item.label}:{" "}
+													<span
+														className={`font-semibold ${
+															item.highlight ? "text-green-600" : ""
+														} ${
+															item.isBreakdown ? "text-sm text-gray-500" : ""
+														}`}
+													>
+														{item.value}
 													</span>
-												</motion.li>
-											))}
-										</ul>
-									</motion.div>
-								))}
+												</span>
+											</motion.li>
+										))}
+									</ul>
+								</motion.div>
 							</div>
 
 							<motion.div
@@ -488,10 +709,7 @@ const RecommendationEngine = () => {
 								</p>
 								<div className="mt-8">
 									<button
-										onClick={() => {
-											setShowRecommendation(false);
-											setCurrentStep(1);
-										}}
+										onClick={resetForm}
 										className="px-8 py-4 rounded-xl text-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
 									>
 										Start Over
