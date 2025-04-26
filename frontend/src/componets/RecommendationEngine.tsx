@@ -78,7 +78,8 @@ const RecommendationEngine = () => {
 		};
 
 		try {
-			const response = await fetch("http://localhost:8000/recommendation", {
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const response = await fetch(`${backendUrl}/recommendation`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
