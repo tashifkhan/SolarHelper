@@ -428,9 +428,7 @@ const ComparisonTool = () => {
 													{/* Specifications - Redesigned */}
 													<div className="mb-6 grid grid-cols-1 gap-3">
 														{Object.entries(product.specifications)
-															.filter(
-																([key, value]) => value && value !== "N/A"
-															)
+															.filter(([_, value]) => value && value !== "N/A")
 															.map(([key, value]) => {
 																let icon;
 																let colorClass;
