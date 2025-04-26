@@ -1,5 +1,4 @@
-\
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 
 # Moved from server.py - needed by SubsidyQuery in requests.py
@@ -38,6 +37,7 @@ class InstallationDetails(BaseModel):
     subsidy_breakdown: Optional[str] = "Detailed breakdown of subsidy calculation."
 
 class SolarRecommendation(BaseModel):
-    solar_panel_setup: SolarPanelSetup
-    battery_solution: BatterySolution
-    installation_details: InstallationDetails
+    solar_panel_setup: SolarPanelSetup = Field(..., description="Details about the recommended solar panel system.")
+    battery_solution: BatterySolution = Field(..., description="Details about the recommended battery storage solution.")
+    installation_details: InstallationDetails = Field(..., description="Information regarding installation, warranty, maintenance, and subsidy.")
+    budget_note: Optional[str] = Field(None, description="An optional note regarding the budget feasibility of the recommendation.")

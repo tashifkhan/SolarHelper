@@ -39,6 +39,7 @@ interface SolarRecommendation {
 	solar_panel_setup: SolarPanelSetup;
 	battery_solution: BatterySolution;
 	installation_details: InstallationDetails;
+	budget_note?: string; // Add optional budget note field
 }
 
 const RecommendationEngine = () => {
@@ -469,6 +470,22 @@ const RecommendationEngine = () => {
 							<h3 className="text-3xl font-semibold text-gray-900 mb-10 text-center">
 								Your Personalized Recommendation
 							</h3>
+
+							{/* Budget Note Alert - Changed to Warning/Error Style */}
+							{recommendationData.budget_note && (
+								<motion.div
+									initial={{ opacity: 0, y: -10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ delay: 0.2 }}
+									className="mb-8 max-w-5xl mx-auto p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-center shadow-md"
+									role="alert"
+								>
+									<AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 text-red-600" />
+									<span className="font-medium">Budget Warning:</span>&nbsp;
+									{recommendationData.budget_note}
+								</motion.div>
+							)}
+
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 								<motion.div
 									initial={{ opacity: 0, y: 20 }}

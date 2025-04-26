@@ -9,7 +9,7 @@ api_key = os.getenv("GOOGLE_API_KEY")
 def llm_prompt_response(prompt):
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
-        model="gemini-2.5-pro-exp-03-25", 
+        model="gemini-2.5-flash-preview-04-17", 
         contents=prompt
     )
     return response.text

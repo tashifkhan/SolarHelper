@@ -139,6 +139,7 @@ Ensure the JSON is valid.
         # Consider moving this check to the router or frontend if you want the service
         # to purely focus on generating the recommendation object.
         try:
+            # Ensure the SolarRecommendation model has an optional 'budget_note: Optional[str] = None' field
             panel_cost_val = parse_currency(recommendation.solar_panel_setup.estimated_cost)
             battery_cost_val = parse_currency(recommendation.battery_solution.estimated_cost)
             subsidy_amount_val = parse_currency(recommendation.installation_details.subsidy_available)
@@ -151,11 +152,11 @@ Ensure the JSON is valid.
 
                 if available_funds < total_estimated_cost:
                     shortfall = total_estimated_cost - available_funds
-                    # Instead of raising HTTPException here, maybe add a note to the recommendation?
-                    # Or let the router handle this based on the returned recommendation.
-                    print(f"Warning: Budget Insufficient by approx ₹{shortfall:,.2f}")
-                    # Example: Add a note (this requires modifying the SolarRecommendation model)
-                    # recommendation.budget_note = f"Warning: Budget insufficient by approx ₹{shortfall:,.2f}"
+                    warning_message = f"Warning: The estimated total cost (₹{total_estimated_cost:,.0f}) exceeds your budget plus the estimated subsidy (₹{available_funds:,.0f}) by approximately ₹{shortfall:,.0f}. The recommendation shows the ideal system; adjustments may be needed to fit your budget."
+                    print(warning_message)
+                    # Add the note to the recommendation object
+                    # Ensure SolarRecommendation model has budget_note: Optional[str] = None
+                    recommendation.budget_note = warning_message
 
             else:
                  print("Warning: Could not parse all cost/subsidy values for budget check.")
