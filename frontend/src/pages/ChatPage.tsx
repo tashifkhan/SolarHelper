@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ChatInterface from "../componets/ChatInterface";
+import { motion } from "framer-motion"; // You'll need to install framer-motion
 
 export type ExpertType = "subsidy" | "general";
 
@@ -46,79 +47,131 @@ const ChatPage = () => {
 	};
 
 	return (
-		<div className="bg-gradient-to-b from-blue-50 to-white min-h-screen pt-16 pb-8 sm:py-12">
+		<div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-white min-h-screen pt-16 pb-8 sm:py-12">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="text-center mb-6 sm:mb-8">
-					<h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+				<motion.div
+					initial={{ opacity: 0, y: -20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					className="text-center mb-8 sm:mb-10"
+				>
+					<h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700">
 						{getExpertTitle()}
 					</h1>
-					<p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600">
+					<p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
 						{getExpertDescription()}
 					</p>
-				</div>
+				</motion.div>
 
 				{/* Expert Selection Tabs/Buttons */}
-				<div className="flex flex-col sm:flex-row justify-center mb-6 space-y-2 sm:space-y-0 sm:space-x-4">
-					<button
+				<motion.div
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: 0.2 }}
+					className="flex flex-col sm:flex-row justify-center mb-8 space-y-3 sm:space-y-0 sm:space-x-5"
+				>
+					<motion.button
+						whileHover={{ scale: 1.03 }}
+						whileTap={{ scale: 0.98 }}
 						onClick={() => setSelectedExpert("subsidy")}
-						className={`w-full sm:w-auto px-6 py-2 rounded-md font-medium transition-colors ${
+						className={`w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
 							selectedExpert === "subsidy"
-								? "bg-blue-600 text-white shadow-md"
-								: "bg-white text-blue-600 hover:bg-blue-50 border border-blue-200"
+								? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-200"
+								: "bg-white text-blue-700 hover:bg-blue-50 border border-blue-200 hover:shadow-md"
 						}`}
 					>
-						Subsidy Expert
-					</button>
-					<button
+						<div className="flex items-center justify-center">
+							<span className="material-icons-outlined mr-2 text-xl">
+								{selectedExpert === "subsidy" ? "check_circle" : "payments"}
+							</span>
+							Subsidy Expert
+						</div>
+					</motion.button>
+					<motion.button
+						whileHover={{ scale: 1.03 }}
+						whileTap={{ scale: 0.98 }}
 						onClick={() => setSelectedExpert("general")}
-						className={`w-full sm:w-auto px-6 py-2 rounded-md font-medium transition-colors ${
+						className={`w-full sm:w-auto px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
 							selectedExpert === "general"
-								? "bg-amber-600 text-white shadow-md"
-								: "bg-white text-amber-600 hover:bg-amber-50 border border-amber-200"
+								? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-200"
+								: "bg-white text-amber-600 hover:bg-amber-50 border border-amber-200 hover:shadow-md"
 						}`}
 					>
-						General Solar Expert
-					</button>
-				</div>
+						<div className="flex items-center justify-center">
+							<span className="material-icons-outlined mr-2 text-xl">
+								{selectedExpert === "general" ? "check_circle" : "wb_sunny"}
+							</span>
+							General Solar Expert
+						</div>
+					</motion.button>
+				</motion.div>
 
-				<div className="chat-interface-container">
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.6, delay: 0.3 }}
+					className="chat-interface-container bg-transparent rounded-2xl p-4 border border-none"
+				>
 					<ChatInterface
-						expertType={selectedExpert} // Pass the selected expert type
+						expertType={selectedExpert}
 						selectedQuestion={selectedQuestion}
 						clearSelectedQuestion={() => setSelectedQuestion(null)}
 					/>
-				</div>
+				</motion.div>
 
-				<div className="mt-10 sm:mt-12 max-w-3xl mx-auto bg-white p-4 sm:p-6 rounded-lg shadow-md">
-					<h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-						Common Questions for{" "}
-						{selectedExpert === "subsidy" ? "Subsidy" : "General"} Expert
+				<motion.div
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: 0.4 }}
+					className="mt-10 sm:mt-12 max-w-3xl mx-auto"
+				>
+					<h2 className="text-xl sm:text-2xl font-semibold text-gray-900 flex items-center mb-6 px-1">
+						<span
+							className={`material-icons-outlined mr-3 text-2xl ${
+								selectedExpert === "subsidy"
+									? "text-blue-600"
+									: "text-amber-500"
+							}`}
+						>
+							lightbulb
+						</span>
+						Popular Questions
 					</h2>
-					<div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+					<div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
 						{commonQuestions.map((question, index) => (
-							<div
+							<motion.div
 								key={`${selectedExpert}-${index}`}
-								className={`p-2.5 sm:p-3 rounded-lg transition-all cursor-pointer border border-transparent hover:shadow-sm ${
+								whileHover={{ scale: 1.02 }}
+								whileTap={{ scale: 0.97 }}
+								className={`p-4 sm:p-5 rounded-xl transition-all cursor-pointer backdrop-blur-sm shadow-sm hover:shadow-md ${
 									selectedExpert === "subsidy"
-										? "bg-blue-50 hover:bg-blue-100 hover:border-blue-200"
-										: "bg-amber-50 hover:bg-amber-100 hover:border-amber-200"
+										? "bg-blue-50/70 hover:bg-blue-100/80 border border-blue-200"
+										: "bg-amber-50/70 hover:bg-amber-100/80 border border-amber-200"
 								}`}
 								onClick={() => handleQuestionClick(question)}
 							>
 								<p
-									className={`text-sm sm:text-base font-medium flex items-center ${
+									className={`text-base sm:text-lg font-medium flex items-start ${
 										selectedExpert === "subsidy"
 											? "text-blue-800"
 											: "text-amber-800"
 									}`}
 								>
-									<span className="mr-2">→</span>
+									<span
+										className={`material-icons-outlined mr-3 mt-0.5 ${
+											selectedExpert === "subsidy"
+												? "text-blue-600"
+												: "text-amber-600"
+										}`}
+									>
+										help_outline
+									</span>
 									{question}
 								</p>
-							</div>
+							</motion.div>
 						))}
 					</div>
-				</div>
+				</motion.div>
 			</div>
 		</div>
 	);
