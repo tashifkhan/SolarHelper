@@ -477,12 +477,19 @@ const RecommendationEngine = () => {
 									initial={{ opacity: 0, y: -10 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ delay: 0.2 }}
-									className="mb-8 max-w-5xl mx-auto p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-center shadow-md"
+									className="mb-8 max-w-5xl mx-auto p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg shadow-md flex"
 									role="alert"
 								>
-									<AlertCircle className="h-5 w-5 mr-3 flex-shrink-0 text-red-600" />
-									<span className="font-medium">Budget Warning:</span>&nbsp;
-									{recommendationData.budget_note}
+									<div className="flex-shrink-0 mr-3">
+										<AlertCircle className="h-5 w-5 text-red-600" />
+									</div>
+									<div>
+										<span className="font-bold text-red-800">
+											Budget Warning:
+										</span>
+										&nbsp;
+										{recommendationData.budget_note}
+									</div>
 								</motion.div>
 							)}
 

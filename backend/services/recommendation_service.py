@@ -135,35 +135,43 @@ Ensure the JSON is valid.
                 detail=f"Failed to obtain valid recommendation after {max_retries} attempts. Last error: {last_error}. Last raw output: {llm_output}"
             )
 
-        # 5. Budget Check (Optional: Can be done in the router or frontend)
-        # Consider moving this check to the router or frontend if you want the service
-        # to purely focus on generating the recommendation object.
+        # 5. Budget Check
         try:
             # Ensure the SolarRecommendation model has an optional 'budget_note: Optional[str] = None' field
+            # Initialize budget_note to None
+            recommendation.budget_note = None
+
             panel_cost_val = parse_currency(recommendation.solar_panel_setup.estimated_cost)
             battery_cost_val = parse_currency(recommendation.battery_solution.estimated_cost)
             subsidy_amount_val = parse_currency(recommendation.installation_details.subsidy_available)
 
+            # Proceed only if all values could be parsed
             if panel_cost_val is not None and battery_cost_val is not None and subsidy_amount_val is not None:
                 total_estimated_cost = panel_cost_val + battery_cost_val
-                available_funds = request.budget + subsidy_amount_val
+                # Ensure request.budget is treated as a float
+                user_budget = float(request.budget) if request.budget is not None else 0.0
+                available_funds = user_budget + subsidy_amount_val
 
-                print(f"Budget Check: Total Cost={total_estimated_cost}, Subsidy={subsidy_amount_val}, Budget={request.budget}, Available Funds={available_funds}")
+                print(f"Budget Check: Total Cost=₹{total_estimated_cost:,.0f}, Subsidy=₹{subsidy_amount_val:,.0f}, Budget=₹{user_budget:,.0f}, Available Funds=₹{available_funds:,.0f}")
 
+                # Only add a note if the cost exceeds available funds
                 if available_funds < total_estimated_cost:
                     shortfall = total_estimated_cost - available_funds
-                    warning_message = f"Warning: The estimated total cost (₹{total_estimated_cost:,.0f}) exceeds your budget plus the estimated subsidy (₹{available_funds:,.0f}) by approximately ₹{shortfall:,.0f}. The recommendation shows the ideal system; adjustments may be needed to fit your budget."
+                    warning_message = f"Warning: The estimated total cost (₹{total_estimated_cost:,.0f}) exceeds your budget plus the estimated subsidy (₹{available_funds:,.0f}) by approximately ₹{shortfall:,.0f}. Adjustments may be needed to fit your budget."
                     print(warning_message)
-                    # Add the note to the recommendation object
-                    # Ensure SolarRecommendation model has budget_note: Optional[str] = None
+                    # Add the warning note to the recommendation object
                     recommendation.budget_note = warning_message
+                else:
+                    print("Budget Check Passed: Estimated cost is within budget + subsidy.")
+                    # budget_note remains None if check passes
 
             else:
-                 print("Warning: Could not parse all cost/subsidy values for budget check.")
+                 print("Warning: Could not parse all cost/subsidy values for budget check. Skipping budget note.")
 
         except Exception as budget_check_error:
             print(f"Warning: Error during budget check: {budget_check_error}")
             # Don't raise an exception here, just log it. The recommendation itself is valid.
+            # Ensure budget_note remains None or its current state if an error occurs here.
 
         # execution_time = time.time() - start_time # Can be calculated and returned if needed
 
@@ -175,5 +183,6 @@ Ensure the JSON is valid.
         raise http_exc # Re-raise HTTP exceptions from parsing retries
     except Exception as e:
         # Log the error internally
+        print(f"Error in generate_recommendation: {e}") # Added print for debugging
         raise HTTPException(status_code=500, detail=f"Error generating recommendation: {str(e)}")
 

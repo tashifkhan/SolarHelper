@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
-# Moved from server.py - needed by SubsidyQuery in requests.py
 class ChatHistoryItem(BaseModel):
     prompt: Optional[str] = None
     answer: Optional[str] = None
