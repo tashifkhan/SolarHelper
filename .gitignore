@@ -40,3 +40,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+vectorstore_faiss
