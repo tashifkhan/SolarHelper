@@ -43,7 +43,7 @@ class PowerPredictionFeatures(BaseModel):
     azimuth: float = Field(default=169.167651)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "temperature_2_m_above_gnd": 15.068111,
                 "relative_humidity_2_m_above_gnd": 51.361025,
