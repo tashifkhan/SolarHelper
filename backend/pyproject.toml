@@ -14,5 +14,6 @@ dependencies = [
     "langchain-community>=0.2.10",
     "faiss-cpu>=1.8.0",
     "lightgbm>=4.6.0",
-    "scikit-learn>=1.6.1",
+    "scikit-learn>=1.6.1", 
+    "httpx>=0.24.1"
 ]
