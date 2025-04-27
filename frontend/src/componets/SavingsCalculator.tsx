@@ -375,7 +375,7 @@ const SavingsCalculator = () => {
 											Estimated Monthly Generation
 										</p>
 									</div>
-									<span className="texxt-3xl font-bold text-yellow-800">
+									<span className="text-3xl font-bold text-yellow-800">
 										{animateNumbers
 											? monthlyEnergyGenerated?.toLocaleString() ?? "N/A"
 											: "0"}{" "}
