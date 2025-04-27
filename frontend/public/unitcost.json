@@ -1,0 +1,250 @@
+{
+	"Andhra Pradesh": {
+		"fixed_charge_inr_per_kw_month": 10.0,
+		"slabs": [
+			{ "range": "0-30 units", "rate_inr_per_kwh": 1.9 },
+			{ "range": "31-75 units", "rate_inr_per_kwh": 3.0 },
+			{ "range": "76-125 units", "rate_inr_per_kwh": 4.5 },
+			{ "range": "126-225 units", "rate_inr_per_kwh": 6.0 },
+			{ "range": "226-400 units", "rate_inr_per_kwh": 8.75 },
+			{ "range": ">400 units", "rate_inr_per_kwh": 9.75 }
+		],
+		"notes": "Tariffs for FY 2025-26 remain unchanged from the previous year. Fixed charge is per kW."
+	},
+	"Andaman and Nicobar Islands": {
+		"fixed_charge_inr_per_connection_month": 15.0,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 2.1 },
+			{
+				"range": "101-200 Units",
+				"rate_inr_per_kwh": 6.0,
+				"proposed_2024-25_rate": 9.0
+			},
+			{
+				"range": "201-300 Units",
+				"rate_inr_per_kwh": 8.5,
+				"proposed_2024-25_rate": 12.8
+			},
+			{
+				"range": "301-500 Units",
+				"rate_inr_per_kwh": 8.5,
+				"proposed_2024-25_rate": 12.8
+			},
+			{
+				"range": "501 Units & Above",
+				"rate_inr_per_kwh": 10.25,
+				"proposed_2024-25_rate": 15.4
+			}
+		],
+		"lifeline_connection": {
+			"range": "0-100 units",
+			"existing_rate_inr_per_kwh": 2.24,
+			"proposed_2024-25_rate": 3.4
+		},
+		"notes": "Existing and proposed tariffs for FY 2024-25 are mentioned. Tariffs effective from 01.08.2022 are also listed. Fixed charge is per connection for lifeline and per kW for domestic supply. Some rates reflect proposals for 2024-25, actual 2025-26 rates may differ."
+	},
+	"Bihar": {
+		"average_tariff_inr_per_kwh": 6.75,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": "3.75-4.0" },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": "6.0-6.5" },
+			{ "range": "201-400 kWh", "rate_inr_per_kwh": "6.0-6.5" },
+			{ "range": ">400 kWh", "rate_inr_per_kwh": "7.5-8.0" }
+		],
+		"notes": "Tariffs may differ slightly between North and South Bihar. Data is from the initial text, likely reflecting 2025 rates based on the context."
+	},
+	"Dadra and Nagar Haveli and Daman and Diu": {
+		"fixed_charge_inr_per_kw_month": 10.0,
+		"slabs": [
+			{ "range": "0-50 units", "rate_inr_per_kwh": 1.6 },
+			{ "range": "51-100 units", "rate_inr_per_kwh": 1.6 },
+			{ "range": "101-200 units", "rate_inr_per_kwh": 2.3 },
+			{ "range": "201-400 units", "rate_inr_per_kwh": 2.8 },
+			{ "range": "401 and above", "rate_inr_per_kwh": 3.4 }
+		],
+		"lifeline_consumer": {
+			"range": "Up to 2x40 W Bulbs only",
+			"fixed_charge_inr_per_kw_month": 10.0,
+			"energy_charge_inr_per_kwh": 1.0
+		},
+		"notes": "Data appears to be from the Daman and Diu Electricity Department tariff order. Fixed charge is per kW. Rates range from Rs. 1.60 to Rs. 10.00 per kWh for domestic consumers in general based on another source."
+	},
+	"Delhi": {
+		"base_tariff_inr_per_kwh": 5.5,
+		"slabs": [
+			{ "range": "0-200 kWh", "rate_inr_per_kwh": 3.0 },
+			{ "range": "201-400 kWh", "rate_inr_per_kwh": 5.0 },
+			{ "range": "401-800 kWh", "rate_inr_per_kwh": 7.0 },
+			{ "range": "801-1200 kWh", "rate_inr_per_kwh": 8.0 },
+			{ "range": ">1200 kWh", "rate_inr_per_kwh": 8.0 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context."
+	},
+	"Gujarat": {
+		"base_tariff_inr_per_kwh": 6.0,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 3.6 },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": 6.0 },
+			{ "range": "201-300 kWh", "rate_inr_per_kwh": 6.1 },
+			{ "range": ">300 kWh", "rate_inr_per_kwh": 7.3 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context."
+	},
+	"Haryana": {
+		"slabs": [
+			{ "range": "0-50 units", "rate_inr_per_kwh": 2.2 },
+			{ "range": "51-100 units", "rate_inr_per_kwh": 2.7 },
+			{
+				"range": "0-150 units (for consumption > 100 units)",
+				"rate_inr_per_kwh": 2.95
+			},
+			{ "range": "151-300 units", "rate_inr_per_kwh": 5.25 },
+			{ "range": "301-500 units", "rate_inr_per_kwh": 6.45 },
+			{ "range": ">500 units", "rate_inr_per_kwh": 7.1 }
+		],
+		"slabs_greater_than_5kw_load": [
+			{ "range": "0-500 units", "rate_inr_per_kwh": 6.5 },
+			{ "range": "501-1000 units", "rate_inr_per_kwh": 7.15 },
+			{ "range": ">1000 units", "rate_inr_per_kwh": 7.5 }
+		],
+		"fixed_charges_inr_per_kw_month": "Rs 50 per kilowatt for 301-500 units and above 500 units consumption",
+		"notes": "New tariffs effective from April 1, 2025. Monthly minimum charges have been eliminated for domestic consumers."
+	},
+	"Jammu and Kashmir": {
+		"fixed_charges": "Rs. 10/kW/month",
+		"electricity_duty": "0.06 paise per unit",
+		"notes": "Metered consumers billed based on actual consumption and JERC tariff orders. Non-metered consumers billed according to JERC tariff. 40% of consumers still on flat rate. Specific slab rates for 2025 are not detailed in the results."
+	},
+	"Kerala": {
+		"average_hike_paise_per_unit_2024-25": 16,
+		"average_hike_paise_per_unit_2025-26": 12,
+		"notes": "Tariff hike effective from December 5, 2024. Another hike effective from April 1, 2025. Hike applies to consumers using more than 40 units with over 1000 watts connected load. Lowest energy charge in the country for 40 units/month at Rs 1.50 per unit (as of Feb 2025)."
+	},
+	"Lakshadweep": {
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 3.0 },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": 4.5 },
+			{ "range": "201-300 kWh", "rate_inr_per_kwh": 6.5 },
+			{ "range": "301 and above", "rate_inr_per_kwh": 8.5 }
+		],
+		"lifeline_connection": {
+			"range": "0-100 units",
+			"existing_rate_inr_per_kwh": 1.4,
+			"proposed_2024-25_rate": 1.6
+		},
+		"notes": "Existing and proposed tariffs for FY 2024-25 for lifeline connections are mentioned. Specific 2025-26 rates beyond the proposed hike for lifeline consumers are not explicitly detailed as being finalized."
+	},
+	"Maharashtra": {
+		"average_tariff_inr_per_kwh": 6.85,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 5.88 },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": 6.85 },
+			{ "range": "201-400 kWh", "rate_inr_per_kwh": 8.5 },
+			{ "range": ">400 kWh", "rate_inr_per_kwh": 9.6 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context."
+	},
+	"Odisha": {
+		"slabs": [
+			{ "range": "Up to 50 units", "rate_inr_per_unit": 2.9 },
+			{ "range": "51-200 units", "rate_inr_per_unit": 4.7 },
+			{ "range": "201-400 units", "rate_inr_per_unit": 5.7 },
+			{ "range": "Beyond 400 units", "rate_inr_per_unit": 6.1 }
+		],
+		"notes": "No power tariff hike for 2025-26 financial year. Rates remain unchanged."
+	},
+	"Puducherry": {
+		"fixed_charge_inr_per_kw_month": 30.0,
+		"slabs": [
+			{ "range": "1-100 units", "rate_inr_per_unit": 2.25 },
+			{ "range": "101-200 units", "rate_inr_per_unit": 3.25 },
+			{ "range": "201-300 units", "rate_inr_per_unit": 5.4 },
+			{ "range": "above 300 units", "rate_inr_per_unit": 6.8 }
+		],
+		"subsidy_2024_sep": {
+			"0-100 units": "45 paise per unit",
+			"101-200 units": "40 paise per unit"
+		},
+		"lifeline_services_OHOB_2024": {
+			"range": "0-50 units",
+			"fixed_cost_inr_per_kw_month": 10.0,
+			"energy_charges_inr_per_kwh": 1.95
+		},
+		"notes": "Tariff rates for 2024-25 are mentioned. A subsidy was announced in Sep 2024 for domestic consumers. Rates range from Rs. 2.65 to Rs. 6.50 per kWh for domestic consumers in general based on another source. New tariffs took effect from June 17, 2024."
+	},
+	"Punjab": {
+		"slabs_effective_april_1_2025_to_march_31_2026": [
+			{ "range": "first 100 units", "rate_inr_per_unit": 3.49 },
+			{ "range": "101-300 units", "rate_inr_per_unit": 5.84 },
+			{ "range": "usage exceeding 300 units", "rate_inr_per_unit": 7.3 }
+		],
+		"notes": "Electricity tariff remains unchanged for domestic consumers for FY 2025-26. 300 units of free electricity provided per month to domestic consumers using up to 600 units since July 2022."
+	},
+	"Rajasthan": {
+		"base_tariff_inr_per_kwh": 6.0,
+		"slabs": [
+			{
+				"range": "0-50 kWh",
+				"rate_inr_per_kwh": 2.9,
+				"notes": "BPL consumers"
+			},
+			{
+				"range": "0-150 kWh",
+				"rate_inr_per_kwh": 4.0,
+				"notes": "General consumers"
+			},
+			{ "range": "151-300 kWh", "rate_inr_per_kwh": 6.5 },
+			{ "range": ">300 kWh", "rate_inr_per_kwh": 7.95 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context. The initial text noted the rate for Rajasthan appears to be an outlier and may require verification."
+	},
+	"Tamil Nadu": {
+		"base_tariff_inr_per_kwh": 5.8,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 3.0 },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": 6.0 },
+			{ "range": "201-300 kWh", "rate_inr_per_kwh": 7.5 },
+			{ "range": ">300 kWh", "rate_inr_per_kwh": 7.5 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context."
+	},
+	"Telangana": {
+		"slabs_fy_2024-25_effective_nov_1_2024": [
+			{ "range": "0-50 units", "rate_inr_per_unit": 1.45 },
+			{ "range": "51-100 units", "rate_inr_per_unit": 2.6 },
+			{ "range": "101-200 units", "rate_inr_per_unit": 4.3 },
+			{ "range": "201-300 units", "rate_inr_per_unit": 7.2 },
+			{ "range": "301-400 units", "rate_inr_per_unit": 8.5 },
+			{ "range": "401-800 units", "rate_inr_per_unit": 9.0 },
+			{ "range": "above 800 units", "rate_inr_per_unit": 9.5 }
+		],
+		"slabs_customers_more_than_200_units_consumption": [
+			{ "range": "Up to 50 units", "rate_inr_per_unit": 2.6 },
+			{ "range": "51-100 units", "rate_inr_unit": 3.28 },
+			{ "range": "101-150 units", "rate_inr_unit": 4.88 },
+			{ "range": "151-200 units", "rate_inr_unit": 5.63 },
+			{ "range": "201-250 units", "rate_inr_unit": 6.38 },
+			{ "range": "251-300 units", "rate_inr_unit": 6.68 },
+			{ "range": "301-400 units", "rate_inr_unit": 7.38 },
+			{ "range": "401-500 units", "rate_inr_unit": 7.68 },
+			{ "range": "Above 500 units", "rate_inr_unit": 8.38 }
+		],
+		"slabs_customers_100_200_units_consumption": [
+			{ "range": "1-50 units", "rate_inr_unit": 2.6 },
+			{ "range": "51-100 Units", "rate_inr_unit": 2.6 },
+			{ "range": "101-150 units", "rate_inr_unit": 3.6 },
+			{ "range": "151-200 units", "rate_inr_unit": 3.6 }
+		],
+		"notes": "No hike in electricity tariff for 2025-26 financial year. FY 2024-25 rates applicable from Nov 1, 2024 are listed. The initial text provided a range of Rs 1.95 to Rs 10.00 for domestic rates in Telangana."
+	},
+	"Uttar Pradesh": {
+		"average_tariff_inr_per_kwh": 7.1,
+		"slabs": [
+			{ "range": "0-100 kWh", "rate_inr_per_kwh": 3.5 },
+			{ "range": "101-200 kWh", "rate_inr_per_kwh": 6.5 },
+			{ "range": "201-400 kWh", "rate_inr_per_kwh": 6.5 },
+			{ "range": ">400 kWh", "rate_inr_per_kwh": 8.0 }
+		],
+		"notes": "Data is from the initial text, likely reflecting 2025 rates based on the context."
+	}
+}
