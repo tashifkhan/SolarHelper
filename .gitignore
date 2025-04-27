@@ -42,3 +42,4 @@ dist-ssr
 *.sw?
 
 vectorstore_faiss
+vectorstore_faiss_recommendation

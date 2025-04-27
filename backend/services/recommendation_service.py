@@ -5,10 +5,82 @@ import re
 from typing import Optional
 from fastapi import HTTPException
 from pydantic import ValidationError
+# RAG Imports
+from langchain_community.vectorstores import FAISS
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from models.requests import RecommendationRequest
 from models.responses import SolarRecommendation
 from services.llm_service import llm_prompt_response
+
+# --- RAG Setup ---
+# Use relative paths from the service file location
+CONTEXT_DIR = os.path.join(os.path.dirname(__file__), '..', 'context')
+VECTORSTORE_PATH = os.path.join(os.path.dirname(__file__), '..', 'vectorstore_faiss_recommendation') # Use a separate store if needed, or reuse the chat one
+
+def setup_rag_retriever(force_recreate=False):
+    """Loads documents, creates embeddings, stores them in FAISS, and returns a retriever."""
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+    # Check if the context directory exists
+    if not os.path.isdir(CONTEXT_DIR):
+        print(f"Error: Context directory not found at {CONTEXT_DIR}")
+        raise FileNotFoundError(f"Context directory not found: {CONTEXT_DIR}")
+
+    if os.path.exists(VECTORSTORE_PATH) and not force_recreate:
+        print("Loading existing recommendation vector store...")
+        try:
+            vectorstore = FAISS.load_local(VECTORSTORE_PATH, embeddings, allow_dangerous_deserialization=True)
+        except Exception as load_error:
+            print(f"Error loading existing vector store: {load_error}. Attempting to recreate.")
+            return setup_rag_retriever(force_recreate=True) # Retry with recreation
+    else:
+        print("Creating new recommendation vector store...")
+        # Ensure the context directory exists before loading
+        if not os.path.isdir(CONTEXT_DIR):
+             raise FileNotFoundError(f"Cannot create vector store: Context directory not found at {CONTEXT_DIR}")
+
+        loader = DirectoryLoader(CONTEXT_DIR, glob="**/*.md", loader_cls=TextLoader, use_multithreading=True)
+        try:
+            documents = loader.load()
+        except Exception as load_docs_error:
+             print(f"Error loading documents from {CONTEXT_DIR}: {load_docs_error}")
+             raise
+
+        if not documents:
+            print(f"Warning: No documents found in context directory: {CONTEXT_DIR}")
+            # Optionally, handle this case differently, e.g., raise an error or return a dummy retriever
+            # For now, we proceed, but the retriever will have no context.
+            # Consider creating an empty FAISS store if this is acceptable.
+            # return None # Or handle appropriately
+
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+        docs = text_splitter.split_documents(documents)
+
+        if not docs:
+             print("Warning: No documents were generated after splitting.")
+             # Handle this case as well, maybe return None or an empty retriever
+
+        try:
+            vectorstore = FAISS.from_documents(docs, embeddings)
+            vectorstore.save_local(VECTORSTORE_PATH)
+            print(f"Recommendation vector store created and saved at {VECTORSTORE_PATH}")
+        except Exception as faiss_error:
+            print(f"Error creating or saving FAISS vector store: {faiss_error}")
+            raise
+
+    # Return retriever with slightly more context if available
+    return vectorstore.as_retriever(search_kwargs={"k": 5})
+
+try:
+    retriever = setup_rag_retriever()
+except Exception as e:
+    print(f"Fatal Error setting up RAG retriever for recommendations: {e}")
+    retriever = None # Ensure retriever is None if setup fails
+
+# --- End RAG Setup ---
 
 # Helper function to parse currency strings (moved from server.py)
 def parse_currency(value_str: str) -> Optional[float]:
@@ -26,48 +98,45 @@ def parse_currency(value_str: str) -> Optional[float]:
 
 def generate_recommendation(request: RecommendationRequest) -> SolarRecommendation:
     start_time = time.time()
+    if retriever is None:
+        raise HTTPException(status_code=500, detail="Recommendation service RAG retriever not initialized.")
+
     max_retries = 9
     recommendation: Optional[SolarRecommendation] = None
     last_error = None
     llm_output = ""
 
     try:
-        # Use relative path from the service file location
-        base_path = os.path.dirname(__file__)
-        subsidy_context_path = os.path.join(base_path, '..', 'context', 'subsidy_info.md')
-        general_context_path = os.path.join(base_path, '..', 'context', 'general_solar_context.md')
-
-        # 1. Read static context from markdown files
-        try:
-            with open(subsidy_context_path, "r") as f_subsidy:
-                subsidy_context = f_subsidy.read()
-        except FileNotFoundError:
-            subsidy_context = "Subsidy information is currently unavailable."
-            print(f"Warning: {subsidy_context_path} not found.")
-
-        try:
-            with open(general_context_path, "r") as f_general:
-                general_context = f_general.read()
-        except FileNotFoundError:
-            general_context = "General solar information is currently unavailable."
-            print(f"Warning: {general_context_path} not found.")
-
-        combined_context = f"""
-## Subsidy Information
-{subsidy_context}
-
-## General Solar Information
-{general_context}
+        # 1. Construct retrieval query from user request
+        retrieval_query = f"""
+        User Pincode: {request.pin}
+        User District/State: {request.district_state}
+        User Roof Size: {request.roof_size} sq ft
+        User Monthly Bill: Rs. {request.monthly_bill}
+        User Budget: Rs. {request.budget}
+        Relevant information for solar panel recommendation including subsidies, system sizing based on bill/roof, costs, and installation details for this user.
         """
 
-        # 2. Construct the base prompt for the LLM
+        # 2. Retrieve relevant context using RAG
+        try:
+            retrieved_docs = retriever.invoke(retrieval_query)
+            retrieved_context = "\n\n---\n\n".join([doc.page_content for doc in retrieved_docs])
+            if not retrieved_context:
+                print("Warning: RAG retriever returned no context for the query.")
+                retrieved_context = "No specific context could be retrieved. Relying on general knowledge."
+        except Exception as retrieve_error:
+            print(f"Error retrieving context: {retrieve_error}")
+            raise HTTPException(status_code=500, detail=f"Error retrieving context: {str(retrieve_error)}")
+
+
+        # 3. Construct the prompt for the LLM using retrieved context
         json_output_format = json.dumps(SolarRecommendation.model_json_schema(), indent=2)
 
         base_system_prompt = f"""
 You are an expert Solar Energy Advisor for India. Your task is to generate a personalized solar panel system recommendation based on the user's specific details and the provided context.
 
-**Context:**
-{combined_context}
+**Retrieved Context (Use this information primarily):**
+{retrieved_context}
 
 **User Details:**
 - Pincode: {request.pin}
@@ -77,15 +146,15 @@ You are an expert Solar Energy Advisor for India. Your task is to generate a per
 - Approximate Budget: Rs. {request.budget}
 
 **Instructions:**
-1. Analyze the user details and the context (especially subsidy information relevant to India).
-2. Determine a suitable solar panel system configuration (capacity, panel type, number of panels).
-3. Suggest an appropriate battery solution if applicable (type, capacity, backup duration).
-4. Estimate costs for panels and battery. Ensure these are numerical estimates prefixed with '₹' and using commas (e.g., ₹3,50,000).
-5. Provide installation details (time, warranty, maintenance).
-6. Calculate the estimated subsidy amount based on the recommended system capacity and the rules in the context. Ensure this is a numerical estimate prefixed with '₹' (e.g., ₹94,500).
-7. **Provide a clear breakdown of how the subsidy amount was calculated in the 'subsidy_breakdown' field.** Explain the calculation based on the system capacity (e.g., "Subsidy for first 3kW: 3 * ₹18,000 = ₹54,000. Subsidy for next 2kW: 2 * ₹9,000 = ₹18,000. Total: ₹72,000").
+1. Analyze the user details and the **retrieved context** (especially subsidy information relevant to India and the user's location if available). If context is missing specific details (like location-specific subsidies not found), state that clearly but still provide the best general recommendation possible.
+2. Determine a suitable solar panel system configuration (capacity, panel type, number of panels). Base capacity primarily on the monthly bill and roof size.
+3. Suggest an appropriate battery solution if applicable (type, capacity, backup duration). Consider if the user's bill suggests high usage or if off-grid/hybrid is implied.
+4. Estimate costs for panels and battery based on the context or general Indian market rates if context is insufficient. Ensure these are numerical estimates prefixed with '₹' and using commas (e.g., ₹3,50,000).
+5. Provide installation details (time, warranty, maintenance) based on context or typical standards.
+6. Calculate the estimated subsidy amount based on the recommended system capacity and the rules in the **retrieved context**. Ensure this is a numerical estimate prefixed with '₹' (e.g., ₹94,500). If context lacks specific subsidy rules, mention that the subsidy calculation is based on general national schemes.
+7. **Provide a clear breakdown of how the subsidy amount was calculated in the 'subsidy_breakdown' field.** Explain the calculation based on the system capacity and the rules found in the context (e.g., "Based on national scheme: Subsidy for first 3kW: 3 * ₹18,000 = ₹54,000. Subsidy for next 2kW: 2 * ₹9,000 = ₹18,000. Total: ₹72,000"). If no specific rules were found, state this in the breakdown.
 8. Ensure all monetary values (costs, subsidy) are in Indian Rupees (₹) and use appropriate formatting (e.g., ₹1,00,000).
-9. Keep the total cost (after potential subsidy) within or close to the user's budget. If the budget is insufficient for the *ideal* system, recommend the best possible system within the budget, clearly stating any compromises made. If no reasonable system fits the budget even with subsidy, state this clearly in the cost/subsidy fields (e.g., "Budget too low for recommended system").
+9. Keep the total cost (after potential subsidy) within or close to the user's budget. If the budget is insufficient for the *ideal* system based on their bill/roof size, recommend the best possible system within the budget, clearly stating any compromises made (e.g., smaller capacity, no battery). If no reasonable system fits the budget even with subsidy, state this clearly in the cost/subsidy fields (e.g., "Budget too low for recommended system").
 10. **Strictly format your entire response as a single JSON object matching the following structure. Do not include any text, explanations, or markdown formatting before or after the JSON object.**
 ```json
 {json_output_format}
@@ -93,6 +162,7 @@ You are an expert Solar Energy Advisor for India. Your task is to generate a per
 Ensure the JSON is valid.
 """
 
+        # 4. LLM Call and Parsing Loop (Retry Logic)
         for attempt in range(max_retries):
             print(f"Recommendation attempt {attempt + 1}/{max_retries}")
             try:
@@ -102,11 +172,11 @@ Ensure the JSON is valid.
 
                 system_prompt = base_system_prompt + retry_prompt_addition
 
-                # 3. Generate the AI response
+                # 5. Generate the AI response (using the updated prompt)
                 llm_output = llm_prompt_response(system_prompt)
                 print(f"LLM Raw Output (Attempt {attempt + 1}):\n{llm_output}")
 
-                # 4. Parse the LLM response string
+                # 6. Parse the LLM response string
                 cleaned_llm_output = llm_output.strip()
                 if cleaned_llm_output.startswith("```json"):
                     cleaned_llm_output = cleaned_llm_output[7:]
@@ -116,7 +186,7 @@ Ensure the JSON is valid.
 
                 recommendation = SolarRecommendation.model_validate_json(cleaned_llm_output)
                 print(f"Successfully Parsed Recommendation: {recommendation}")
-                break
+                break # Exit loop on success
 
             except (json.JSONDecodeError, ValidationError) as parse_error:
                 last_error = parse_error
@@ -135,7 +205,7 @@ Ensure the JSON is valid.
                 detail=f"Failed to obtain valid recommendation after {max_retries} attempts. Last error: {last_error}. Last raw output: {llm_output}"
             )
 
-        # 5. Budget Check
+        # 7. Budget Check (No changes needed here, uses parsed recommendation)
         try:
             # Ensure the SolarRecommendation model has an optional 'budget_note: Optional[str] = None' field
             # Initialize budget_note to None
@@ -177,10 +247,9 @@ Ensure the JSON is valid.
 
         return recommendation
 
-    except FileNotFoundError as fnf_error:
-        raise HTTPException(status_code=500, detail=f"Context file not found: {fnf_error}")
+    # Removed FileNotFoundError handling for context files as they are no longer read directly
     except HTTPException as http_exc:
-        raise http_exc # Re-raise HTTP exceptions from parsing retries
+        raise http_exc # Re-raise HTTP exceptions from parsing retries or retriever init
     except Exception as e:
         # Log the error internally
         print(f"Error in generate_recommendation: {e}") # Added print for debugging

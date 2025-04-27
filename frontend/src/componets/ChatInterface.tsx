@@ -132,10 +132,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 		setIsLoading(true);
 
 		const backendUrl = import.meta.env.VITE_BACKEND_URL;
-		const endpoint =
-			expertType === "subsidy"
-				? `${backendUrl}/subsidy-enquiry`
-				: `${backendUrl}/general-solar-enquiry`;
+		const endpoint = `${backendUrl}/chat`;
 
 		const requestBody = {
 			prompt: userMessageText,
