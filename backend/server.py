@@ -6,7 +6,7 @@ import pandas as pd
 from services.power_pipeline import PredictPipeline
 from models.requests import PowerPredictionRequest
 
-from routers import scrape, chat, recommendation
+from routers import scrape, chat, recommendation, power_prediction
 
 app = FastAPI(
     title="Solar Helper Backend",
@@ -16,16 +16,16 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
-# Include routers
 app.include_router(scrape.router, tags=["Scraping"])
 app.include_router(chat.router, tags=["Chat"])
 app.include_router(recommendation.router, tags=["Recommendation"])
+app.include_router(power_prediction.router, tags=["Power Prediction"])
 
 @app.get("/")
 async def root():
@@ -35,19 +35,6 @@ async def root():
 async def check():
     return {"status": "ok"}
 
-@app.post("/power_prediction", tags=["Power Prediction"])
-async def power_prediction(request: PowerPredictionRequest):
-    try:
-        print("Parsed request:", request)
-        df = pd.DataFrame([request.features.dict()])
-        print("DataFrame created:", df)
-        pipeline = PredictPipeline()
-        print("Pipeline initialized")
-        pred = pipeline.predict(df)
-        print("Prediction made:", pred)
-        return {"predicted_power": pred}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
