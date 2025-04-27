@@ -54,16 +54,18 @@ async def power_prediction(request: PowerPredictionRequest):
 async def energy_by_location(request: LocationRequest):
     """
     Fetches weather data for given latitude and longitude, then predicts power output.
+    Also fetches daily sunshine duration.
     """
     try:
         # Fetch weather data from Open-Meteo API
-        # Corrected variable names in hourly and current parameters again
+        # Added daily=sunshine_duration parameter
         url = (
             f"https://api.open-meteo.com/v1/forecast?latitude={request.latitude}&longitude={request.longitude}"
             "&hourly=temperature_2m,relative_humidity_2m,pressure_msl,precipitation,snowfall,"
             "cloud_cover,cloud_cover_high,cloud_cover_mid,cloud_cover_low,shortwave_radiation,"
             "wind_speed_10m,wind_direction_10m,wind_gusts_10m"
-            "&current=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=UTC"
+            "&current=temperature_2m,wind_speed_10m,wind_direction_10m"
+            "&daily=sunshine_duration&timezone=UTC"  # Added daily sunshine duration
         )
         async with httpx.AsyncClient() as client:
             resp = await client.get(url)
@@ -71,7 +73,7 @@ async def energy_by_location(request: LocationRequest):
             data = resp.json()
 
         # Extract features for prediction
-        # Adjusted extraction keys to match corrected variable names
+        # Corrected variable names in hourly and current parameters again
         features = {}
         current_data = data.get("current", {})
         features["temperature_2_m_above_gnd"] = current_data.get("temperature_2m")
@@ -110,7 +112,19 @@ async def energy_by_location(request: LocationRequest):
         df = pd.DataFrame([features_model.dict()])
         pipeline = PredictPipeline()
         pred = pipeline.predict(df)
-        return {"predicted_power": pred}
+
+        # Extract sunshine duration (in seconds, convert to hours if needed)
+        daily_data = data.get("daily", {})
+        sunshine_duration_seconds = daily_data.get("sunshine_duration", [None])[0]
+        sunshine_duration_hours = None
+        if sunshine_duration_seconds is not None:
+            sunshine_duration_hours = sunshine_duration_seconds / 3600  
+
+        return {
+            "predicted_power": pred,
+            "sunshine_duration_hours": sunshine_duration_hours,
+            "energy_generated": pred * sunshine_duration_hours / 2.5 if sunshine_duration_hours else pred * 3
+        }
     except httpx.HTTPStatusError as e:
         # Log the specific error for debugging
         print(f"HTTP Error from weather API: {e.response.status_code} - {e.response.text}")

@@ -87,7 +87,19 @@ async def energy_by_location(request: LocationRequest):
         df = pd.DataFrame([features_model.dict()])
         pipeline = PredictPipeline()
         pred = pipeline.predict(df)
-        return {"predicted_power": pred}
+        
+        # Extract sunshine duration (in seconds, convert to hours if needed)
+        daily_data = data.get("daily", {})
+        sunshine_duration_seconds = daily_data.get("sunshine_duration", [None])[0]
+        sunshine_duration_hours = None
+        if sunshine_duration_seconds is not None:
+            sunshine_duration_hours = sunshine_duration_seconds / 3600  
+
+        return {
+            "predicted_power": pred,
+            "sunshine_duration_hours": sunshine_duration_hours,
+            "energy_generated": pred * sunshine_duration_hours / 2.5 if sunshine_duration_hours else pred * 3
+        }
     except httpx.HTTPStatusError as e:
         # Log the specific error for debugging
         print(f"HTTP Error from weather API: {e.response.status_code} - {e.response.text}")
