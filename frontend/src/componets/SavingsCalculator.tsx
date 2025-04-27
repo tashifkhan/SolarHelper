@@ -1,46 +1,180 @@
 import React, { useState, useEffect } from "react";
-import { Calculator, TrendingUp, Zap, Save, Leaf } from "lucide-react";
+import {
+	Calculator,
+	TrendingUp,
+	Zap,
+	Save,
+	Leaf,
+	MapPin,
+	Check,
+	AlertCircle,
+	CloudSun,
+	Home,
+} from "lucide-react";
 import { motion } from "framer-motion";
+import getPincodeLocation from "../ultils/evaluate-pincode";
+import getLatLonFromPincode from "../ultils/evaluate-location";
+import { getUnitsForBillFromPincode } from "../ultils/evaluate-units";
+import calculateCarbonSavings from "../ultils/evaulate-carbon";
 
 const SavingsCalculator = () => {
 	const [monthlyBill, setMonthlyBill] = useState("");
+	const [pincode, setPincode] = useState("");
+	const [pincodeLocation, setPincodeLocation] = useState<string | null>(null);
 	const [showResults, setShowResults] = useState(false);
 	const [animateNumbers, setAnimateNumbers] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [apiError, setApiError] = useState<string | null>(null);
+	const [monthlyUnitsConsumed, setMonthlyUnitsConsumed] = useState<
+		number | null
+	>(null);
+	const [monthlyEnergyGenerated, setMonthlyEnergyGenerated] = useState<
+		number | null
+	>(null);
 	const [calculatedValues, setCalculatedValues] = useState({
 		monthly: 0,
 		annual: 0,
 		lifetime: 0,
-		carbon: 0,
-		payback: 0,
+		carbonKg: 0,
+		trees: 0,
 	});
 
 	useEffect(() => {
 		if (showResults) {
 			setAnimateNumbers(true);
+		} else {
+			setAnimateNumbers(false);
 		}
 	}, [showResults]);
 
-	const handleCalculate = (e: React.FormEvent) => {
+	const handlePincodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setPincode(value);
+		setApiError(null);
+		if (value.length === 6) {
+			const location = getPincodeLocation(value);
+			setPincodeLocation(location);
+			if (!location) {
+				setApiError("Could not determine location for this pincode.");
+			}
+		} else {
+			setPincodeLocation(null);
+		}
+	};
+
+	const handleCalculate = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setApiError(null);
+		setShowResults(false);
 
-		if (!monthlyBill || parseInt(monthlyBill) <= 0) return;
+		if (
+			!monthlyBill ||
+			parseInt(monthlyBill) <= 0 ||
+			!pincode ||
+			pincode.length !== 6 ||
+			!pincodeLocation
+		) {
+			setApiError(
+				"Please enter a valid monthly bill and a valid 6-digit pincode."
+			);
+			return;
+		}
 
-		const billAmount = parseInt(monthlyBill);
-		const monthly = billAmount * 0.8;
-		const annual = monthly * 12;
-		const lifetime = annual * 25;
-		const carbon = Math.round(annual * 0.7);
-		const payback = Math.round(350000 / annual);
+		setLoading(true);
 
+		try {
+			const billAmount = parseInt(monthlyBill);
+
+			const coordinates = await getLatLonFromPincode(pincode);
+			if (!coordinates) {
+				throw new Error(`Could not fetch coordinates for pincode ${pincode}.`);
+			}
+
+			const unitsConsumed = await getUnitsForBillFromPincode(
+				billAmount,
+				pincode
+			);
+			if (unitsConsumed === null || unitsConsumed <= 0) {
+				throw new Error(
+					`Could not estimate energy consumption for the provided bill and pincode.`
+				);
+			}
+			setMonthlyUnitsConsumed(unitsConsumed);
+
+			const backendUrl = import.meta.env.VITE_BACKEND_URL;
+			const energyResponse = await fetch(`${backendUrl}/energy_by_location`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					latitude: coordinates.lat,
+					longitude: coordinates.lon,
+				}),
+			});
+
+			if (!energyResponse.ok) {
+				const errorData = await energyResponse.json();
+				throw new Error(
+					errorData.detail ||
+						`Energy prediction API failed: ${energyResponse.status}`
+				);
+			}
+
+			const energyData = await energyResponse.json();
+
+			const generated = Math.round(energyData.energy_generated ?? 0);
+			setMonthlyEnergyGenerated(generated);
+
+			const energySavedKwh = Math.min(generated, unitsConsumed);
+			const monthly =
+				unitsConsumed > 0
+					? Math.round((energySavedKwh / unitsConsumed) * billAmount)
+					: 0;
+			const annual = monthly * 12;
+			const lifetime = annual * 25;
+
+			const annualEnergySavedKwh = energySavedKwh * 12;
+			const { co2SavedKg, treesEquivalent } =
+				calculateCarbonSavings(annualEnergySavedKwh);
+
+			setCalculatedValues({
+				monthly,
+				annual,
+				lifetime,
+				carbonKg: Math.round(co2SavedKg),
+				trees: Math.round(treesEquivalent),
+			});
+
+			setShowResults(true);
+		} catch (error: any) {
+			console.error("Calculation Error:", error);
+			setApiError(
+				error.message ||
+					"An error occurred during calculation. Please try again."
+			);
+			setShowResults(false);
+			setMonthlyUnitsConsumed(null);
+			setMonthlyEnergyGenerated(null);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const resetCalculator = () => {
+		setMonthlyBill("");
+		setPincode("");
+		setPincodeLocation(null);
+		setShowResults(false);
+		setLoading(false);
+		setApiError(null);
+		setMonthlyUnitsConsumed(null);
+		setMonthlyEnergyGenerated(null);
 		setCalculatedValues({
-			monthly,
-			annual,
-			lifetime,
-			carbon,
-			payback,
+			monthly: 0,
+			annual: 0,
+			lifetime: 0,
+			carbonKg: 0,
+			trees: 0,
 		});
-
-		setShowResults(true);
 	};
 
 	return (
@@ -74,37 +208,126 @@ const SavingsCalculator = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5, delay: 0.2 }}
 					>
-						<div>
-							<label
-								htmlFor="monthlyBill"
-								className="block text-lg font-medium text-gray-700 mb-2 ml-1"
-							>
-								Monthly Electricity Bill (₹)
-							</label>
-							<div className="mt-1 relative rounded-xl shadow-sm">
-								<div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-									<Zap className="h-6 w-6 text-blue-500" />
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<label
+									htmlFor="monthlyBill"
+									className="block text-lg font-medium text-gray-700 mb-2 ml-1"
+								>
+									Monthly Electricity Bill (₹)
+								</label>
+								<div className="mt-1 relative rounded-xl shadow-sm">
+									<div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+										<Zap className="h-6 w-6 text-blue-500" />
+									</div>
+									<input
+										type="number"
+										name="monthlyBill"
+										id="monthlyBill"
+										value={monthlyBill}
+										onChange={(e) => {
+											setMonthlyBill(e.target.value);
+											setApiError(null);
+										}}
+										className="pl-14 py-4 block w-full rounded-2xl text-lg border-gray-300 shadow-md focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										placeholder="Enter average bill"
+										required
+									/>
 								</div>
-								<input
-									type="number"
-									name="monthlyBill"
-									id="monthlyBill"
-									value={monthlyBill}
-									onChange={(e) => setMonthlyBill(e.target.value)}
-									className="pl-14 py-4 block w-full rounded-2xl text-lg border-gray-300 shadow-md focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-									placeholder="Enter your average monthly bill"
-								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor="pincode"
+									className="block text-lg font-medium text-gray-700 mb-2 ml-1"
+								>
+									Pincode
+								</label>
+								<div className="mt-1 relative rounded-xl shadow-sm">
+									<div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+										<MapPin className="h-6 w-6 text-blue-500" />
+									</div>
+									<input
+										type="text"
+										name="pincode"
+										id="pincode"
+										value={pincode}
+										onChange={handlePincodeChange}
+										className="pl-14 py-4 block w-full rounded-2xl text-lg border-gray-300 shadow-md focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										placeholder="Enter 6-digit pincode"
+										maxLength={6}
+										pattern="\d{6}"
+										required
+									/>
+								</div>
+								{pincodeLocation && pincode.length === 6 && (
+									<motion.div
+										initial={{ opacity: 0, y: 5 }}
+										animate={{ opacity: 1, y: 0 }}
+										className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium"
+									>
+										<Check className="h-4 w-4 mr-1.5" />
+										{pincodeLocation}
+									</motion.div>
+								)}
 							</div>
 						</div>
+
+						{apiError && (
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								className="mt-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-center text-sm"
+								role="alert"
+							>
+								<AlertCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+								{apiError}
+							</motion.div>
+						)}
 
 						<motion.button
 							type="submit"
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
-							className="w-full flex justify-center py-4 px-6 border border-transparent rounded-full shadow-md text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+							disabled={
+								loading ||
+								!monthlyBill ||
+								!pincode ||
+								pincode.length !== 6 ||
+								!pincodeLocation
+							}
+							className="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-full shadow-md text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
 						>
-							Calculate Savings
-							<Calculator className="ml-3 h-6 w-6" />
+							{loading ? (
+								<>
+									<svg
+										className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+									>
+										<circle
+											className="opacity-25"
+											cx="12"
+											cy="12"
+											r="10"
+											stroke="currentColor"
+											strokeWidth="4"
+										></circle>
+										<path
+											className="opacity-75"
+											fill="currentColor"
+											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+										></path>
+									</svg>
+									Calculating...
+								</>
+							) : (
+								<>
+									Calculate Savings
+									<Calculator className="ml-3 h-6 w-6" />
+								</>
+							)}
 						</motion.button>
 					</motion.form>
 
@@ -117,10 +340,51 @@ const SavingsCalculator = () => {
 						>
 							<h3 className="text-2xl font-semibold text-gray-900 mb-8 flex items-center">
 								<Save className="h-6 w-6 mr-3 text-green-500" />
-								Your Potential Savings
+								Your Potential Savings & Impact
 							</h3>
 
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+								<motion.div
+									className="bg-blue-50 p-6 rounded-xl shadow-sm border border-blue-100"
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.4, delay: 0.1 }}
+								>
+									<div className="flex items-center mb-2">
+										<Home className="h-5 w-5 text-blue-600 mr-2" />
+										<p className="text-base text-blue-700 font-medium">
+											Estimated Monthly Consumption
+										</p>
+									</div>
+									<span className="text-3xl font-bold text-blue-800">
+										{animateNumbers
+											? monthlyUnitsConsumed?.toLocaleString() ?? "N/A"
+											: "0"}{" "}
+										kWh
+									</span>
+								</motion.div>
+								<motion.div
+									className="bg-yellow-50 p-6 rounded-xl shadow-sm border border-yellow-100"
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.4, delay: 0.2 }}
+								>
+									<div className="flex items-center mb-2">
+										<CloudSun className="h-5 w-5 text-yellow-600 mr-2" />
+										<p className="text-base text-yellow-700 font-medium">
+											Estimated Monthly Generation
+										</p>
+									</div>
+									<span className="texxt-3xl font-bold text-yellow-800">
+										{animateNumbers
+											? monthlyEnergyGenerated?.toLocaleString() ?? "N/A"
+											: "0"}{" "}
+										kWh
+									</span>
+								</motion.div>
+							</div>
+
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 								{[
 									{
 										title: "Monthly Savings",
@@ -131,6 +395,7 @@ const SavingsCalculator = () => {
 										}`,
 										gradient: "from-green-50 to-green-100",
 										textColor: "text-green-700",
+										borderColor: "border-green-200",
 									},
 									{
 										title: "Annual Savings",
@@ -141,6 +406,7 @@ const SavingsCalculator = () => {
 										}`,
 										gradient: "from-blue-50 to-blue-100",
 										textColor: "text-blue-700",
+										borderColor: "border-blue-200",
 									},
 									{
 										title: "25-Year Savings",
@@ -151,24 +417,15 @@ const SavingsCalculator = () => {
 										}`,
 										gradient: "from-purple-50 to-purple-100",
 										textColor: "text-purple-700",
-									},
-									{
-										title: "Carbon Offset (Annual)",
-										value: `${
-											animateNumbers
-												? calculatedValues.carbon.toLocaleString()
-												: "0"
-										} kg CO₂`,
-										gradient: "from-amber-50 to-amber-100",
-										textColor: "text-amber-700",
+										borderColor: "border-purple-200",
 									},
 								].map((item, idx) => (
 									<motion.div
 										key={idx}
-										className={`bg-gradient-to-br ${item.gradient} p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300`}
+										className={`bg-gradient-to-br ${item.gradient} p-6 rounded-xl shadow-sm border ${item.borderColor} hover:shadow-md transition-all duration-300`}
 										initial={{ opacity: 0, y: 20 }}
 										animate={{ opacity: 1, y: 0 }}
-										transition={{ duration: 0.4, delay: 0.1 * idx }}
+										transition={{ duration: 0.4, delay: 0.1 * idx + 0.3 }}
 										whileHover={{ y: -4 }}
 									>
 										<p className={`text-base ${item.textColor} font-medium`}>
@@ -178,7 +435,7 @@ const SavingsCalculator = () => {
 											className="flex items-baseline mt-3"
 											initial={{ scale: 0.9 }}
 											animate={{ scale: 1 }}
-											transition={{ duration: 0.5, delay: 0.3 + 0.1 * idx }}
+											transition={{ duration: 0.5, delay: 0.4 + 0.1 * idx }}
 										>
 											<span className={`text-3xl font-bold ${item.textColor}`}>
 												{item.value}
@@ -194,32 +451,39 @@ const SavingsCalculator = () => {
 								animate={{ opacity: 1 }}
 								transition={{ duration: 0.5, delay: 0.5 }}
 							>
+								<h4 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+									Environmental Impact (Annual)
+								</h4>
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-									<div className="flex items-center">
-										<div className="bg-blue-100 p-3 rounded-xl">
-											<TrendingUp className="h-6 w-6 text-blue-600" />
+									<div className="flex items-center bg-gray-50 p-4 rounded-lg border border-gray-200">
+										<div className="bg-gray-200 p-3 rounded-xl">
+											<TrendingUp className="h-6 w-6 text-gray-600" />
 										</div>
 										<div className="ml-4">
 											<span className="text-base text-gray-500">
-												Estimated payback period
+												Carbon Offset
 											</span>
 											<p className="text-2xl font-medium text-gray-800">
-												{animateNumbers ? calculatedValues.payback : "0"} years
+												{animateNumbers
+													? calculatedValues.carbonKg.toLocaleString()
+													: "0"}{" "}
+												kg CO₂
 											</p>
 										</div>
 									</div>
-									<div className="flex items-center">
+									<div className="flex items-center bg-green-50 p-4 rounded-lg border border-green-200">
 										<div className="bg-green-100 p-3 rounded-xl">
 											<Leaf className="h-6 w-6 text-green-600" />
 										</div>
 										<div className="ml-4">
-											<span className="text-base text-gray-500">
-												Environmental impact
+											<span className="text-base text-green-600">
+												Equivalent Trees Planted
 											</span>
-											<p className="text-lg text-gray-800">
-												Equivalent to planting{" "}
-												{Math.round(calculatedValues.carbon / 20)} trees
-												annually
+											<p className="text-2xl font-medium text-green-700">
+												{animateNumbers
+													? calculatedValues.trees.toLocaleString()
+													: "0"}{" "}
+												trees
 											</p>
 										</div>
 									</div>
@@ -227,10 +491,7 @@ const SavingsCalculator = () => {
 
 								<div className="mt-10 text-center">
 									<motion.button
-										onClick={() => {
-											setShowResults(false);
-											setMonthlyBill("");
-										}}
+										onClick={resetCalculator}
 										className="px-8 py-4 rounded-xl text-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
 										whileHover={{ scale: 1.02 }}
 										whileTap={{ scale: 0.98 }}
