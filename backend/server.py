@@ -1,10 +1,6 @@
 import json
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
-import pandas as pd
-from services.power_pipeline import PredictPipeline
-from models.requests import PowerPredictionRequest
 
 from routers import scrape, chat, recommendation, power_prediction
 

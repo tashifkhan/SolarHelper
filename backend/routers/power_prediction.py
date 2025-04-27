@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Body
+from fastapi import APIRouter, HTTPException
 import pandas as pd
 from models.requests import PowerPredictionRequest
 from services.power_pipeline import PredictPipeline
