@@ -2,9 +2,8 @@ from fastapi import HTTPException
 import os
 import pickle
 import pandas as pd
-import traceback  # Import traceback for detailed error logging
-# The import below is not strictly necessary for the current logic but can be kept
-# from models.requests import PowerPredictionFeatures
+import traceback 
+
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -15,10 +14,10 @@ def load_object(file_path):
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Model or preprocessor file not found at: {file_path}")
     try:
-        print(f"Attempting to load: {file_path}")  # Added print
+        print(f"Attempting to load: {file_path}")  
         with open(file_path, "rb") as file_obj:
             loaded_obj = pickle.load(file_obj)
-        print(f"Successfully loaded: {file_path}")  # Added print
+        print(f"Successfully loaded: {file_path}")  
         return loaded_obj
     except Exception as e:
         print(f"Error loading object from {file_path}: {e}")
@@ -27,26 +26,21 @@ def load_object(file_path):
 
 def predict(features) -> float:
     try:
+        preprocessor_path = os.path.join(MODEL_DIR, 'preprocessing_inputs.pkl')  
+        output_transformer_path = os.path.join(MODEL_DIR, 'preprocessing_output.pkl') 
         model_path = os.path.join(MODEL_DIR, "prediction_model.pkl")
-        preprocessor_path = os.path.join(MODEL_DIR, 'preprocessing_inputs.pkl')  # Updated preprocessor name
-        output_transformer_path = os.path.join(MODEL_DIR, 'preprocessing_output.pkl')  # Added output transformer
 
-        print("--- Starting Prediction ---")  # Added marker
 
         model = load_object(file_path=model_path)
-        print("Model object loaded successfully.")  # Added confirmation
 
         preprocessor = load_object(file_path=preprocessor_path)
-        print("Preprocessor object loaded successfully.")  # Added confirmation
 
         output_transformer = load_object(file_path=output_transformer_path)
-        print("Output transformer object loaded successfully.")  # Added confirmation
 
         # Convert input features to DataFrame
-        print("Converting features to DataFrame...")  # Added print
         if isinstance(features, dict):
             features_dict = features
-        elif hasattr(features, "model_dump"):  # Handles Pydantic models from the router
+        elif hasattr(features, "model_dump"):  
             features_dict = features.model_dump()
         else:
             raise HTTPException(
@@ -54,27 +48,19 @@ def predict(features) -> float:
                 detail="Invalid features input: must be dict or model with model_dump()"
             )
         features_df = pd.DataFrame([features_dict])
-        print("DataFrame created:")  # Added print
         print(features_df.head())  # Log head for confirmation
 
         # Preprocess features
-        print("Attempting to preprocess features...")  # Added print
         processed_X = preprocessor.transform(features_df)
-        print("Features preprocessed successfully.")  # Added print
 
         # Predict using the model
-        print("Attempting to predict...")  # Added print
         preds_scaled = model.predict(processed_X)
-        print("Prediction successful (scaled).")  # Added print
 
         # Inverse transform the prediction
-        print("Attempting inverse transform...")  # Added print
         result_value_array = output_transformer.inverse_transform(preds_scaled.reshape(-1, 1))
         result_value = float(result_value_array[0][0])
-        print(f"Inverse transform successful. Result: {result_value}")  # Added print
 
-        print("--- Prediction Complete ---")  # Added marker
-        return result_value
+        return {"predicted_power":result_value}
 
     except FileNotFoundError as e:
         print(f"Error: {e}")

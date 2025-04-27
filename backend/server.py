@@ -5,8 +5,11 @@ from fastapi.responses import RedirectResponse
 import time
 import os
 import re
+import pandas as pd
+from services.power_pipeline import PredictPipeline
+from models.requests import PowerPredictionRequest
 
-from routers import scrape, chat, recommendation, power_prediction
+from routers import scrape, chat, recommendation
 
 app = FastAPI(
     title="Solar Helper Backend",
@@ -26,7 +29,6 @@ app.add_middleware(
 app.include_router(scrape.router, tags=["Scraping"])
 app.include_router(chat.router, tags=["Chat"])
 app.include_router(recommendation.router, tags=["Recommendation"])
-app.include_router(power_prediction.router, tags=["Power Prediction"])
 
 @app.get("/")
 async def root():
@@ -35,6 +37,16 @@ async def root():
 @app.get("/check")
 async def check():
     return {"status": "ok"}
+
+@app.post("/power_prediction", tags=["Power Prediction"])
+async def power_prediction(request: PowerPredictionRequest):
+    try:
+        df = pd.DataFrame([request.features.dict()])
+        pipeline = PredictPipeline()
+        pred = pipeline.predict(df)
+        return {"predicted_power": pred}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn

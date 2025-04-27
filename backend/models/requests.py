@@ -67,3 +67,6 @@ class PowerPredictionFeatures(BaseModel):
                 "azimuth": 169.167651
             }
         }
+
+class PowerPredictionRequest(BaseModel):
+    features: PowerPredictionFeatures
