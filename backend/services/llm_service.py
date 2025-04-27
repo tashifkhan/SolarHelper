@@ -1,15 +1,14 @@
-
 import os
-from google import genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 
 load_dotenv()
 api_key = os.getenv("GOOGLE_API_KEY")
 
 def llm_prompt_response(prompt):
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-001",
-        contents=prompt
-    )
-    return response.text
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash-001", 
+        google_api_key=api_key
+    ) 
+    response = llm.invoke(prompt)
+    return response.content
