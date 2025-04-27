@@ -38,9 +38,13 @@ async def check():
 @app.post("/power_prediction", tags=["Power Prediction"])
 async def power_prediction(request: PowerPredictionRequest):
     try:
+        print("Parsed request:", request)
         df = pd.DataFrame([request.features.dict()])
+        print("DataFrame created:", df)
         pipeline = PredictPipeline()
+        print("Pipeline initialized")
         pred = pipeline.predict(df)
+        print("Prediction made:", pred)
         return {"predicted_power": pred}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

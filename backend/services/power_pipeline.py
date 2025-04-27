@@ -1,40 +1,113 @@
 import os
 import pickle
+import sys
+import pandas as pd
+import sklearn
+import lightgbm as lgb
+import numpy as np
 
 class PredictPipeline:
-    def init(self):
-        pass
-
+    def __init__(self):
+        print("--- Library Versions ---")
+        print(f"Python: {sys.version}")
+        print(f"Pandas: {pd.__version__}")
+        print(f"Scikit-learn: {sklearn.__version__}")
+        print(f"LightGBM: {lgb.__version__}")
+        print(f"Numpy: {np.__version__}")
+        print("-----------------------")
+        print("Pipeline initialized")
 
     def predict(self, features):
+        model = None
+        preprocessor = None
+        output_transformer = None
         try:
-            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-            MODEL_DIR = os.path.join(BASE_DIR, '..', 'prediction_models') 
+            # Ensure the path to the models directory is absolute and correctly resolved
+            SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+            MODEL_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', 'prediction_models'))
+
             model_path = os.path.join(MODEL_DIR, "prediction_model.pkl")
             preprocessor_path = os.path.join(MODEL_DIR, 'preprocessing_inputs.pkl')
-            model = self.load_object(file_path=model_path)
-            preprocessor = self.load_object(file_path=preprocessor_path)
             output_transformer_path = os.path.join(MODEL_DIR, 'preprocessing_output.pkl')
+
+            print(f"Attempting to load model from: {model_path}")
+            model = self.load_object(file_path=model_path)
+            print(f"Successfully loaded model: {type(model)}")
+
+            print(f"Attempting to load preprocessor from: {preprocessor_path}")
+            preprocessor = self.load_object(file_path=preprocessor_path)
+            print(f"Successfully loaded preprocessor: {type(preprocessor)}")
+
+            print(f"Attempting to load output transformer from: {output_transformer_path}")
             output_transformer = self.load_object(file_path=output_transformer_path)
-            features = preprocessor.transform(features)
-            preds = model.predict(features)
-            result = output_transformer.inverse_transform(preds.reshape(-1, 1))
-            return result[0][0]
-        
-        except Exception as e:
+            print(f"Successfully loaded output transformer: {type(output_transformer)}")
+
+            print(f"Input features shape: {features.shape}")
+            print("Attempting to transform features...")
+            transformed_features = preprocessor.transform(features)
+            print(f"Successfully transformed features. Shape: {transformed_features.shape}")
+
+            print("Attempting to predict...")
+            preds = model.predict(transformed_features)
+            print(f"Successfully predicted. Shape: {preds.shape}")
+
+            print("Attempting to inverse transform predictions...")
+            # Ensure preds is 2D for inverse_transform
+            if preds.ndim == 1:
+                preds = preds.reshape(-1, 1)
+            result = output_transformer.inverse_transform(preds)
+            print(f"Successfully inverse transformed. Shape: {result.shape}")
+
+            final_prediction = result[0][0]
+            print(f"Final prediction: {final_prediction}")
+            return final_prediction
+
+        except FileNotFoundError as e:
+            print(f"ERROR: File not found - {e}")
             raise
-        
+        except pickle.UnpicklingError as e:
+            print(f"ERROR: Failed to unpickle file. It might be corrupted or incompatible. - {e}")
+            raise
+        except ImportError as e:
+             print(f"ERROR: Import error during unpickling. Check library versions. - {e}")
+             raise
+        except AttributeError as e:
+            print(f"ERROR: Attribute error during unpickling or prediction. Check model/preprocessor compatibility. - {e}")
+            if model is None: print("Model object might be None.")
+            if preprocessor is None: print("Preprocessor object might be None.")
+            if output_transformer is None: print("Output transformer object might be None.")
+            raise
+        except Exception as e:
+            print(f"ERROR: An unexpected error occurred in predict pipeline: {type(e).__name__} - {e}")
+            if 'transform' in str(e).lower():
+                 print("Error likely occurred during preprocessor.transform()")
+            elif 'predict' in str(e).lower():
+                 print("Error likely occurred during model.predict()")
+            elif 'inverse_transform' in str(e).lower():
+                 print("Error likely occurred during output_transformer.inverse_transform()")
+            raise
+
     def load_object(self, file_path):
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Object file not found at: {file_path}")
+        print(f"Loading object from: {file_path}")
         try:
             with open(file_path, "rb") as file_obj:
-                return pickle.load(file_obj)
-
+                obj = pickle.load(file_obj)
+                print(f"Successfully loaded object of type: {type(obj)}")
+                return obj
+        except pickle.UnpicklingError as e:
+            print(f"ERROR during unpickling {file_path}: {e}. File might be corrupt or incompatible.")
+            raise
+        except ImportError as e:
+             print(f"ERROR during unpickling {file_path} due to missing class/module: {e}")
+             raise
         except Exception as e:
+            print(f"ERROR: Unexpected error loading object from {file_path}: {type(e).__name__} - {e}")
             raise
 
 
 if __name__ == "__main__":
-    pipeline = PredictPipeline()
     input_features = {
         "temperature_2_m_above_gnd": 15.068111,
         "relative_humidity_2_m_above_gnd": 51.361025,
@@ -60,6 +133,16 @@ if __name__ == "__main__":
     import pandas as pd
 
     features_df = pd.DataFrame([input_features])
+    print("--- Running __main__ ---")
+    pipeline = PredictPipeline()
+    print("Input DataFrame:")
     print(features_df)
-    result = pipeline.predict(features_df)
-    print(result)
+    try:
+        result = pipeline.predict(features_df)
+        print(f"Prediction Result: {result}")
+    except Exception as e:
+        print(f"--- CRASH IN __main__ ---")
+        print(f"An error occurred: {type(e).__name__} - {e}")
+        import traceback
+        traceback.print_exc()
+    print("--- Finished __main__ ---")
