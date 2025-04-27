@@ -70,3 +70,7 @@ class PowerPredictionFeatures(BaseModel):
 
 class PowerPredictionRequest(BaseModel):
     features: PowerPredictionFeatures
+
+class LocationRequest(BaseModel):
+    latitude: float
+    longitude: float

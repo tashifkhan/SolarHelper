@@ -1,16 +1,11 @@
 from fastapi import APIRouter, HTTPException
 import pandas as pd
-import httpx  # added for weather API calls
-from pydantic import BaseModel  # for location request model
-from models.requests import PowerPredictionRequest, PowerPredictionFeatures
+import httpx  
+from models.requests import PowerPredictionRequest, PowerPredictionFeatures, LocationRequest
 
 from services.power_pipeline import PredictPipeline
 
 router = APIRouter()
-
-class LocationRequest(BaseModel):
-    latitude: float
-    longitude: float
 
 @router.post("/power_prediction")
 async def power_prediction(request: PowerPredictionRequest):
@@ -77,8 +72,6 @@ async def energy_by_location(request: LocationRequest):
         # Replace None with a default value (e.g., 0) or handle appropriately based on model training
         for key, value in features.items():
             if value is None:
-                # Decide on a default value, e.g., 0. This might need adjustment
-                # based on how missing values were handled during model training.
                 print(f"Warning: Missing weather data for {key}, using default 0.")
                 features[key] = 0
 
