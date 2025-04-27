@@ -6,8 +6,7 @@ import time
 import os
 import re
 
-# Import routers
-from routers import scrape, chat, recommendation
+from routers import scrape, chat, recommendation, power_prediction
 
 app = FastAPI(
     title="Solar Helper Backend",
@@ -27,6 +26,7 @@ app.add_middleware(
 app.include_router(scrape.router, tags=["Scraping"])
 app.include_router(chat.router, tags=["Chat"])
 app.include_router(recommendation.router, tags=["Recommendation"])
+app.include_router(power_prediction.router, tags=["Power Prediction"])
 
 @app.get("/")
 async def root():

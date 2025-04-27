@@ -12,5 +12,6 @@ dependencies = [
     "streamlit>=1.44.1",
     "langchain>=0.2.11",
     "langchain-community>=0.2.10",
-    "faiss-cpu>=1.8.0", 
+    "faiss-cpu>=1.8.0",
+    "lightgbm>=4.6.0",
 ]
