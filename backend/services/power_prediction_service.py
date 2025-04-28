@@ -30,7 +30,6 @@ def predict(features) -> float:
         output_transformer_path = os.path.join(MODEL_DIR, 'preprocessing_output.pkl') 
         model_path = os.path.join(MODEL_DIR, "prediction_model.pkl")
 
-
         model = load_object(file_path=model_path)
 
         preprocessor = load_object(file_path=preprocessor_path)
