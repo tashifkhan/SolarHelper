@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	Calculator,
 	TrendingUp,
@@ -10,8 +10,10 @@ import {
 	AlertCircle,
 	CloudSun,
 	Home,
+	Loader,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { loadPyodide } from "pyodide";
 import getPincodeLocation from "../ultils/evaluate-pincode";
 import getLatLonFromPincode from "../ultils/evaluate-location";
 import { getUnitsForBillFromPincode } from "../ultils/evaluate-units";
@@ -38,6 +40,75 @@ const SavingsCalculator = () => {
 		carbonKg: 0,
 		trees: 0,
 	});
+	const [pyodide, setPyodide] = useState<any | null>(null);
+	const [pyodideLoading, setPyodideLoading] = useState(true);
+	const [pyodideError, setPyodideError] = useState<string | null>(null);
+	const [predictEnergyFunc, setPredictEnergyFunc] = useState<any | null>(null);
+
+	const pyodideLoadInitiated = useRef(false);
+
+	useEffect(() => {
+		if (pyodideLoadInitiated.current || pyodide || pyodideError) {
+			if (pyodideError && pyodideLoading) {
+				setPyodideLoading(false);
+			}
+			return;
+		}
+		pyodideLoadInitiated.current = true;
+		setPyodideLoading(true);
+		setPyodideError(null);
+
+		console.log("Loading Pyodide from CDN...");
+
+		const initializePyodide = async () => {
+			try {
+				// use matching CDN version
+				const CDN_INDEX = "https://cdn.jsdelivr.net/pyodide/v0.27.5/full/";
+				const pyodideInstance = await loadPyodide({
+					indexURL: CDN_INDEX,
+				});
+				console.log("Pyodide loaded from CDN. Loading packages...");
+
+				await pyodideInstance.loadPackage([
+					"micropip",
+					"pandas",
+					"scikit-learn",
+					"lightgbm",
+					"numpy",
+				]);
+				console.log("Packages loaded via CDN");
+
+				// fetch & run Python script
+				const resp = await fetch("/pyodide/predict_energy.py");
+				if (!resp.ok) {
+					throw new Error(`Fetch script failed: ${resp.status}`);
+				}
+				const script = await resp.text();
+				await pyodideInstance.runPythonAsync(script);
+
+				const predictFunc = pyodideInstance.globals.get(
+					"predict_energy_for_location"
+				);
+				if (!predictFunc) {
+					throw new Error("predict_energy_for_location not found");
+				}
+
+				setPredictEnergyFunc(() => predictFunc);
+				setPyodide(pyodideInstance);
+			} catch (error: any) {
+				console.error("Pyodide init error:", error);
+				setPyodideError(
+					`Failed to initialize engine: ${error.message}. Check network or CDN availability.`
+				);
+			} finally {
+				setPyodideLoading(false);
+			}
+		};
+
+		initializePyodide();
+
+		return () => {};
+	}, [pyodide, pyodideError]);
 
 	useEffect(() => {
 		if (showResults) {
@@ -66,6 +137,18 @@ const SavingsCalculator = () => {
 		e.preventDefault();
 		setApiError(null);
 		setShowResults(false);
+
+		if (pyodideLoading) {
+			setApiError("Prediction engine is still loading. Please wait.");
+			return;
+		}
+
+		if (!pyodide || !predictEnergyFunc || pyodideError) {
+			setApiError(
+				pyodideError || "Prediction engine is not available. Cannot calculate."
+			);
+			return;
+		}
 
 		if (
 			!monthlyBill ||
@@ -101,27 +184,52 @@ const SavingsCalculator = () => {
 			}
 			setMonthlyUnitsConsumed(unitsConsumed);
 
-			const backendUrl = import.meta.env.VITE_BACKEND_URL;
-			const energyResponse = await fetch(`${backendUrl}/energy_by_location`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					latitude: coordinates.lat,
-					longitude: coordinates.lon,
-				}),
-			});
+			console.log("Calling Pyodide function predict_energy_for_location...");
+			let energyDataJs = null;
+			try {
+				const energyDataPy = await predictEnergyFunc(
+					coordinates.lat,
+					coordinates.lon
+				);
+				if (energyDataPy && typeof energyDataPy.toJs === "function") {
+					energyDataJs = energyDataPy.toJs({
+						dict_converter: Object.fromEntries,
+					});
+					if (typeof energyDataPy.destroy === "function") {
+						energyDataPy.destroy();
+					}
+				} else {
+					throw new Error(
+						"Prediction function did not return a valid result object."
+					);
+				}
+				console.log("Pyodide prediction result (JS Object):", energyDataJs);
 
-			if (!energyResponse.ok) {
-				const errorData = await energyResponse.json();
+				if (energyDataJs.error) {
+					throw new Error(
+						`Prediction error from Python: ${energyDataJs.error}`
+					);
+				}
+				if (
+					energyDataJs.energy_generated === undefined ||
+					energyDataJs.energy_generated === null
+				) {
+					throw new Error(
+						"Prediction successful but did not return 'energy_generated'."
+					);
+				}
+			} catch (pyError: any) {
+				console.error("Error during Pyodide function execution:", pyError);
+				const errorMessage = pyError?.message || pyError.toString();
+				if (pyError.constructor?.name === "PythonError") {
+					console.error("Python Traceback (if available):", pyError.message);
+				}
 				throw new Error(
-					errorData.detail ||
-						`Energy prediction API failed: ${energyResponse.status}`
+					`Prediction engine calculation failed: ${errorMessage}`
 				);
 			}
 
-			const energyData = await energyResponse.json();
-
-			const generated = Math.round(energyData.energy_generated ?? 0);
+			const generated = Math.round(energyDataJs.energy_generated ?? 0);
 			setMonthlyEnergyGenerated(generated);
 
 			const energySavedKwh = Math.min(generated, unitsConsumed);
@@ -146,7 +254,7 @@ const SavingsCalculator = () => {
 
 			setShowResults(true);
 		} catch (error: any) {
-			console.error("Calculation Error:", error);
+			console.error("Calculation handle error:", error);
 			setApiError(
 				error.message ||
 					"An error occurred during calculation. Please try again."
@@ -199,6 +307,29 @@ const SavingsCalculator = () => {
 						Calculate your potential savings with solar power
 					</p>
 				</motion.div>
+
+				{pyodideLoading && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						className="mb-6 p-4 bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg flex items-center justify-center text-sm"
+						role="status"
+					>
+						<Loader className="h-5 w-5 mr-2 animate-spin flex-shrink-0" />
+						Initializing prediction engine... (Loading local files)
+					</motion.div>
+				)}
+				{pyodideError && !pyodideLoading && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						className="mb-6 p-4 bg-red-100 border border-red-300 text-red-800 rounded-lg flex items-center text-sm"
+						role="alert"
+					>
+						<AlertCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+						{pyodideError}
+					</motion.div>
+				)}
 
 				<div className="mt-16 max-w-4xl mx-auto">
 					<motion.form
@@ -290,6 +421,8 @@ const SavingsCalculator = () => {
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.98 }}
 							disabled={
+								pyodideLoading ||
+								!!pyodideError ||
 								loading ||
 								!monthlyBill ||
 								!pincode ||

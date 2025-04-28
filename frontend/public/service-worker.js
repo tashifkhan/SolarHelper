@@ -75,3 +75,36 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+
+const PYODIDE_CACHE_NAME = 'pyodide-cache-v1';
+
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+  if (url.includes('/pyodide-pkg/') || url.includes('cdn.jsdelivr.net/pyodide/')) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) {
+          // already in cache, return it
+          return cached;
+        }
+        // not cached → fetch and then cache
+        return fetch(event.request).then((networkRes) => {
+          if (networkRes.ok) {
+            caches.open(PYODIDE_CACHE_NAME).then((cache) => {
+              cache.put(event.request, networkRes.clone());
+            });
+          }
+          return networkRes;
+        });
+      })
+    );
+  }
+});
