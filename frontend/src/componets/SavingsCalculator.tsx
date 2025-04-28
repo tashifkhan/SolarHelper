@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Calculator,
 	TrendingUp,
@@ -13,7 +13,6 @@ import {
 	Loader,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { loadPyodide } from "pyodide";
 import getPincodeLocation from "../ultils/evaluate-pincode";
 import getLatLonFromPincode from "../ultils/evaluate-location";
 import { getUnitsForBillFromPincode } from "../ultils/evaluate-units";
@@ -41,74 +40,36 @@ const SavingsCalculator = () => {
 		trees: 0,
 	});
 	const [pyodide, setPyodide] = useState<any | null>(null);
+	const [predictEnergyFunc, setPredictEnergyFunc] = useState<any | null>(null);
 	const [pyodideLoading, setPyodideLoading] = useState(true);
 	const [pyodideError, setPyodideError] = useState<string | null>(null);
-	const [predictEnergyFunc, setPredictEnergyFunc] = useState<any | null>(null);
-
-	const pyodideLoadInitiated = useRef(false);
 
 	useEffect(() => {
-		if (pyodideLoadInitiated.current || pyodide || pyodideError) {
-			if (pyodideError && pyodideLoading) {
+		const check = setInterval(() => {
+			if (
+				(window as any).pyodideInstance &&
+				(window as any).predictEnergyForLocation
+			) {
+				setPyodide((window as any).pyodideInstance);
+				setPredictEnergyFunc((window as any).predictEnergyForLocation);
+				setPyodideLoading(false);
+				clearInterval(check);
+			}
+		}, 300);
+
+		const to = setTimeout(() => {
+			if (!(window as any).pyodideInstance) {
+				setPyodideError("Prediction engine failed to load.");
 				setPyodideLoading(false);
 			}
-			return;
-		}
-		pyodideLoadInitiated.current = true;
-		setPyodideLoading(true);
-		setPyodideError(null);
+			clearInterval(check);
+		}, 20000);
 
-		console.log("Loading Pyodide from CDN...");
-
-		const initializePyodide = async () => {
-			try {
-				// use matching CDN version
-				const CDN_INDEX = "https://cdn.jsdelivr.net/pyodide/v0.27.5/full/";
-				const pyodideInstance = await loadPyodide({
-					indexURL: CDN_INDEX,
-				});
-				console.log("Pyodide loaded from CDN. Loading packages...");
-
-				await pyodideInstance.loadPackage([
-					"micropip",
-					"pandas",
-					"scikit-learn",
-					"lightgbm",
-					"numpy",
-				]);
-				console.log("Packages loaded via CDN");
-
-				// fetch & run Python script
-				const resp = await fetch("/pyodide/predict_energy.py");
-				if (!resp.ok) {
-					throw new Error(`Fetch script failed: ${resp.status}`);
-				}
-				const script = await resp.text();
-				await pyodideInstance.runPythonAsync(script);
-
-				const predictFunc = pyodideInstance.globals.get(
-					"predict_energy_for_location"
-				);
-				if (!predictFunc) {
-					throw new Error("predict_energy_for_location not found");
-				}
-
-				setPredictEnergyFunc(() => predictFunc);
-				setPyodide(pyodideInstance);
-			} catch (error: any) {
-				console.error("Pyodide init error:", error);
-				setPyodideError(
-					`Failed to initialize engine: ${error.message}. Check network or CDN availability.`
-				);
-			} finally {
-				setPyodideLoading(false);
-			}
+		return () => {
+			clearInterval(check);
+			clearTimeout(to);
 		};
-
-		initializePyodide();
-
-		return () => {};
-	}, [pyodide, pyodideError]);
+	}, []);
 
 	useEffect(() => {
 		if (showResults) {
