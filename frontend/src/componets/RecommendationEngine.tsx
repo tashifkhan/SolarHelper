@@ -18,7 +18,7 @@ interface SolarPanelSetup {
 	panel_type: string;
 	number_of_panels: number;
 	estimated_cost: string;
-	panel_choice_reason?: string; // render reason
+	panel_choice_reason?: string;
 }
 
 interface BatterySolution {
@@ -26,7 +26,7 @@ interface BatterySolution {
 	capacity: string;
 	backup_duration: string;
 	estimated_cost: string;
-	battery_choice_reason?: string; // render reason
+	battery_choice_reason?: string;
 }
 
 interface InstallationDetails {
@@ -41,7 +41,7 @@ interface SolarRecommendation {
 	solar_panel_setup: SolarPanelSetup;
 	battery_solution: BatterySolution;
 	installation_details: InstallationDetails;
-	budget_note?: string; // Add optional budget note field
+	budget_note?: string;
 }
 
 const RecommendationEngine = () => {
