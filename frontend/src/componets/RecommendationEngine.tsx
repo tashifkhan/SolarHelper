@@ -18,6 +18,7 @@ interface SolarPanelSetup {
 	panel_type: string;
 	number_of_panels: number;
 	estimated_cost: string;
+	panel_choice_reason?: string; // render reason
 }
 
 interface BatterySolution {
@@ -25,6 +26,7 @@ interface BatterySolution {
 	capacity: string;
 	backup_duration: string;
 	estimated_cost: string;
+	battery_choice_reason?: string; // render reason
 }
 
 interface InstallationDetails {
@@ -530,7 +532,20 @@ const RecommendationEngine = () => {
 												label: "Estimated Cost",
 												value:
 													recommendationData.solar_panel_setup.estimated_cost,
+												highlight: false,
 											},
+											...(recommendationData.solar_panel_setup
+												.panel_choice_reason
+												? [
+														{
+															label: "Reason",
+															value:
+																recommendationData.solar_panel_setup
+																	.panel_choice_reason,
+															isBreakdown: true,
+														},
+												  ]
+												: []),
 										].map((item, itemIdx) => (
 											<motion.li
 												key={itemIdx}
@@ -554,7 +569,13 @@ const RecommendationEngine = () => {
 												</div>
 												<span className="ml-3 text-lg">
 													{item.label}:{" "}
-													<span className={`font-semibold`}>{item.value}</span>
+													<span
+														className={`font-semibold ${
+															item.isBreakdown ? "text-sm text-gray-500" : ""
+														}`}
+													>
+														{item.value}
+													</span>
 												</span>
 											</motion.li>
 										))}
@@ -595,7 +616,20 @@ const RecommendationEngine = () => {
 												label: "Estimated Cost",
 												value:
 													recommendationData.battery_solution.estimated_cost,
+												highlight: false,
 											},
+											...(recommendationData.battery_solution
+												.battery_choice_reason
+												? [
+														{
+															label: "Reason",
+															value:
+																recommendationData.battery_solution
+																	.battery_choice_reason,
+															isBreakdown: true,
+														},
+												  ]
+												: []),
 										].map((item, itemIdx) => (
 											<motion.li
 												key={itemIdx}
@@ -619,7 +653,13 @@ const RecommendationEngine = () => {
 												</div>
 												<span className="ml-3 text-lg">
 													{item.label}:{" "}
-													<span className={`font-semibold`}>{item.value}</span>
+													<span
+														className={`font-semibold ${
+															item.isBreakdown ? "text-sm text-gray-500" : ""
+														}`}
+													>
+														{item.value}
+													</span>
 												</span>
 											</motion.li>
 										))}

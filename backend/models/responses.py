@@ -21,12 +21,14 @@ class SolarPanelSetup(BaseModel):
     panel_type: str = "Monocrystalline"
     number_of_panels: int = 15
     estimated_cost: str = "₹3,50,000"
+    panel_choice_reason: Optional[str] = None
 
 class BatterySolution(BaseModel):
     battery_type: str = "Lithium-ion"
     capacity: str = "10kWh"
     backup_duration: str = "8-10 hours"
     estimated_cost: str = "₹2,50,000"
+    battery_choice_reason: Optional[str] = None
 
 class InstallationDetails(BaseModel):
     installation_time: str = "3-4 days"

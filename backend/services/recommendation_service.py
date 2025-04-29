@@ -155,7 +155,9 @@ You are an expert Solar Energy Advisor for India. Your task is to generate a per
 7. **Provide a clear breakdown of how the subsidy amount was calculated in the 'subsidy_breakdown' field.** Explain the calculation based on the system capacity and the rules found in the context (e.g., "Based on national scheme: Subsidy for first 3kW: 3 * ₹18,000 = ₹54,000. Subsidy for next 2kW: 2 * ₹9,000 = ₹18,000. Total: ₹72,000"). If no specific rules were found, state this in the breakdown.
 8. Ensure all monetary values (costs, subsidy) are in Indian Rupees (₹) and use appropriate formatting (e.g., ₹1,00,000).
 9. Keep the total cost (after potential subsidy) within or close to the user's budget. If the budget is insufficient for the *ideal* system based on their bill/roof size, recommend the best possible system within the budget, clearly stating any compromises made (e.g., smaller capacity, no battery). If no reasonable system fits the budget even with subsidy, state this clearly in the cost/subsidy fields (e.g., "Budget too low for recommended system").
-10. **Strictly format your entire response as a single JSON object matching the following structure. Do not include any text, explanations, or markdown formatting before or after the JSON object.**
+10. **Provide a clear reason for selecting the recommended panel capacity in the 'panel_choice_reason' field inside the 'solar_panel_setup' object, explaining how the capacity matches the user's needs.**
+11. **Provide a clear reason for choosing the battery technology in the 'battery_choice_reason' field inside the 'battery_solution' object, explaining why that technology is suitable for this user.**
+12. **Strictly format your entire response as a single JSON object matching the following structure. Do not include any text, explanations, or markdown formatting before or after the JSON object.**
 ```json
 {json_output_format}
 ```
