@@ -65,7 +65,7 @@ The platform is built on a monolithic backend with a decoupled frontend. The cor
 | **Backend**          | `Python`, `FastAPI`                                                                                                        |
 | **AI / ML**          | `LightGBM` (Power Prediction), `LangChain`, `Gemini`, `Ollama` (LLMs for RAG & Chat), `Sentence-Transformers` (Embeddings) |
 | **Data Processing**  | `Beautiful Soup 4`, `Scrapy` (for web scraping)                                                                            |
-| **Databases**        | Vector Database (e.g., ChromaDB, FAISS - for RAG)                                                                          |
+| **Databases**        | Vector Database (FAISS - for RAG)                                                                                          |
 | **Deployment/Infra** | PWA configuration, `Uvicorn`                                                                                               |
 
 ## Getting Started
@@ -83,8 +83,8 @@ To get a local copy up and running, follow these simple steps.
 1.  **Clone the repository:**
 
     ```sh
-    git clone https://github.com/your-username/solar-helper.git
-    cd solar-helper
+    git clone https://github.com/tashifkhan/SolarHelper.git
+    cd SolarHelper
     ```
 
 2.  **Setup the Backend:**
