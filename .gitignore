@@ -45,4 +45,4 @@ vectorstore_faiss
 vectorstore_faiss_recommendation
 
 test.py
-context/analysis.ipynb
+backend/context/analysis.ipynb
