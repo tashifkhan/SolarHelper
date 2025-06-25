@@ -1,5 +1,5 @@
 services:
-  backend:
+  solarhelper-backend:
     build:
       context: .
       dockerfile: Dockerfile
