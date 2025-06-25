@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./backend-solarhelper
+      context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
