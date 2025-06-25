@@ -25,11 +25,15 @@ COPY uv.lock pyproject.toml ./
 # Install Python dependencies using uv
 RUN uv sync --frozen --no-dev
 
+# Create a non-root user and set ownership for /app and the uv cache directory
+RUN useradd --create-home --shell /bin/bash app && \
+    chown -R app:app /app && \
+    chown -R app:app ${UV_CACHE_DIR}
+
 # Copy application code
 COPY . .
 
-# Create a non-root user
-RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
+# Switch to the non-root user
 USER app
 
 # Expose the port the app runs on
